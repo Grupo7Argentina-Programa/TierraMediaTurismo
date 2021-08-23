@@ -1,10 +1,10 @@
 package appSinNombre;
 
-public class Atraccion {
+public class Atraccion implements Comparable<Atraccion>{
 	
 	private String nombreDeAtraccion;
-	private int costo;
-	private double tiempoNecesario;
+	private Integer costo;
+	private Double tiempoNecesario;
 	private int cupo;
 	private TipoDeAtraccion tipo;
 	
@@ -22,7 +22,7 @@ public class Atraccion {
 		return nombreDeAtraccion;
 	}
 
-	public int getCosto() {
+	public Integer getCosto() {
 		return costo;
 	}
 
@@ -32,5 +32,21 @@ public class Atraccion {
 
 	public TipoDeAtraccion getTipo() {
 		return tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + nombreDeAtraccion + ", Costo: " + costo + ", Tiempo promedio requerido: "
+				+ tiempoNecesario + ", Cupos: " + cupo + ", Tipo de atracción: " + tipo + "]";
+	}
+
+	@Override
+	public int compareTo(Atraccion otraAtraccion) {
+		int comparacionPorCosto = this.costo.compareTo(otraAtraccion.getCosto());
+		
+		if (comparacionPorCosto != 0)
+			return comparacionPorCosto;
+		
+		return this.tiempoNecesario.compareTo(otraAtraccion.tiempoNecesario);
 	}
 }
