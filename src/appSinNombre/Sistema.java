@@ -22,5 +22,4 @@ public class Sistema {
 		Collections.sort(sugerencias, Collections.reverseOrder());
 		return sugerencias;
 	}
-
 }

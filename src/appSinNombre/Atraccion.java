@@ -15,7 +15,6 @@ public class Atraccion implements Comparable<Atraccion>{
 		this.tiempoNecesario = tiempoNecesario;
 		this.cupo = cupo;
 		this.tipo = tipo;
-		
 	}
 
 	public String getNombreDeAtraccion() {
