@@ -1,14 +1,13 @@
 package appSinNombre;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SistemaTests {
 
-	@Test
+	/*@Test
 	public void SugerenciasTest() {
 		Usuario pedro = new Usuario("pedro", 12, 12, TipoDeAtraccion.SINPREFERENCIA);
 		Usuario eowyn = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
@@ -34,6 +33,52 @@ public class SistemaTests {
 		System.out.println(app.generarSugerencia(sam, listaDeAtracciones));
 		System.out.println(app.generarSugerencia(galadriel, listaDeAtracciones));
 		System.out.println(app.generarSugerencia(pedro, listaDeAtracciones));
+	
+
+	}*/
+	
+	@Test
+	public void DevuelveSugerenciaPorAtraccion() {
+		//Usuario pedro = new Usuario("pedro", 12, 12, TipoDeAtraccion.SINPREFERENCIA);
+		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
+		//Usuario apurado = new Usuario("Galadriel", 60, 1, TipoDeAtraccion.PAISAJE);
+		
+		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
+		Atraccion moria = new Atraccion("Moria", 20, 2, 6, TipoDeAtraccion.AVENTURA);
+		Atraccion minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
+		Atraccion laComarca = new Atraccion("La Comarca", 5, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+		Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 70, 2, 15, TipoDeAtraccion.PAISAJE);
+		Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
+		Atraccion bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
+		Sistema app = new Sistema();
+
+		Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor, abismoDeHelm,
+				bosqueNegro, bosqueBlanco};
+		ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
+		esperada.add(moria);
+		esperada.add(bosqueBlanco);
+		esperada.add(bosqueNegro);
+		Assert.assertEquals(app.generarSugerencia(eowyn, listaDeAtracciones, 0), esperada);
+	
+
+	}
+	
+	@Test
+	public void DevuelveSugerenciaSinImportarPreferencia() {
+		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
+		
+		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
+		Atraccion moria = new Atraccion("Moria", 20, 2, 6, TipoDeAtraccion.AVENTURA);
+		Atraccion minasTirith = new Atraccion("Minas Tirith", 10, 2.5, 25, TipoDeAtraccion.PAISAJE);
+		Atraccion laComarca = new Atraccion("La Comarca", 10, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+		Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 20, 22, 15, TipoDeAtraccion.PAISAJE);
+		Sistema app = new Sistema();
+
+		Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor, abismoDeHelm,};
+		ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
+		esperada.add(laComarca);
+		esperada.add(minasTirith);
+		Assert.assertEquals(app.generarSugerencia(eowyn, listaDeAtracciones, 1), esperada);
 	
 
 	}

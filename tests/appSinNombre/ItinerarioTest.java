@@ -22,7 +22,7 @@ public class ItinerarioTest {
 		Atraccion listaDeAtracciones[] = { moria, mordor, erebor,
 				bosqueNegro, bosqueBlanco};
 		
-		System.out.println(app.generarSugerencia(elias, listaDeAtracciones));
+		System.out.println(app.generarSugerencia(elias, listaDeAtracciones,0));
 		
 
 }

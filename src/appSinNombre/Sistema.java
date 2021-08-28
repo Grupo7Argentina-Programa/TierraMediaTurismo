@@ -1,47 +1,52 @@
 package appSinNombre;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+
+
 
 
 public class Sistema {
 
-	public ArrayList<Atraccion> generarSugerencia(Usuario usuario, Atraccion[] listaDisponibles) {
+	public ArrayList<Atraccion> generarSugerencia(Usuario usuario, Atraccion[] listaDisponibles,int opcion) {
 
-		int bandera=0;
-		ArrayList<Atraccion> sugerencias = new ArrayList<Atraccion>();
-		ArrayList<Atraccion> puedePagar= new ArrayList<Atraccion>(this.atraccioneesQuePuedePagarOrdenada(usuario, listaDisponibles));
-		for (int i = 0; i < puedePagar.size(); i++) {
+		ArrayList<Atraccion> sugerenciasPoratraccion = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> sugerenciasPorDineroYTiempo = new ArrayList<Atraccion>();
+		for (int i = 0; i < listaDisponibles.length; i++) {
 
 			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i].getTipo();
-			if (tipoDeAtraccionFavorita) {
-				sugerencias.add(puedePagar.get(i));
-				bandera=1;
+			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
+
+			if (puedePagarlo && tieneTiempo) {
+				if(this.atraccionDisponibleEnItinerario(usuario.getItinirario(),listaDisponibles[i])) {
+					if(tipoDeAtraccionFavorita) {
+						sugerenciasPoratraccion.add(listaDisponibles[i]);
+					}else {
+						sugerenciasPorDineroYTiempo.add(listaDisponibles[i]);
+					}
+				}
+			
 			}
 		}
-		if(bandera==0) {
-			return puedePagar;
-		}
-		return sugerencias;
+		if(opcion==1) {
+			Collections.sort(sugerenciasPorDineroYTiempo);
+        	return sugerenciasPorDineroYTiempo;
+		      
+		    } else if(opcion==2) {
+		      
+		    	// Tiene que devolver las promociones
+		      
+		    } else {
+		    	System.out.println("Se devuelve sugerencia por preferencia");
+		    }
+		Collections.sort(sugerenciasPoratraccion);
+    	return sugerenciasPoratraccion;
 	}
-	
-
-private ArrayList<Atraccion> atraccioneesQuePuedePagarOrdenada(Usuario usuario, Atraccion[] listaDisponibles) 
-{
-	Itinerario actual=usuario.getItinirario();
-	ArrayList<Atraccion> sugerencias = new ArrayList<Atraccion>();
-	Arrays.sort(listaDisponibles);
-	int pos=0;
-	while(usuario.getPresupuesto() < listaDisponibles[pos].getCosto()) {
-		pos++;	
-	}
-	for (int i=pos;i < listaDisponibles.length; i++) {
-		if(usuario.getTiempoDisponible()>listaDisponibles[i].getTiempoNecesario()) {
-			if(this.atraccionDisponibleEnItinerario(actual,listaDisponibles[i]))	
-			sugerencias.add(listaDisponibles[i]);}
-	}
-	return sugerencias;
-	}
+	        
+	            
+		
+		
 
 private boolean atraccionDisponibleEnItinerario(Itinerario itinerarioUsuario,Atraccion busqueda) {
 	
