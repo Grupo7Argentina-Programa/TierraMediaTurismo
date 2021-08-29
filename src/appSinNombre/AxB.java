@@ -2,31 +2,51 @@ package appSinNombre;
 
 public class AxB extends Promocion {
 
-	public AxB(Atraccion a, Atraccion b, Atraccion c, Atraccion d) {
+	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c, Atraccion d) {
 
 		boolean tiposDistintos = a.getTipo() != b.getTipo() || b.getTipo() != c.getTipo() || c.getTipo() != d.getTipo();
 
 		if (tiposDistintos)
 			throw new Error("El tipo de atracción debe ser el mismo");
-		
-		this.tipoDePromocion = a.getTipo();
-		this.costo = a.getCosto() + b.getCosto() + c.getCosto();
 
+		this.nombreDePromocion = nombreDePromo;
+		this.tiposDeAtracciones = a.getTipo();
+		this.costo = a.getCosto() + b.getCosto() + c.getCosto();
+		this.tiempoNecesario = a.getTiempoNecesario() + b.getTiempoNecesario() + c.getTiempoNecesario()
+				+ d.getTiempoNecesario();
+		this.atraccion1 = a;
+		this.atraccion2 = b;
+		this.atraccion3 = c;
+		this.atraccion4 = d;
 	}
 
-	public AxB(Atraccion a, Atraccion b, Atraccion c) {
+	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c) {
 		boolean tiposDistintos = a.getTipo() != b.getTipo() || b.getTipo() != c.getTipo();
 
 		if (tiposDistintos)
 			throw new Error("El tipo de atracción debe ser el mismo");
-		
-		this.tipoDePromocion = a.getTipo();
+
+		this.nombreDePromocion = nombreDePromo;
+		this.tiposDeAtracciones = a.getTipo();
 		this.costo = a.getCosto() + b.getCosto();
+		this.tiempoNecesario = a.getTiempoNecesario() + b.getTiempoNecesario() + c.getTiempoNecesario();
+		this.atraccion1 = a;
+		this.atraccion2 = b;
+		this.atraccion3 = c;
 	}
 
 	@Override
-	public int getCosto() {
+	public Integer getCosto() {
 		return this.costo;
 	}
 
+	@Override
+	public TipoDeAtraccion getTipo() {
+		return tiposDeAtracciones;
+	}
+
+	@Override
+	public Double getTiempoNecesario() {
+		return tiempoNecesario;
+	}
 }
