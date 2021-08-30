@@ -143,7 +143,7 @@ public class SistemaTests {
 		esperada.add(moria);
 		esperada.add(bosqueBlanco);
 		esperada.add(bosqueNegro);
-		Assert.assertEquals(app.generarSugerencia(eowyn, listaDeAtracciones, 0), esperada);
+		Assert.assertEquals(esperada, app.generarSugerencia(eowyn, listaDeAtracciones, 0));
 	
 
 	}
@@ -163,7 +163,7 @@ public class SistemaTests {
 		ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
 		esperada.add(laComarca);
 		esperada.add(minasTirith);
-		Assert.assertEquals(app.generarSugerencia(eowyn, listaDeAtracciones, 1), esperada);
+		Assert.assertEquals(esperada, app.generarSugerencia(eowyn, listaDeAtracciones, 1));
 	
 
 

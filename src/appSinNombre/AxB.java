@@ -19,6 +19,7 @@ public class AxB extends Promocion {
 		this.atraccion2 = b;
 		this.atraccion3 = c;
 		this.atraccion4 = d;
+		this.cantidadDeAtracciones = 4;
 	}
 
 	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c) {
@@ -34,6 +35,7 @@ public class AxB extends Promocion {
 		this.atraccion1 = a;
 		this.atraccion2 = b;
 		this.atraccion3 = c;
+		this.cantidadDeAtracciones = 3;
 	}
 
 	@Override
@@ -49,6 +51,11 @@ public class AxB extends Promocion {
 	@Override
 	public Double getTiempoNecesario() {
 		return tiempoNecesario;
+	}
+
+	@Override
+	public int getCantidadDeAtracciones() {
+		return cantidadDeAtracciones;
 	}
 
 }

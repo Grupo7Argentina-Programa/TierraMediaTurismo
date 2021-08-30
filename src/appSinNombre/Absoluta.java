@@ -15,6 +15,7 @@ public class Absoluta extends Promocion {
 		this.tiempoNecesario = a.getTiempoNecesario() + b.getTiempoNecesario();
 		this.atraccion1 = a;
 		this.atraccion2 = b;
+		this.cantidadDeAtracciones = 2;
 	}
 
 	@Override
@@ -41,5 +42,10 @@ public class Absoluta extends Promocion {
 		
 		this.tiposDeAtracciones = a.getTipo();
 		this.costo = costo;
+	}
+
+	@Override
+	public int getCantidadDeAtracciones() {
+		return cantidadDeAtracciones;
 	}
 }

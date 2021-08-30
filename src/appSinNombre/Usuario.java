@@ -6,14 +6,14 @@ public class Usuario {
 	private int presupuesto;
 	private double tiempoDisponible;
 	private TipoDeAtraccion atraccionFavorita;
-	private Itinerario itenerario;	
+	private Itinerario itinerario;	
 	
 	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoDeAtraccion atraccionFavorita) {
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.atraccionFavorita = atraccionFavorita;
-		this.itenerario= new Itinerario();
+		this.itinerario = new Itinerario();
 	}
 	public int getPresupuesto() {
 		return presupuesto;
@@ -25,12 +25,19 @@ public class Usuario {
 		return atraccionFavorita;
 	}
 	
-	public Itinerario getItinirario() {
-		return itenerario;
+	public Itinerario getItinerario() {
+		return itinerario;
 	}
 	
-	public void setAtraccion(Atraccion nueva) {
-		this.itenerario.agregarAtraccion(nueva);
-
+	public void aceptarPromocion(Promocion promo) {
+		itinerario.agregarPromocion(promo);
+		this.presupuesto -= promo.getCosto();
+		this.tiempoDisponible -= promo.getTiempoNecesario();
+	}
+	
+	public void aceptarAtraccion(Atraccion atraccion) {
+		itinerario.agregarAtraccion(atraccion);
+		this.presupuesto -= atraccion.getCosto();
+		this.tiempoDisponible -= atraccion.getTiempoNecesario();
 	}
 }

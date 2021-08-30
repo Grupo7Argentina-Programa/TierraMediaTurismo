@@ -11,12 +11,15 @@ public abstract class Promocion implements Comparable<Promocion> {
 	protected Atraccion atraccion2;
 	protected Atraccion atraccion3;
 	protected Atraccion atraccion4;
+	protected int cantidadDeAtracciones;
 
 	public abstract Integer getCosto();
 
 	public abstract TipoDeAtraccion getTipo();
 
 	public abstract Double getTiempoNecesario();
+	
+	public abstract int getCantidadDeAtracciones();
 
 	@Override
 	public int compareTo(Promocion otraPromocion) {

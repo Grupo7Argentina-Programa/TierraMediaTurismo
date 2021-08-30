@@ -26,8 +26,9 @@ public class Sistema {
 			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i].getTipo();
 			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
-
-			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo) {
+			boolean estaEnItinerario = usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i]);
+			
+			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !estaEnItinerario) {
 				sugerencias.add(listaDisponibles[i]);
 			}
 		}
@@ -37,8 +38,9 @@ public class Sistema {
 			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
 			boolean EstaEnSugerencias = sugerencias.contains(listaDisponibles[i]);
+			boolean estaEnItinerario = usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i]);
 
-			if (puedePagarlo && tieneTiempo && !EstaEnSugerencias) {
+			if (puedePagarlo && tieneTiempo && !EstaEnSugerencias && !estaEnItinerario) {
 				sugerencias.add(listaDisponibles[i]);
 			}
 		}
@@ -57,7 +59,7 @@ public class Sistema {
 			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
 
 			if (puedePagarlo && tieneTiempo) {
-				if (this.atraccionDisponibleEnItinerario(usuario.getItinirario(), listaDisponibles[i])) {
+				if (!this.atraccionDisponibleEnItinerario(usuario.getItinerario(), listaDisponibles[i])) {
 					if (tipoDeAtraccionFavorita) {
 						sugerenciasPoratraccion.add(listaDisponibles[i]);
 					} else {
@@ -68,7 +70,7 @@ public class Sistema {
 			}
 		}
 		if (opcion == 1) {
-			Collections.sort(sugerenciasPorDineroYTiempo);
+			Collections.sort(sugerenciasPorDineroYTiempo, Collections.reverseOrder());
 			return sugerenciasPorDineroYTiempo;
 
 		} else if (opcion == 2) {
@@ -78,7 +80,7 @@ public class Sistema {
 		} else {
 			System.out.println("Se devuelve sugerencia por preferencia");
 		}
-		Collections.sort(sugerenciasPoratraccion);
+		Collections.sort(sugerenciasPoratraccion, Collections.reverseOrder());
 		return sugerenciasPoratraccion;
 	}
 
@@ -92,8 +94,12 @@ public class Sistema {
 			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i].getTipo();
 			boolean puedePagarlo = usuario.getPresupuesto() >= listaDisponibles[i].getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() >= listaDisponibles[i].getTiempoNecesario();
-
-			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo) {
+			boolean tieneAtraccionYaComprada = usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion1) ||
+											   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion2) ||
+											   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion3) ||
+											   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion4);
+			
+			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !tieneAtraccionYaComprada) {
 				sugerencias.add(listaDisponibles[i]);
 			}
 		}
@@ -103,8 +109,12 @@ public class Sistema {
 			boolean puedePagarlo = usuario.getPresupuesto() >= listaDisponibles[i].getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() >= listaDisponibles[i].getTiempoNecesario();
 			boolean EstaEnSugerencias = sugerencias.contains(listaDisponibles[i]);
+			boolean tieneAtraccionYaComprada = usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion1) ||
+					   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion2) ||
+					   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion3) ||
+					   usuario.getItinerario().getAtraccionesAceptadas().contains(listaDisponibles[i].atraccion4);
 
-			if (puedePagarlo && tieneTiempo && !EstaEnSugerencias) {
+			if (puedePagarlo && tieneTiempo && !EstaEnSugerencias && !tieneAtraccionYaComprada) {
 				sugerencias.add(listaDisponibles[i]);
 			}
 		}

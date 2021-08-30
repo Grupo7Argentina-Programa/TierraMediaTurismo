@@ -16,7 +16,10 @@ public class Porcentual extends Promocion {
 		this.tiempoNecesario = a.getTiempoNecesario() + b.getTiempoNecesario();
 		this.atraccion1 = a;
 		this.atraccion2 = b;
+		this.cantidadDeAtracciones = 2;
 	}
+	
+	
 
 	@Override
 	public Integer getCosto() {
@@ -31,5 +34,12 @@ public class Porcentual extends Promocion {
 	@Override
 	public Double getTiempoNecesario() {
 		return this.tiempoNecesario;
+	}
+
+
+
+	@Override
+	public int getCantidadDeAtracciones() {
+		return this.cantidadDeAtracciones;
 	}
 }
