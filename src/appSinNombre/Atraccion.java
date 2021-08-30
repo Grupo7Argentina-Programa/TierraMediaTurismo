@@ -1,5 +1,6 @@
 package appSinNombre;
 
+
 public class Atraccion implements Comparable<Atraccion> {
 
 	private String nombreDeAtraccion;

@@ -2,6 +2,7 @@ package appSinNombre;
 
 public class Porcentual extends Promocion {
 
+
 	public Porcentual(String nombreDePromo, int porcentajeDeDescuento, Atraccion a, Atraccion b) {
 		boolean tiposDistintos = a.getTipo() != b.getTipo();
 

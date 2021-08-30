@@ -2,6 +2,7 @@ package appSinNombre;
 
 public class AxB extends Promocion {
 
+
 	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c, Atraccion d) {
 
 		boolean tiposDistintos = a.getTipo() != b.getTipo() || b.getTipo() != c.getTipo() || c.getTipo() != d.getTipo();
@@ -49,4 +50,5 @@ public class AxB extends Promocion {
 	public Double getTiempoNecesario() {
 		return tiempoNecesario;
 	}
+
 }

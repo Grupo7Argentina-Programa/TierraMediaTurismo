@@ -37,5 +37,4 @@ public abstract class Promocion implements Comparable<Promocion> {
 				+ (atraccion3 != null ? atraccion3.getNombreDeAtraccion() + ", " : "")
 				+ (atraccion4 != null ? atraccion4.getNombreDeAtraccion() : "") + "]";
 	}
-
 }

@@ -1,7 +1,9 @@
 package appSinNombre;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Sistema {
 
@@ -44,6 +46,42 @@ public class Sistema {
 		return sugerencias;
 	}
 
+	public ArrayList<Atraccion> generarSugerencia(Usuario usuario, Atraccion[] listaDisponibles, int opcion) {
+
+		ArrayList<Atraccion> sugerenciasPoratraccion = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> sugerenciasPorDineroYTiempo = new ArrayList<Atraccion>();
+		for (int i = 0; i < listaDisponibles.length; i++) {
+
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i].getTipo();
+			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
+
+			if (puedePagarlo && tieneTiempo) {
+				if (this.atraccionDisponibleEnItinerario(usuario.getItinirario(), listaDisponibles[i])) {
+					if (tipoDeAtraccionFavorita) {
+						sugerenciasPoratraccion.add(listaDisponibles[i]);
+					} else {
+						sugerenciasPorDineroYTiempo.add(listaDisponibles[i]);
+					}
+				}
+
+			}
+		}
+		if (opcion == 1) {
+			Collections.sort(sugerenciasPorDineroYTiempo);
+			return sugerenciasPorDineroYTiempo;
+
+		} else if (opcion == 2) {
+
+			// Tiene que devolver las promociones
+
+		} else {
+			System.out.println("Se devuelve sugerencia por preferencia");
+		}
+		Collections.sort(sugerenciasPoratraccion);
+		return sugerenciasPoratraccion;
+	}
+
 	public ArrayList<Promocion> sugerirPromocion(Usuario usuario, Promocion[] listaDisponibles) {
 
 		Arrays.sort(listaDisponibles, new OrdenadorDePromociones().reversed());
@@ -70,8 +108,13 @@ public class Sistema {
 				sugerencias.add(listaDisponibles[i]);
 			}
 		}
-		// Collections.sort(sugerencias, new OrdenadorDePromociones());
 
 		return sugerencias;
+	}
+
+	private boolean atraccionDisponibleEnItinerario(Itinerario itinerarioUsuario,Atraccion busqueda) {
+
+			return (itinerarioUsuario.getAtraccionesAceptadas().contains(busqueda));
+			
 	}
 }
