@@ -64,7 +64,7 @@ public class SistemaTests {
 
 	}
 
-	/*@Test
+	@Test
 	public void sugerenciasParaGandalfTest() {
 
 		Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor, abismoDeHelm, lothlorien, erebor,
@@ -82,9 +82,9 @@ public class SistemaTests {
 
 		Assert.assertEquals(app.sugerirAtraccion(gandalf, listaDeAtracciones), sugerenciasParaGandalf);
 
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void DevuelveSugerenciaPorAtraccion() {
 		
 		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
@@ -105,9 +105,9 @@ public class SistemaTests {
 		Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn, listaDeAtracciones));
 	
 
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void DevuelveSugerenciaSinImportarPreferencia() {
 		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
 		
@@ -127,5 +127,5 @@ public class SistemaTests {
 	
 
 
-	}*/
+	}
 }

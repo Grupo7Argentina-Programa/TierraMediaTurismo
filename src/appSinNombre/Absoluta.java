@@ -49,5 +49,15 @@ public class Absoluta extends Promocion {
 		return cantidadDeAtracciones;
 	}
 
+	@Override
+	public void aceptoMostrable(Usuario comprador) {
+		comprador.aceptarPromocion(this);
+		atraccion1.compradaPorPromocion();
+		atraccion2.compradaPorPromocion();
+		
+	}
+
+	
+
 	
 }
