@@ -1,6 +1,6 @@
 package appSinNombre;
 
-public abstract class Promocion  {
+public abstract class Promocion implements Mostrable {
 
 	protected TipoDeAtraccion tiposDeAtracciones;
 	protected Integer costo;

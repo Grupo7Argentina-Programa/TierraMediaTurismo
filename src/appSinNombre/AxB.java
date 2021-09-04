@@ -58,4 +58,6 @@ public class AxB extends Promocion {
 		return cantidadDeAtracciones;
 	}
 
+	
+
 }

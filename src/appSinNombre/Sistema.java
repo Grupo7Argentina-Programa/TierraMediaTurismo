@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 
 
+
 public class Sistema {
 	
 	
@@ -14,7 +15,7 @@ public class Sistema {
 
 	public ArrayList<Atraccion> sugerirAtraccion(Usuario usuario,Atraccion[] listaDisponibles) {
 
-		Arrays.sort(listaDisponibles, new OrdenadorDeAtracciones().reversed());
+		Arrays.sort(listaDisponibles,new OrdenadorDeMostrables().reversed());
 		// Se presenta la lista de atracciones disponibles
 		// ya ordenada, y a medida que el método va
 		// creando las sugerencias, se van tomando
@@ -73,7 +74,8 @@ public class Sistema {
 
 	public ArrayList<Promocion> sugerirPromocion(Usuario usuario,Promocion[] listaDisponibles) {
 
-		Arrays.sort(listaDisponibles, new OrdenadorDePromociones().reversed());
+		//Arrays.sort(listaDisponibles, new OrdenadorDePromociones().reversed());
+		Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
 		ArrayList<Promocion> sugerencias = new ArrayList<Promocion>();
 		Scanner entrada = new Scanner(System.in);
 
@@ -125,6 +127,9 @@ public class Sistema {
 		return sugerencias;
 	}
 }
+
+
+
 
 		
 		

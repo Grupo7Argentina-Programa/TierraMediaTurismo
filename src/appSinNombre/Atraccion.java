@@ -1,7 +1,7 @@
 package appSinNombre;
 
 
-public class Atraccion  {
+public class Atraccion implements Mostrable  {
 
 	private String nombreDeAtraccion;
 	private Integer costo;
@@ -39,6 +39,12 @@ public class Atraccion  {
 		return "[" + nombreDeAtraccion + ", Costo: " + costo + ", Tiempo promedio requerido: " + tiempoNecesario
 				+ ", Cupos: " + cupo + ", Tipo de atracción: " + tipo + "]";
 	}
+
+	
+
+
+
+	
 
 	/*@Override
 	public int compareTo(Atraccion otraAtraccion) {

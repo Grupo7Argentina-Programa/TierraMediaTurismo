@@ -40,7 +40,7 @@ public class SistemaConInteraccionTest {
 
 	}
 	
-	/*@Test
+	@Test
 	public void aceptaAtraccionesBosqueBlancoYNegro() {
 		
 		
@@ -52,9 +52,9 @@ public class SistemaConInteraccionTest {
 		esperado.add(bosqueNegro);
 		
 		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
-	}*/
+	}
 	
-	@Test
+	/*@Test
 	public void AceptaPromocion() {
 		Usuario sam = new Usuario("Sam", 136, 20, TipoDeAtraccion.DEGUSTACION);
 		Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
@@ -68,7 +68,7 @@ public class SistemaConInteraccionTest {
 		app.sugerirPromocion(sam, listaPromos);
 		Assert.assertEquals(sugerenciasParaSam, sam.getItinerario().getPromocionesAceptadas());
 		Assert.assertEquals(100, sam.getPresupuesto());
-	}
+	}*/
 }
 
 

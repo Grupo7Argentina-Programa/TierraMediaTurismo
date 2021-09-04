@@ -48,4 +48,6 @@ public class Absoluta extends Promocion {
 	public int getCantidadDeAtracciones() {
 		return cantidadDeAtracciones;
 	}
+
+	
 }

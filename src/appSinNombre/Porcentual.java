@@ -42,4 +42,8 @@ public class Porcentual extends Promocion {
 	public int getCantidadDeAtracciones() {
 		return this.cantidadDeAtracciones;
 	}
+
+
+
+	
 }
