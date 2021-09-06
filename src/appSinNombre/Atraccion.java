@@ -40,6 +40,23 @@ public class Atraccion implements Mostrable  {
 				+ ", Cupos: " + cupo + ", Tipo de atracción: " + tipo + "]";
 	}
 
+	@Override
+	public boolean estaEnItinerario(Itinerario actual) {
+		return actual.getAtraccionesAceptadas().contains(this);
+	}
+
+	@Override
+	public void aceptoMostrable(Usuario comprador) {
+		this.cupo-=1;
+		comprador.aceptarAtraccion(this);
+		
+	}
+
+	public void compradaPorPromocion() {
+		this.cupo-=1;
+		
+	}
+
 	
 
 

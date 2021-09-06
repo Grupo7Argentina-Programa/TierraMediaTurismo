@@ -58,6 +58,18 @@ public class AxB extends Promocion {
 		return cantidadDeAtracciones;
 	}
 
+	@Override
+	public void aceptoMostrable(Usuario comprador) {
+		/*this.atraccion1.aceptoMostrable(comprador);
+		this.atraccion2.aceptoMostrable(comprador);
+		this.atraccion3.aceptoMostrable(comprador);
+		
+		if(cantidadDeAtracciones==4)
+			this.atraccion4.aceptoMostrable(comprador);*/
+		comprador.aceptarPromocion(this);
+		
+	}
+
 	
 
 }

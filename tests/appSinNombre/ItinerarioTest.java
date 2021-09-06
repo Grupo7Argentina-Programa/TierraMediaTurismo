@@ -43,7 +43,7 @@ public class ItinerarioTest {
 	}
 
 	@Test
-	public void aceptaAtracciones() {
+	public void aceptaAtraccionesYSumaDineroAlItinerario() {
 		
 
 		elias.aceptarAtraccion(bosqueBlanco);
@@ -53,6 +53,8 @@ public class ItinerarioTest {
 		esperado.add(bosqueNegro);
 		
 		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
+		assertEquals(6,elias.getItinerario().getDineroDelItinerario(), 0.01);
+
 
 	}
 	
@@ -68,6 +70,15 @@ public class ItinerarioTest {
 		elias.aceptarPromocion(packAventura);
 		
 		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
+		
+	}
+	@Test
+	public void aceptaPromocionesYSumaDineroAlItinerario() {
+		Usuario eowyn = new Usuario("Eowyn", 140, 22, TipoDeAtraccion.AVENTURA);
+		
+		Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
+		eowyn.aceptarPromocion(packDegustacion);
+		assertEquals(36,eowyn.getItinerario().getDineroDelItinerario(), 0.01);
 		
 	}
 	

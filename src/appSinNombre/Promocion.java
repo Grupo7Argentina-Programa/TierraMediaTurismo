@@ -20,6 +20,13 @@ public abstract class Promocion implements Mostrable {
 	public abstract Double getTiempoNecesario();
 	
 	public abstract int getCantidadDeAtracciones();
+	
+	public boolean estaEnItinerario(Itinerario actual) {
+		return actual.getPromocionesAceptadas().contains(this);
+	}
+	
+	
+	
 
 	/*@Override
 	public int compareTo(Promocion otraPromocion) {

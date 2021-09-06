@@ -56,6 +56,8 @@ public class PromocionesTest {
 		assertEquals(Integer.valueOf(10), packPaisajes.getCosto());
 		assertEquals(7.5, packPaisajes.getTiempoNecesario(), 0);
 	}
+	
+	
 
 	@Test(expected = Error.class)
 	public void sugerenciasDeDistintoTipo() {
@@ -63,6 +65,7 @@ public class PromocionesTest {
 		@SuppressWarnings("unused")
 		Promocion packRandom = new AxB("Pack cualquiera", laComarca, erebor, mordor);
 	}
+	
 
 	@Test
 	public void promocionesSugeridasTest() {
