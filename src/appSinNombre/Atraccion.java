@@ -1,7 +1,8 @@
 package appSinNombre;
 
+import java.util.Objects;
 
-public class Atraccion implements Mostrable  {
+public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	private String nombreDeAtraccion;
 	private Integer costo;
@@ -18,7 +19,7 @@ public class Atraccion implements Mostrable  {
 		this.tipo = tipo;
 	}
 
-	public String getNombreDeAtraccion() {
+	public String getNombre() {
 		return nombreDeAtraccion;
 	}
 
@@ -30,14 +31,14 @@ public class Atraccion implements Mostrable  {
 		return tiempoNecesario;
 	}
 
-	public TipoDeAtraccion getTipo() {
+	public TipoDeAtraccion getTipoDeAtraccion() {
 		return tipo;
 	}
 
 	@Override
 	public String toString() {
-		return "[" + nombreDeAtraccion + ", Costo: " + costo + ", Tiempo promedio requerido: " + tiempoNecesario
-				+ ", Cupos: " + cupo + ", Tipo de atracción: " + tipo + "]";
+		return "\n" + nombreDeAtraccion + "\n Costo: " + costo + "\n Tiempo promedio requerido: " + tiempoNecesario
+				+ "\n Cupos: " + cupo + "\n Tipo de atracción: " + tipo + "\n ------------------------";
 	}
 
 	@Override
@@ -57,13 +58,27 @@ public class Atraccion implements Mostrable  {
 		
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(costo, cupo, nombreDeAtraccion, tiempoNecesario, tipo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atraccion other = (Atraccion) obj;
+		return Objects.equals(costo, other.costo) && cupo == other.cupo
+				&& Objects.equals(nombreDeAtraccion, other.nombreDeAtraccion)
+				&& Objects.equals(tiempoNecesario, other.tiempoNecesario) && tipo == other.tipo;
+	}
 	
 
-
-
-	
-
-	/*@Override
+	@Override
 	public int compareTo(Atraccion otraAtraccion) {
 		int comparacionPorCosto = this.costo.compareTo(otraAtraccion.getCosto());
 		
@@ -71,5 +86,9 @@ public class Atraccion implements Mostrable  {
 			return comparacionPorCosto;
 
 		return this.tiempoNecesario.compareTo(otraAtraccion.tiempoNecesario);
-	}*/
+	}
+
+	public int getCupo() {
+		return this.cupo;
+	}
 }

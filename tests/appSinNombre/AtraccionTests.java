@@ -2,6 +2,7 @@ package appSinNombre;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Assert;
@@ -18,7 +19,7 @@ public class AtraccionTests {
 	}
 	
 	@Test
-	public void DevuelveSugerenciaSinImportarPreferencia() {
+	public void DevuelveSugerenciaSinImportarPreferencia() throws IOException {
 		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
 		
 		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
@@ -33,7 +34,7 @@ public class AtraccionTests {
 		esperada.add(moria);
 		esperada.add(laComarca);
 		esperada.add(minasTirith);
-		Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn, listaDeAtracciones));
+		Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn));
 	
 
 

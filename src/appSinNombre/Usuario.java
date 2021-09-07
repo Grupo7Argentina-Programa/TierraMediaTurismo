@@ -1,6 +1,6 @@
 package appSinNombre;
 
-public class Usuario {
+public class Usuario implements Comparable<Usuario> {
 
 	private String nombre;
 	private int presupuesto;
@@ -40,4 +40,15 @@ public class Usuario {
 		this.presupuesto -= atraccion.getCosto();
 		this.tiempoDisponible -= atraccion.getTiempoNecesario();
 	}
+	
+	public int compareTo(Usuario otroUsuario) {
+		return this.nombre.compareTo(otroUsuario.nombre);
+	}
+	@Override
+	public String toString() {
+		return ("[" + nombre != null ? nombre + ", " : "") + "presupuesto: " + presupuesto
+				+ ", tiempoDisponible: " + tiempoDisponible + "]";
+	}
+	
+	
 }
