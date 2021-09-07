@@ -8,11 +8,13 @@ public class Itinerario {
 	private ArrayList<Promocion> promocionesAceptadas = new ArrayList<Promocion>();
 	private ArrayList<Atraccion> atraccionesAceptadas = new ArrayList<Atraccion>();
 	private int dineroGastado = 0;
+	private double tiempoRequeridoTotal = 0.0;
 
 
 	public void agregarPromocion(Promocion nueva) {
 		promocionesAceptadas.add(nueva);
-		this.dineroGastado+=nueva.getCosto();
+		this.dineroGastado += nueva.getCosto();
+		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
 		switch (nueva.cantidadDeAtracciones) {
 		case 2:
 			this.agregarAtraccionAlArray(nueva.atraccion1);
@@ -57,7 +59,9 @@ public class Itinerario {
 	
 	@Override
 	public String toString() {
-		return (atraccionesAceptadas != null ? "" + atraccionesAceptadas : "\n");		
+		return "Itinerario\n" + "--------------------" 
+				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "")
+				+ "\n Costo total: " + dineroGastado + "\n Tiempo requerido total: " + tiempoRequeridoTotal;
 	}
 
 	@Override

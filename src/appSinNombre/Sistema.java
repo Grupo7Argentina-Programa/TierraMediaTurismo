@@ -1,9 +1,12 @@
 package appSinNombre;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -13,10 +16,54 @@ import java.util.TreeSet;
 
 public class Sistema {
 
-	Scanner entrada = new Scanner(System.in);
+	static Scanner entrada = new Scanner(System.in);
 	TreeSet<Atraccion> listaAtracciones = new TreeSet<Atraccion>();
 	TreeSet<Usuario> listaUsuarios = new TreeSet<Usuario>();
 	TreeSet<Promocion> listaPromociones = new TreeSet<Promocion>();
+	static Usuario user;
+
+	public static void main(String[] args) throws IOException {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("Bienvenido a Tierra MediApp");
+		System.out.println("---------------------------");
+		while (user == null) {
+			System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR");
+			int opcion = entrada.nextInt();
+			if (opcion == 1) {
+				System.out.println("\n Esto todavía no funciona. Gracias, vuelva prontos.");
+			}
+			if (opcion == 2) {
+				System.out.print("Por favor, ingresá tu usuario \n");
+				String usuario = entrada.next();
+				new Sistema().cambiarUsuario(usuario);
+			} else
+				break;
+		}
+		if (user != null) {
+			System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS");
+			int opcion = entrada.nextInt();
+			if (opcion == 1) {
+				System.out.println("\n Ingresá tu usuario");
+				String nuevoUsuario = entrada.nextLine();
+				new Sistema().cambiarUsuario(nuevoUsuario);
+			}
+			if (opcion == 2) {
+				new Sistema().sugerirItinerario(user);
+			}
+		}
+		entrada.close();
+	}
+
+	private void cambiarUsuario(String nuevoUsuario) throws IOException {
+		this.leerUsuarios();
+		Usuario[] auxiliar = new Usuario[listaUsuarios.size()];
+		auxiliar = listaUsuarios.toArray(auxiliar);
+
+		for (int i = 0; i < auxiliar.length; i++) {
+			if (auxiliar[i].getNombre().compareToIgnoreCase(nuevoUsuario) == 0)
+				Sistema.user = auxiliar[i];
+		}
+	}
 
 	private TreeSet<Atraccion> leerAtracciones() throws IOException {
 
@@ -72,7 +119,6 @@ public class Sistema {
 
 					Usuario usuario = new Usuario(nombre, dinero, tiempoDisponible, tipo);
 					listaUsuarios.add(usuario);
-					System.out.println(usuario);
 				}
 
 			} catch (IOException e) {
@@ -140,6 +186,16 @@ public class Sistema {
 			e.printStackTrace();
 		}
 		return listaPromociones;
+	}
+
+	private void escribirArchivo(Itinerario itinerario) throws IOException {
+
+		File file = new File("itinerario" + user.getNombre() + ".out");
+		PrintWriter salida = new PrintWriter(new FileWriter(file));
+
+		salida.println(itinerario);
+
+		salida.close();
 	}
 
 	private Atraccion buscar(String nombreDeAtraccion) throws IOException {
@@ -271,8 +327,7 @@ public class Sistema {
 		listaDisponibles.addAll(listaAtracciones.descendingSet());
 
 		for (Mostrable objeto : listaDisponibles) {
-			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == objeto
-					.getTipoDeAtraccion();
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == objeto.getTipoDeAtraccion();
 			boolean puedePagarlo = usuario.getPresupuesto() > objeto.getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() > objeto.getTiempoNecesario();
 			boolean yaFueComprada = objeto.estaEnItinerario(usuario.getItinerario());
@@ -299,14 +354,15 @@ public class Sistema {
 			System.out.println("\n PROMOCIONES DE OTRO TIPO DE ATRACCION \n");
 			this.mostrarSinPreferencia(usuario);
 		}
-		//if (usuario.getPresupuesto() > 0) {
-			//System.out.println("\n ATRACCIONES DE OTRO TIPO \n");
-			//this.mostrarSinPreferencia(usuario);
-		//}
-
+		/*
+		 * if (usuario.getPresupuesto() > 0) {
+		 * System.out.println("\n ATRACCIONES DE OTRO TIPO \n");
+		 * this.mostrarSinPreferencia(usuario); }
+		 */
+		this.escribirArchivo(usuario.getItinerario());
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("Su itinerario es el siguiente \n");
 		System.out.println(usuario.getItinerario());
-		System.out.println("\n Su costo es: " + usuario.getItinerario().getDineroDelItinerario());
+		System.out.println("\n Su costo es: " + usuario.getItinerario().getDineroDelItinerario() + " monedas");
 	}
 }

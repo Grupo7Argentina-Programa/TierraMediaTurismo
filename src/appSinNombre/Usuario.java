@@ -49,6 +49,9 @@ public class Usuario implements Comparable<Usuario> {
 		return ("[" + nombre != null ? nombre + ", " : "") + "presupuesto: " + presupuesto
 				+ ", tiempoDisponible: " + tiempoDisponible + "]";
 	}
+	public String getNombre() {
+		return this.nombre;
+	}
 	
 	
 }
