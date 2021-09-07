@@ -42,7 +42,7 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 
 	@Override
 	public String toString() {
-		return "\n" + (nombreDePromocion != null ? nombreDePromocion + "" : "")
+		return "\n" + "PROMOCION " + (nombreDePromocion != null ? nombreDePromocion + "" : "")
 				+ (costo != null ? "\n Costo: " + costo: "") + "\n Tiempo necesario: " + tiempoNecesario
 				+ "\n Atracciones que incluye: " 
 				+ (atraccion1 != null ? atraccion1.getNombre() + "" : "")

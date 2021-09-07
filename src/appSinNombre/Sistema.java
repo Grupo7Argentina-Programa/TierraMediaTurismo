@@ -231,65 +231,78 @@ public class Sistema {
 		return sugerencias;
 	}
 
-	private void mostrarPreferencia(Usuario usuario, Mostrable[] listaDisponibles) {
+	private void mostrarPreferencia(Usuario usuario) throws IOException {
 
-		Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
+		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
+		this.leerAtracciones();
+		this.leerPromociones();
+		this.leerUsuarios();
+		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
-		for (int i = 0; i < listaDisponibles.length; i++) {
-			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i]
-					.getTipoDeAtraccion();
-			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
-			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
-			boolean yaFueComprada = listaDisponibles[i].estaEnItinerario(usuario.getItinerario());
+		listaDisponibles.addAll(listaPromociones.descendingSet());
+		listaDisponibles.addAll(listaAtracciones.descendingSet());
+
+		for (Mostrable objeto : listaDisponibles) {
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == objeto.getTipoDeAtraccion();
+			boolean puedePagarlo = usuario.getPresupuesto() > objeto.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() > objeto.getTiempoNecesario();
+			boolean yaFueComprada = objeto.estaEnItinerario(usuario.getItinerario());
 
 			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
-				System.out.println(listaDisponibles[i]);
+				System.out.println(objeto);
 				System.out.println("Ingrese opcion: 1) ACEPTA   2) SIGUIENTE");
 				int opcion = entrada.nextInt();
 				if (opcion == 1) {
-					listaDisponibles[i].aceptoMostrable(usuario);
+					objeto.aceptoMostrable(usuario);
 					System.out.println("COMPRADA");
 				}
 			}
 		}
 	}
 
-	private void mostrarSinPreferencia(Usuario usuario, Mostrable[] listaDisponibles) {
-		Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
+	private void mostrarSinPreferencia(Usuario usuario) throws IOException {
+		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
+		this.leerAtracciones();
+		this.leerPromociones();
+		this.leerUsuarios();
+		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
-		for (int i = 0; i < listaDisponibles.length; i++) {
-			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == listaDisponibles[i]
+		listaDisponibles.addAll(listaPromociones.descendingSet());
+		listaDisponibles.addAll(listaAtracciones.descendingSet());
+
+		for (Mostrable objeto : listaDisponibles) {
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == objeto
 					.getTipoDeAtraccion();
-			boolean puedePagarlo = usuario.getPresupuesto() > listaDisponibles[i].getCosto();
-			boolean tieneTiempo = usuario.getTiempoDisponible() > listaDisponibles[i].getTiempoNecesario();
-			boolean yaFueComprada = listaDisponibles[i].estaEnItinerario(usuario.getItinerario());
+			boolean puedePagarlo = usuario.getPresupuesto() > objeto.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() > objeto.getTiempoNecesario();
+			boolean yaFueComprada = objeto.estaEnItinerario(usuario.getItinerario());
 
 			if (!tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
-				System.out.println(listaDisponibles[i]);
+				System.out.println(objeto);
 				System.out.println("Ingrese opcion: 1) ACEPTA   2) SIGUIENTE");
 				int opcion = entrada.nextInt();
 				if (opcion == 1) {
-					listaDisponibles[i].aceptoMostrable(usuario);
+					objeto.aceptoMostrable(usuario);
 					System.out.println("COMPRADA");
 				}
 			}
 		}
 	}
 
-	public void sugerirItinerario(Usuario usuario, Atraccion[] listaDeAtraccion, Promocion[] listaDePromocion) {
+	public void sugerirItinerario(Usuario usuario) throws IOException {
 		System.out.println("PROMOCIONES POR GUSTO \n");
-		this.mostrarPreferencia(usuario, listaDePromocion);
+		this.mostrarPreferencia(usuario);
 		if (usuario.getPresupuesto() > 0) {
 			System.out.println("\n ATRACCIONES POR GUSTO \n");
 		}
 		if (usuario.getPresupuesto() > 0) {
 			System.out.println("\n PROMOCIONES DE OTRO TIPO DE ATRACCION \n");
-			this.mostrarSinPreferencia(usuario, listaDePromocion);
+			this.mostrarSinPreferencia(usuario);
 		}
-		if (usuario.getPresupuesto() > 0) {
-			System.out.println("\n ATRACCIONES DE OTRO TIPO \n");
-			this.mostrarSinPreferencia(usuario, listaDeAtraccion);
-		}
+		//if (usuario.getPresupuesto() > 0) {
+			//System.out.println("\n ATRACCIONES DE OTRO TIPO \n");
+			//this.mostrarSinPreferencia(usuario);
+		//}
 
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("Su itinerario es el siguiente \n");

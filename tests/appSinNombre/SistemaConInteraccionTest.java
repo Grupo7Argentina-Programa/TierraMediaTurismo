@@ -2,6 +2,7 @@ package appSinNombre;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Assert;
@@ -69,7 +70,7 @@ public class SistemaConInteraccionTest {
 	 * sam.getPresupuesto()); }
 	 */
 	@Test
-	public void AceptaPromocionPackAventuraYatraccionLaComarca() {
+	public void AceptaPromocionPackAventuraYatraccionLaComarca() throws IOException {
 		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
 		Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
 		Atraccion laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
@@ -96,7 +97,7 @@ public class SistemaConInteraccionTest {
 		esperado.add(mordor);
 		esperado.add(bosqueNegro);
 		esperado.add(laComarca);
-		app.sugerirItinerario(sam, listaDeAtracciones, listaPromos);
+		app.sugerirItinerario(sam);
 		Assert.assertEquals(sugerenciasParaSam, sam.getItinerario().getPromocionesAceptadas());
 		Assert.assertEquals(esperado, sam.getItinerario().getAtraccionesAceptadas());
 	}

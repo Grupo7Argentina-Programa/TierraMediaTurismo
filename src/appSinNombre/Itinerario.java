@@ -1,6 +1,7 @@
 package appSinNombre;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Itinerario {
 
@@ -50,20 +51,30 @@ public class Itinerario {
 		return atraccionesAceptadas;
 	}
 
-	
-
 	public int getDineroDelItinerario() {
 		return dineroGastado;
 	}
 	
-	
-			
-
-
 	@Override
 	public String toString() {
-		return "Itinerario: " + (atraccionesAceptadas != null ? "atraccionesAceptadas=" + atraccionesAceptadas : "\n");
-				
+		return (atraccionesAceptadas != null ? "" + atraccionesAceptadas : "\n");		
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(atraccionesAceptadas, dineroGastado, promocionesAceptadas);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Itinerario other = (Itinerario) obj;
+		return Objects.equals(atraccionesAceptadas, other.atraccionesAceptadas) && dineroGastado == other.dineroGastado
+				&& Objects.equals(promocionesAceptadas, other.promocionesAceptadas);
+	}
 }

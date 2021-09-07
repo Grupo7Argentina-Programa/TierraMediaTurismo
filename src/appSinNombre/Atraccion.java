@@ -60,7 +60,7 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(costo, cupo, nombreDeAtraccion, tiempoNecesario, tipo);
+		return Objects.hash(costo, nombreDeAtraccion, tiempoNecesario, tipo);
 	}
 
 	@Override
@@ -72,8 +72,7 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 		if (getClass() != obj.getClass())
 			return false;
 		Atraccion other = (Atraccion) obj;
-		return Objects.equals(costo, other.costo) && cupo == other.cupo
-				&& Objects.equals(nombreDeAtraccion, other.nombreDeAtraccion)
+		return Objects.equals(costo, other.costo) && Objects.equals(nombreDeAtraccion, other.nombreDeAtraccion)
 				&& Objects.equals(tiempoNecesario, other.tiempoNecesario) && tipo == other.tipo;
 	}
 	
