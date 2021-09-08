@@ -24,44 +24,69 @@ public class Sistema {
 
 	public static void main(String[] args) throws IOException {
 		Scanner entrada = new Scanner(System.in);
-		System.out.println("Bienvenido a Tierra MediApp");
-		System.out.println("---------------------------");
-		while (user == null) {
-			System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR");
-			int opcion = entrada.nextInt();
-			if (opcion == 1) {
-				System.out.println("\n Esto todavía no funciona. Gracias, vuelva prontos.");
+		int opcion = 1;
+		while (opcion != 0) {
+			while (user == null) {
+				System.out.println("Bienvenido a Tierra MediApp");
+				System.out.println("---------------------------");
+				System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR \n 0) SALIR");
+				System.out.println("---------------------------");
+				opcion = entrada.nextInt();
+				if (opcion == 1) {
+					System.out.println("\n Esto todavía no funciona. Gracias, vuelva prontos.");
+					System.out.println("---------------------------");
+				}
+				if (opcion == 2) {
+					System.out.print("Por favor, ingresá tu usuario \n");
+					String usuario = entrada.next();
+					System.out.println("---------------------------");
+					new Sistema().cambiarUsuario(usuario);
+				}
+				if (opcion == 0) {
+					break;
+				}
 			}
-			if (opcion == 2) {
-				System.out.print("Por favor, ingresá tu usuario \n");
-				String usuario = entrada.next();
-				new Sistema().cambiarUsuario(usuario);
-			} else
-				break;
-		}
-		if (user != null) {
-			System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS");
-			int opcion = entrada.nextInt();
-			if (opcion == 1) {
-				System.out.println("\n Ingresá tu usuario");
-				String nuevoUsuario = entrada.nextLine();
-				new Sistema().cambiarUsuario(nuevoUsuario);
-			}
-			if (opcion == 2) {
-				new Sistema().sugerirItinerario(user);
+			while (user != null) {
+				System.out.println("Te damos la bienvenida, " + user.getNombre());
+				System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
+				System.out.println("---------------------------");
+				opcion = entrada.nextInt();
+				System.out.println("---------------------------");
+				if (opcion == 1) {
+					System.out.println("\n Por favor, ingresá tu usuario");
+					String nuevoUsuario = entrada.next();
+					System.out.println("---------------------------");
+					new Sistema().cambiarUsuario(nuevoUsuario);
+				}
+				if (opcion == 2) {
+					new Sistema().sugerirItinerario(user);
+				}
+				if (opcion == 3) {
+					System.out.println("Hasta pronto, " + user.getNombre());
+					new Sistema().cambiarUsuario(null);			
+				}
+				if (opcion == 0) {
+					break;
+				}
 			}
 		}
 		entrada.close();
+		System.out.println("---------------------------");
+		System.out.println("Gracias por usar Tierra MediApp");
 	}
 
 	private void cambiarUsuario(String nuevoUsuario) throws IOException {
-		this.leerUsuarios();
-		Usuario[] auxiliar = new Usuario[listaUsuarios.size()];
-		auxiliar = listaUsuarios.toArray(auxiliar);
+		if (nuevoUsuario == null) {
+			Sistema.user = null;
+		} else {
+			this.leerUsuarios();
+			Usuario[] auxiliar = new Usuario[listaUsuarios.size()];
+			auxiliar = listaUsuarios.toArray(auxiliar);
 
-		for (int i = 0; i < auxiliar.length; i++) {
-			if (auxiliar[i].getNombre().compareToIgnoreCase(nuevoUsuario) == 0)
-				Sistema.user = auxiliar[i];
+			for (int i = 0; i < auxiliar.length; i++) {
+				if (auxiliar[i].getNombre().compareToIgnoreCase(nuevoUsuario) == 0)
+					Sistema.user = auxiliar[i];
+			}
 		}
 	}
 
