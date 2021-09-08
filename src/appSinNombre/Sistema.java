@@ -10,19 +10,21 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.TreeSet;
 
 public class Sistema {
 
 	static Scanner entrada = new Scanner(System.in);
-	TreeSet<Atraccion> listaAtracciones = new TreeSet<Atraccion>();
-	TreeSet<Usuario> listaUsuarios = new TreeSet<Usuario>();
-	TreeSet<Promocion> listaPromociones = new TreeSet<Promocion>();
+	static TreeSet<Atraccion> listaAtracciones = new TreeSet<Atraccion>();
+	static TreeSet<Usuario> listaUsuarios = new TreeSet<Usuario>();
+	static TreeSet<Promocion> listaPromociones = new TreeSet<Promocion>();
 	static Usuario user;
 
 	public static void main(String[] args) throws IOException {
+		leerAtracciones();
+		leerPromociones();
+		leerUsuarios();
 		Scanner entrada = new Scanner(System.in);
 		int opcion = 1;
 		while (opcion != 0) {
@@ -79,7 +81,6 @@ public class Sistema {
 		if (nuevoUsuario == null) {
 			Sistema.user = null;
 		} else {
-			this.leerUsuarios();
 			Usuario[] auxiliar = new Usuario[listaUsuarios.size()];
 			auxiliar = listaUsuarios.toArray(auxiliar);
 
@@ -90,7 +91,7 @@ public class Sistema {
 		}
 	}
 
-	private TreeSet<Atraccion> leerAtracciones() throws IOException {
+	private static TreeSet<Atraccion> leerAtracciones() throws IOException {
 
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -111,7 +112,7 @@ public class Sistema {
 					TipoDeAtraccion tipo = TipoDeAtraccion.valueOf(auxiliar[4]);
 
 					Atraccion atraccion = new Atraccion(nombre, costo, tiempoRequerido, cupo, tipo);
-					this.listaAtracciones.add(atraccion);
+					listaAtracciones.add(atraccion);
 				}
 
 			} catch (IOException e) {
@@ -121,10 +122,10 @@ public class Sistema {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return this.listaAtracciones;
+		return listaAtracciones;
 	}
 
-	private TreeSet<Usuario> leerUsuarios() throws IOException {
+	private static TreeSet<Usuario> leerUsuarios() throws IOException {
 
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -156,12 +157,12 @@ public class Sistema {
 		return listaUsuarios;
 	}
 
-	private TreeSet<Promocion> leerPromociones() throws IOException {
+	private static TreeSet<Promocion> leerPromociones() throws IOException {
 
 		FileReader fr = null;
 		BufferedReader br = null;
 		Promocion promocion;
-		this.leerAtracciones();
+		leerAtracciones();
 
 		try {
 			fr = new FileReader("listaDePromociones.in", StandardCharsets.UTF_8);
@@ -213,7 +214,7 @@ public class Sistema {
 		return listaPromociones;
 	}
 
-	private void escribirArchivo(Itinerario itinerario) throws IOException {
+	private static void escribirArchivo(Itinerario itinerario) throws IOException {
 
 		File file = new File("itinerario" + user.getNombre() + ".out");
 		PrintWriter salida = new PrintWriter(new FileWriter(file));
@@ -223,9 +224,9 @@ public class Sistema {
 		salida.close();
 	}
 
-	private Atraccion buscar(String nombreDeAtraccion) throws IOException {
+	private static Atraccion buscar(String nombreDeAtraccion) throws IOException {
 
-		this.leerAtracciones();
+		leerAtracciones();
 		Atraccion[] auxiliar2 = new Atraccion[listaAtracciones.size()];
 		auxiliar2 = listaAtracciones.toArray(auxiliar2);
 		Atraccion atraccion = null;
@@ -243,7 +244,7 @@ public class Sistema {
 
 		ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
 
-		this.leerAtracciones();
+
 		for (Mostrable elemento : listaAtracciones.descendingSet()) {
 
 			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == elemento.getTipoDeAtraccion();
@@ -273,7 +274,7 @@ public class Sistema {
 
 	public ArrayList<Mostrable> sugerirPromocion(Usuario usuario) throws IOException {
 
-		TreeSet<Promocion> lista = this.leerPromociones();
+		TreeSet<Promocion> lista = leerPromociones();
 		lista.descendingSet();
 		ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
 
@@ -315,9 +316,7 @@ public class Sistema {
 	private void mostrarPreferencia(Usuario usuario) throws IOException {
 
 		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
-		this.leerAtracciones();
-		this.leerPromociones();
-		this.leerUsuarios();
+
 		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
 		listaDisponibles.addAll(listaPromociones.descendingSet());
@@ -343,9 +342,7 @@ public class Sistema {
 
 	private void mostrarSinPreferencia(Usuario usuario) throws IOException {
 		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
-		this.leerAtracciones();
-		this.leerPromociones();
-		this.leerUsuarios();
+	
 		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
 		listaDisponibles.addAll(listaPromociones.descendingSet());
@@ -384,7 +381,7 @@ public class Sistema {
 		 * System.out.println("\n ATRACCIONES DE OTRO TIPO \n");
 		 * this.mostrarSinPreferencia(usuario); }
 		 */
-		this.escribirArchivo(usuario.getItinerario());
+		escribirArchivo(usuario.getItinerario());
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("Su itinerario es el siguiente \n");
 		System.out.println(usuario.getItinerario());
