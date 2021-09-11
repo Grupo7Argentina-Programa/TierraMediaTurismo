@@ -43,6 +43,7 @@ public class ItinerarioTest {
 	}
 
 	@Test
+
 	public void probandoItinerario() {
 		
 
@@ -69,5 +70,55 @@ public class ItinerarioTest {
 		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
 		
 		//System.out.println(elias.getItinirario());
+	}
+	public void aceptaAtraccionesYSumaDineroAlItinerario() {
+		
+
+		elias.aceptarAtraccion(bosqueBlanco);
+		elias.aceptarAtraccion(bosqueNegro);
+		ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
+		esperado.add(bosqueBlanco);
+		esperado.add(bosqueNegro);
+		
+		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
+		assertEquals(6,elias.getItinerario().getDineroDelItinerario(), 0.01);
+
+
+	}
+	
+	@Test
+	public void aceptaPromociones() {
+		Usuario elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+		
+		Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
+		ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
+		esperado.add(mordor);
+		esperado.add(bosqueNegro);
+		
+		elias.aceptarPromocion(packAventura);
+		
+		Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
+		
+	}
+	@Test
+	public void aceptaPromocionesYSumaDineroAlItinerario() {
+		Usuario eowyn = new Usuario("Eowyn", 140, 22, TipoDeAtraccion.AVENTURA);
+		
+		Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
+		eowyn.aceptarPromocion(packDegustacion);
+		assertEquals(36,eowyn.getItinerario().getDineroDelItinerario(), 0.01);
+		
+	}
+	
+	@Test
+	public void aceptaPromocionesYdescuentaDinero() {
+		Usuario elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+		
+		Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
+		elias.aceptarPromocion(packAventura);
+		assertEquals(Integer.valueOf(23), packAventura.getCosto());
+		Assert.assertEquals(17, elias.getPresupuesto());
+		
+
 	}
 }

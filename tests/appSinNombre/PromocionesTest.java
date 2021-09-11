@@ -2,6 +2,7 @@ package appSinNombre;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Assert;
@@ -65,7 +66,7 @@ public class PromocionesTest {
 	}
 
 	@Test
-	public void promocionesSugeridasTest() {
+	public void promocionesSugeridasTest() throws IOException {
 		Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
 		Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
 		Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
@@ -78,7 +79,7 @@ public class PromocionesTest {
 		sugerenciasParaSam.add(packAventura);
 		sugerenciasParaSam.add(packPaisajes);
 
-		Assert.assertEquals(sugerenciasParaSam, app.sugerirPromocion(sam, listaPromos));
+		Assert.assertEquals(sugerenciasParaSam, app.sugerirPromocion(sam));
 
-	}
+}
 }

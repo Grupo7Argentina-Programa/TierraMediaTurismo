@@ -4,13 +4,13 @@ public class Absoluta extends Promocion {
 
 	public Absoluta(String nombreDePromo, int costo, Atraccion a, Atraccion b) {
 
-		boolean tiposDistintos = a.getTipo() != b.getTipo();
+		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion();
 
 		if (tiposDistintos)
 			throw new Error("El tipo de atracción debe ser el mismo");
 
 		this.nombreDePromocion = nombreDePromo;
-		this.tiposDeAtracciones = a.getTipo();
+		this.tiposDeAtracciones = a.getTipoDeAtraccion();
 		this.costo = costo;
 		this.tiempoNecesario = a.getTiempoNecesario() + b.getTiempoNecesario();
 		this.atraccion1 = a;
@@ -24,7 +24,7 @@ public class Absoluta extends Promocion {
 	}
 
 	@Override
-	public TipoDeAtraccion getTipo() {
+	public TipoDeAtraccion getTipoDeAtraccion() {
 		return tiposDeAtracciones;
 	}
 
@@ -34,18 +34,25 @@ public class Absoluta extends Promocion {
 	}
 
 	public Absoluta(int costo, Atraccion a, Atraccion b) {
-		
-		boolean tiposDistintos = a.getTipo() != b.getTipo();
+
+		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion();
 
 		if (tiposDistintos)
 			throw new Error("El tipo de atracción debe ser el mismo");
-		
-		this.tiposDeAtracciones = a.getTipo();
+
+		this.tiposDeAtracciones = a.getTipoDeAtraccion();
 		this.costo = costo;
 	}
 
 	@Override
 	public int getCantidadDeAtracciones() {
 		return cantidadDeAtracciones;
+	}
+
+	@Override
+	public void aceptoMostrable(Usuario comprador) {
+		comprador.aceptarPromocion(this);
+		atraccion1.compradaPorPromocion();
+		atraccion2.compradaPorPromocion();
 	}
 }
