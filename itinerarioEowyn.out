@@ -1,0 +1,22 @@
+Itinerario
+--------------------[
+Mordor
+ Costo: 25
+ Tiempo promedio requerido: 3.0
+ Cupos: 3
+ Tipo de atracción: AVENTURA
+ ------------------------, 
+Bosque Negro
+ Costo: 3
+ Tiempo promedio requerido: 4.0
+ Cupos: 11
+ Tipo de atracción: AVENTURA
+ ------------------------, 
+Moria
+ Costo: 10
+ Tiempo promedio requerido: 2.0
+ Cupos: 5
+ Tipo de atracción: AVENTURA
+ ------------------------]
+ Costo total: 33
+ Tiempo requerido total: 9.0

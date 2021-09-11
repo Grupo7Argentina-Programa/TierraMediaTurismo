@@ -35,8 +35,9 @@ public class Sistema {
 				System.out.println("---------------------------");
 				opcion = entrada.nextInt();
 				if (opcion == 1) {
-					System.out.println("\n Esto todavía no funciona. Gracias, vuelva prontos.");
-					System.out.println("---------------------------");
+					crearUsuarioNuevo();
+					//System.out.println("\n Esto todavía no funciona. Gracias, vuelva prontos.");
+					//System.out.println("---------------------------");
 				}
 				if (opcion == 2) {
 					System.out.print("Por favor, ingresá tu usuario \n");
@@ -387,4 +388,26 @@ public class Sistema {
 		System.out.println(usuario.getItinerario());
 		System.out.println("\n Su costo es: " + usuario.getItinerario().getDineroDelItinerario() + " monedas");
 	}
+	
+	private static void crearUsuarioNuevo()throws IOException
+	{
+
+		String auxiliar[]= new String [4];
+		System.out.println("Ingrese su nombre:  ");
+		auxiliar[0]=entrada.next();
+		System.out.println("\n Ingrese dinero disponible para gastar:  ");
+		auxiliar[1]=entrada.next();
+		System.out.println("\n Ingree tiempo disponible:  ");
+		auxiliar[2]=entrada.next();
+		System.out.println("\n Ingree tipo de atraccion favorita: ");
+		auxiliar[3]=entrada.next();
+		String nombre = auxiliar[0];
+		Integer dinero = Integer.parseInt(auxiliar[1]);
+		Double tiempo = Double.parseDouble(auxiliar[2]);
+		TipoDeAtraccion tipoDeAtraccion = TipoDeAtraccion.valueOf(auxiliar[3]);
+		Usuario nuevoUsuario=new Usuario(nombre,dinero,tiempo,tipoDeAtraccion);
+		listaUsuarios.add(nuevoUsuario);
+		Sistema.user=nuevoUsuario;
+	}
+
 }
