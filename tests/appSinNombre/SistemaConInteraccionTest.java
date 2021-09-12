@@ -25,17 +25,25 @@ public class SistemaConInteraccionTest {
 
 	@Before
 	public void setUp() {
-		mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
-		bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
-		laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
-		lothlorien = new Atraccion("Lothlóiren", 15, 1, 30, TipoDeAtraccion.DEGUSTACION);
-		minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
-		abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
-		erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
-		moria = new Atraccion("Moria", 10, 2, 6, TipoDeAtraccion.AVENTURA);
-		bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
+		try {
+			mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
+			bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
+			laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+			lothlorien = new Atraccion("Lothlóiren", 15, 1, 30, TipoDeAtraccion.DEGUSTACION);
+			minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
+			abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
+			erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
+			moria = new Atraccion("Moria", 10, 2, 6, TipoDeAtraccion.AVENTURA);
+			bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
 
-		elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+			elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+		} catch (ValorInvalido e) {
+			e.printStackTrace();
+		} catch (NombreInvalido e) {
+			e.printStackTrace();
+		} catch (TiempoInvalido e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -71,34 +79,44 @@ public class SistemaConInteraccionTest {
 	 */
 	@Test
 	public void AceptaPromocionPackAventuraYatraccionLaComarca() throws IOException {
-		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
-		Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
-		Atraccion laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
-		Atraccion lothlorien = new Atraccion("Lothlóiren", 15, 1, 30, TipoDeAtraccion.DEGUSTACION);
-		Atraccion minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
-		Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
-		Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
-		Atraccion moria = new Atraccion("Moria", 10, 2, 6, TipoDeAtraccion.AVENTURA);
-		Atraccion bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
+		try {
+			Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
+			Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
+			Atraccion laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+			Atraccion lothlorien = new Atraccion("Lothlóiren", 15, 1, 30, TipoDeAtraccion.DEGUSTACION);
+			Atraccion minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
+			Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
+			Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
+			Atraccion moria = new Atraccion("Moria", 10, 2, 6, TipoDeAtraccion.AVENTURA);
+			Atraccion bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
 
-		Usuario sam = new Usuario("Sam", 136, 20, TipoDeAtraccion.AVENTURA);
+			Usuario sam = new Usuario("Sam", 136, 20, TipoDeAtraccion.AVENTURA);
 
-		Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
-		Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
-		Promocion packPaisajes = new AxB("Pack Paisajes", minasTirith, abismoDeHelm, erebor);
-		Promocion listaPromos[] = { packAventura, packDegustacion, packPaisajes };
-		Atraccion listaDeAtracciones[] = { moria, minasTirith, mordor, abismoDeHelm, lothlorien, bosqueNegro,
-				bosqueBlanco, laComarca };
+			Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
+			Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
+			Promocion packPaisajes = new AxB("Pack Paisajes", minasTirith, abismoDeHelm, erebor);
+			Promocion listaPromos[] = { packAventura, packDegustacion, packPaisajes };
+			Atraccion listaDeAtracciones[] = { moria, minasTirith, mordor, abismoDeHelm, lothlorien, bosqueNegro,
+					bosqueBlanco, laComarca };
 
-		ArrayList<Promocion> sugerenciasParaSam = new ArrayList<Promocion>();
-		sugerenciasParaSam.add(packAventura);
-		Sistema app = new Sistema();
-		ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
-		esperado.add(mordor);
-		esperado.add(bosqueNegro);
-		esperado.add(laComarca);
-		app.sugerirItinerario(sam);
-		Assert.assertEquals(sugerenciasParaSam, sam.getItinerario().getPromocionesAceptadas());
-		Assert.assertEquals(esperado, sam.getItinerario().getAtraccionesAceptadas());
+			ArrayList<Promocion> sugerenciasParaSam = new ArrayList<Promocion>();
+			sugerenciasParaSam.add(packAventura);
+			Sistema app = new Sistema();
+			ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
+			esperado.add(mordor);
+			esperado.add(bosqueNegro);
+			esperado.add(laComarca);
+			app.sugerirItinerario(sam);
+			Assert.assertEquals(sugerenciasParaSam, sam.getItinerario().getPromocionesAceptadas());
+			Assert.assertEquals(esperado, sam.getItinerario().getAtraccionesAceptadas());
+		} catch (ValorInvalido e) {
+			e.printStackTrace();
+		} catch (NombreInvalido e) {
+			e.printStackTrace();
+		} catch (TiempoInvalido e) {
+			e.printStackTrace();
+		} catch (TipoDeAtraccionDistinta e) {
+			e.printStackTrace();
+		}
 	}
 }

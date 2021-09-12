@@ -2,7 +2,6 @@ package appSinNombre;
 
 import java.util.Objects;
 
-
 public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	private String nombreDeAtraccion;
@@ -11,8 +10,16 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 	private int cupo;
 	private TipoDeAtraccion tipo;
 
-	public Atraccion(String nombre, int costo, double tiempoNecesario, int cupo, TipoDeAtraccion tipo) {
+	public Atraccion(String nombre, int costo, double tiempoNecesario, int cupo, TipoDeAtraccion tipo)
+			throws ValorInvalido, NombreInvalido, TiempoInvalido {
 
+		if (nombre == "")
+			throw new NombreInvalido();
+		if (costo <= 0)
+			throw new ValorInvalido();	
+		if (tiempoNecesario <= 0)
+			throw new TiempoInvalido();
+		
 		this.nombreDeAtraccion = nombre;
 		this.costo = costo;
 		this.tiempoNecesario = tiempoNecesario;
@@ -74,10 +81,11 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 		return Objects.equals(costo, other.costo) && Objects.equals(nombreDeAtraccion, other.nombreDeAtraccion)
 				&& Objects.equals(tiempoNecesario, other.tiempoNecesario) && tipo == other.tipo;
 	}
+
 	@Override
 	public int compareTo(Atraccion otraAtraccion) {
 		int comparacionPorCosto = this.costo.compareTo(otraAtraccion.getCosto());
-		
+
 		if (comparacionPorCosto != 0)
 			return comparacionPorCosto;
 

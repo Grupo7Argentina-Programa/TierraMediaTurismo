@@ -2,13 +2,15 @@ package appSinNombre;
 
 public class Absoluta extends Promocion {
 
-	public Absoluta(String nombreDePromo, int costo, Atraccion a, Atraccion b) {
+	public Absoluta(String nombreDePromo, int costo, Atraccion a, Atraccion b)
+			throws NombreInvalido, TipoDeAtraccionDistinta {
 
 		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion();
 
+		if (nombreDePromo == "")
+			throw new NombreInvalido();
 		if (tiposDistintos)
-			throw new Error("El tipo de atracción debe ser el mismo");
-
+			throw new TipoDeAtraccionDistinta();
 		this.nombreDePromocion = nombreDePromo;
 		this.tiposDeAtracciones = a.getTipoDeAtraccion();
 		this.costo = costo;
@@ -33,17 +35,6 @@ public class Absoluta extends Promocion {
 		return tiempoNecesario;
 	}
 
-	public Absoluta(int costo, Atraccion a, Atraccion b) {
-
-		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion();
-
-		if (tiposDistintos)
-			throw new Error("El tipo de atracción debe ser el mismo");
-
-		this.tiposDeAtracciones = a.getTipoDeAtraccion();
-		this.costo = costo;
-	}
-
 	@Override
 	public int getCantidadDeAtracciones() {
 		return cantidadDeAtracciones;
@@ -55,6 +46,5 @@ public class Absoluta extends Promocion {
 		atraccion1.compradaPorPromocion();
 		atraccion2.compradaPorPromocion();
 	}
-
 
 }
