@@ -14,13 +14,21 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 	protected Atraccion atraccion4;
 	protected int cantidadDeAtracciones;
 
-	public abstract Integer getCosto();
+	public Integer getCosto() {
+		return this.costo;
+	}
 
-	public abstract TipoDeAtraccion getTipoDeAtraccion();
+	public TipoDeAtraccion getTipoDeAtraccion() {
+		return this.tiposDeAtracciones;
+	}
 
-	public abstract Double getTiempoNecesario();
+	public Double getTiempoNecesario() {
+		return this.tiempoNecesario;
+	}
 	
-	public abstract int getCantidadDeAtracciones();
+	public int getCantidadDeAtracciones() {
+		return this.cantidadDeAtracciones;
+	}
 	
 	public boolean estaEnItinerario(Itinerario actual) {
 		return actual.getPromocionesAceptadas().contains(this);

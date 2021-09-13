@@ -62,35 +62,7 @@ public class AxB extends Promocion {
 	}
 
 	@Override
-	public Integer getCosto() {
-		return this.costo;
-	}
-
-	@Override
-	public TipoDeAtraccion getTipoDeAtraccion() {
-		return tiposDeAtracciones;
-	}
-
-	@Override
-	public Double getTiempoNecesario() {
-		return tiempoNecesario;
-	}
-
-	@Override
-	public int getCantidadDeAtracciones() {
-		return cantidadDeAtracciones;
-	}
-
-	@Override
 	public void aceptoMostrable(Usuario comprador) {
-		/*
-		 * this.atraccion1.aceptoMostrable(comprador);
-		 * this.atraccion2.aceptoMostrable(comprador);
-		 * this.atraccion3.aceptoMostrable(comprador);
-		 * 
-		 * if(cantidadDeAtracciones==4) this.atraccion4.aceptoMostrable(comprador);
-		 */
 		comprador.aceptarPromocion(this);
-
 	}
 }

@@ -21,26 +21,6 @@ public class Absoluta extends Promocion {
 	}
 
 	@Override
-	public Integer getCosto() {
-		return costo;
-	}
-
-	@Override
-	public TipoDeAtraccion getTipoDeAtraccion() {
-		return tiposDeAtracciones;
-	}
-
-	@Override
-	public Double getTiempoNecesario() {
-		return tiempoNecesario;
-	}
-
-	@Override
-	public int getCantidadDeAtracciones() {
-		return cantidadDeAtracciones;
-	}
-
-	@Override
 	public void aceptoMostrable(Usuario comprador) {
 		comprador.aceptarPromocion(this);
 		atraccion1.compradaPorPromocion();

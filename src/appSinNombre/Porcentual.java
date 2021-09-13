@@ -32,30 +32,9 @@ public class Porcentual extends Promocion {
 	}
 
 	@Override
-	public Integer getCosto() {
-		return this.costo;
-	}
-
-	@Override
-	public TipoDeAtraccion getTipoDeAtraccion() {
-		return tiposDeAtracciones;
-	}
-
-	@Override
-	public Double getTiempoNecesario() {
-		return this.tiempoNecesario;
-	}
-
-	@Override
-	public int getCantidadDeAtracciones() {
-		return this.cantidadDeAtracciones;
-	}
-
-	@Override
 	public void aceptoMostrable(Usuario comprador) {
 		comprador.aceptarPromocion(this);
 		this.atraccion1.compradaPorPromocion();
 		this.atraccion2.compradaPorPromocion();
-
 	}
 }

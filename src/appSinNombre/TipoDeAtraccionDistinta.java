@@ -1,5 +1,6 @@
 package appSinNombre;
 
+@SuppressWarnings("serial")
 public class TipoDeAtraccionDistinta extends Exception {
 
 	public TipoDeAtraccionDistinta() {
