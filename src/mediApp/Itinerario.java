@@ -52,11 +52,15 @@ public class Itinerario {
 		return atraccionesAceptadas;
 	}
 
+	public double getTiempoTotal() {
+		return tiempoRequeridoTotal;
+	}
+	
 	@Override
 	public String toString() {
 		return "Itinerario\n" + "--------------------" 
 				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "")
-				+ "\n Costo total: " + dineroGastado + "\n Tiempo requerido total: " + tiempoRequeridoTotal;
+				+ "\n Costo total: " + dineroGastado + "monedas" + "\n Tiempo requerido total: " + tiempoRequeridoTotal + "horas";
 	}
 	
 	public int getDineroDelItinerario() {

@@ -245,6 +245,8 @@ public class Sistema {
 			String texto = builder.toString();
 			salida.println("Itinerario de " + user.getNombre());
 			salida.println(texto);
+			salida.println("Tiempo total requerido: " + itinerario.getTiempoTotal() + " horas");
+			salida.println("Costo total: " + itinerario.getDineroDelItinerario() + " monedas");
 
 			salida.close();
 		} catch (IOException e) {
@@ -446,7 +448,7 @@ public class Sistema {
 				auxiliar[1] = entrada.next();
 			}
 
-			System.out.println("\n Ingrese tiempo disponible:  ");
+			System.out.println("\n Ingrese tiempo disponible (en horas):  ");
 			auxiliar[2] = entrada.next();
 			while (Integer.valueOf(auxiliar[2]) <= 0) {
 				System.err.println("El valor no es válido. Ingréselo nuevamente.");
