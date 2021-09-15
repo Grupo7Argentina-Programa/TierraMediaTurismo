@@ -60,7 +60,7 @@ public class Itinerario {
 	public String toString() {
 		return "Itinerario\n" + "--------------------" 
 				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "")
-				+ "\n Costo total: " + dineroGastado + "monedas" + "\n Tiempo requerido total: " + tiempoRequeridoTotal + "horas";
+				+ "\n Costo total: " + dineroGastado + " monedas" + "\n Tiempo requerido total: " + tiempoRequeridoTotal + " horas";
 	}
 	
 	public int getDineroDelItinerario() {

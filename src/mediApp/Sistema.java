@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -28,58 +29,64 @@ public class Sistema {
 			leerPromociones();
 			leerUsuarios();
 		} catch (IOException e) {
-			System.err.println("El archivo no se pudo leer");
+			System.err.println("Un archivo no se pudo leer correctamente");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.err.println("Un archivo no se pudo leer correctamente");
 		}
 
-		Scanner entrada = new Scanner(System.in);
-		int opcion = 1;
-		while (opcion != 0) {
-			while (user == null) {
-				System.out.println("Bienvenido a MediApp");
-				System.out.println("---------------------------");
-				System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR \n 0) SALIR");
-				System.out.println("---------------------------");
-				opcion = entrada.nextInt();
-				if (opcion == 1) {
-					crearUsuarioNuevo();
-				}
-				if (opcion == 2) {
-					System.out.print("Por favor, ingresá tu usuario \n");
-					String usuario = entrada.next();
+		try {
+			Scanner entrada = new Scanner(System.in);
+			int opcion = 1;
+			while (opcion != 0) {
+				while (user == null) {
+					System.out.println("Bienvenido a MediApp");
 					System.out.println("---------------------------");
-					new Sistema().cambiarUsuario(usuario);
+					System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR \n 0) SALIR");
+					System.out.println("---------------------------");
+						opcion = entrada.nextInt();
+						if (opcion == 1) {
+							crearUsuarioNuevo();
+						}
+						if (opcion == 2) {
+							System.out.print("Por favor, ingresá tu usuario \n");
+							String usuario = entrada.next();
+							System.out.println("---------------------------");
+							new Sistema().cambiarUsuario(usuario);
+						}
+						if (opcion == 0) {
+							break;
+						}
 				}
-				if (opcion == 0) {
-					break;
+				while (user != null) {
+					System.out.println("Te damos la bienvenida, " + user.getNombre());
+					System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
+					System.out.println("---------------------------");
+					opcion = entrada.nextInt();
+					System.out.println("---------------------------");
+					if (opcion == 1) {
+						System.out.println("\n Por favor, ingresá tu usuario");
+						String nuevoUsuario = entrada.next();
+						System.out.println("---------------------------");
+						new Sistema().cambiarUsuario(nuevoUsuario);
+					}
+					if (opcion == 2) {
+						new Sistema().sugerirItinerario(user);
+					}
+					if (opcion == 3) {
+						System.out.println("Hasta pronto, " + user.getNombre());
+						new Sistema().cambiarUsuario(null);
+					}
+					if (opcion == 0) {
+						break;
+					}
 				}
 			}
-			while (user != null) {
-				System.out.println("Te damos la bienvenida, " + user.getNombre());
-				System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
-				System.out.println("---------------------------");
-				opcion = entrada.nextInt();
-				System.out.println("---------------------------");
-				if (opcion == 1) {
-					System.out.println("\n Por favor, ingresá tu usuario");
-					String nuevoUsuario = entrada.next();
-					System.out.println("---------------------------");
-					new Sistema().cambiarUsuario(nuevoUsuario);
-				}
-				if (opcion == 2) {
-					new Sistema().sugerirItinerario(user);
-				}
-				if (opcion == 3) {
-					System.out.println("Hasta pronto, " + user.getNombre());
-					new Sistema().cambiarUsuario(null);
-				}
-				if (opcion == 0) {
-					break;
-				}
-			}
+			entrada.close();
+			System.out.println("---------------------------");
+			System.out.println("Gracias por usar MediApp");
+		} catch (InputMismatchException e) {
+			System.err.println("El valor ingresado no es válido");
 		}
-		entrada.close();
-		System.out.println("---------------------------");
-		System.out.println("Gracias por usar MediApp");
 	}
 
 	private void cambiarUsuario(String nuevoUsuario) {
@@ -113,28 +120,28 @@ public class Sistema {
 			br = new BufferedReader(fr);
 			String linea;
 
-				while ((linea = br.readLine()) != null) {
-					Atraccion atraccion;
-					try {
-						String[] auxiliar = linea.split(",");
-						String nombre = auxiliar[0];
-						Integer costo = Integer.parseInt(auxiliar[1]);
-						Double tiempoRequerido = Double.parseDouble(auxiliar[2]);
-						Integer cupo = Integer.parseInt(auxiliar[3]);
-						TipoDeAtraccion tipo = TipoDeAtraccion.valueOf(auxiliar[4]);
+			while ((linea = br.readLine()) != null) {
+				Atraccion atraccion;
+				try {
+					String[] auxiliar = linea.split(",");
+					String nombre = auxiliar[0];
+					Integer costo = Integer.parseInt(auxiliar[1]);
+					Double tiempoRequerido = Double.parseDouble(auxiliar[2]);
+					Integer cupo = Integer.parseInt(auxiliar[3]);
+					TipoDeAtraccion tipo = TipoDeAtraccion.valueOf(auxiliar[4]);
 
-						atraccion = new Atraccion(nombre, costo, tiempoRequerido, cupo, tipo);
-						listaAtracciones.add(atraccion);
-					} catch (NumberFormatException e) {
-						System.err.println("Uno de los valores no es un número");
-					} catch (ValorInvalido e) {
-						System.err.println("Uno de los valores no es válido");
-					} catch (NombreInvalido e) {
-						System.err.println("Un nombre no es válido");
-					} catch (TiempoInvalido e) {
-						System.err.println("Uno de los tiempos no es válido");
-					}
+					atraccion = new Atraccion(nombre, costo, tiempoRequerido, cupo, tipo);
+					listaAtracciones.add(atraccion);
+				} catch (NumberFormatException e) {
+					System.err.println("Uno de los valores no es un número");
+				} catch (ValorInvalido e) {
+					System.err.println("Uno de los valores no es válido");
+				} catch (NombreInvalido e) {
+					System.err.println("Un nombre no es válido");
+				} catch (TiempoInvalido e) {
+					System.err.println("Uno de los tiempos no es válido");
 				}
+			}
 		} catch (FileNotFoundException e) {
 			System.err.println("Archivo no encontrado");
 		}
@@ -407,7 +414,7 @@ public class Sistema {
 	}
 
 	public void sugerirItinerario(Usuario usuario) {
-		System.out.println("PROMOCIONES POR GUSTO \n");
+		System.out.println(" PROMOCIONES POR GUSTO \n");
 		this.mostrarPreferencia(usuario);
 		if (usuario.getPresupuesto() > 0) {
 			System.out.println("\n ATRACCIONES POR GUSTO \n");
@@ -421,7 +428,8 @@ public class Sistema {
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("Su itinerario es el siguiente \n");
 		System.out.println(usuario.getItinerario());
-		System.out.println("\n Su costo es: " + usuario.getItinerario().getDineroDelItinerario() + " monedas");
+		// System.out.println("\n Su costo es: " +
+		// usuario.getItinerario().getDineroDelItinerario() + " monedas");
 	}
 
 	private static void crearUsuarioNuevo() {
@@ -484,7 +492,7 @@ public class Sistema {
 			Sistema.user = nuevoUsuario;
 
 			salida = new PrintWriter(new FileWriter(file, true));
-			salida.println("\n" + nombre + "," + dinero + "," + tiempo + "," + tipoDeAtraccion);
+			salida.print(nombre + "," + dinero + "," + tiempo + "," + tipoDeAtraccion + "\n");
 			salida.close();
 
 		} catch (IOException e) {
