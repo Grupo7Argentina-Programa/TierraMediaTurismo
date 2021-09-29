@@ -2,12 +2,12 @@ package mediApp;
 
 public class AxB extends Promocion {
 
-	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c, Atraccion d) {
+	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c, Atraccion d) throws NombreInvalido, TipoDeAtraccionDistinta {
 
 		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion()
 				|| b.getTipoDeAtraccion() != c.getTipoDeAtraccion() || c.getTipoDeAtraccion() != d.getTipoDeAtraccion();
 
-		try {
+
 			if (nombreDePromo == "") {
 				throw new NombreInvalido();
 			}
@@ -26,18 +26,12 @@ public class AxB extends Promocion {
 			this.atraccion3 = c;
 			this.atraccion4 = d;
 			this.cantidadDeAtracciones = 4;
-		} catch (TipoDeAtraccionDistinta e) {
-			System.err.println("Las atracciones deben ser del mismo tipo");
-		} catch (NombreInvalido e) {
-			System.err.println("El nombre no es válido");
-		}
 	}
 
-	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c) {
+	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c) throws NombreInvalido, TipoDeAtraccionDistinta {
 		boolean tiposDistintos = a.getTipoDeAtraccion() != b.getTipoDeAtraccion()
 				|| b.getTipoDeAtraccion() != c.getTipoDeAtraccion();
 
-		try {
 			if (nombreDePromo == "") {
 				throw new NombreInvalido();
 			}
@@ -54,11 +48,7 @@ public class AxB extends Promocion {
 			this.atraccion2 = b;
 			this.atraccion3 = c;
 			this.cantidadDeAtracciones = 3;
-		} catch (TipoDeAtraccionDistinta e) {
-			System.err.println("Las atracciones deben ser del mismo tipo");
-		} catch (NombreInvalido e) {
-			System.err.println("El nombre no es válido");
-		}
+
 	}
 
 	@Override

@@ -42,15 +42,21 @@ public class Usuario implements Comparable<Usuario> {
 	}
 
 	public void aceptarPromocion(Promocion promo) {
-		itinerario.agregarPromocion(promo);
-		this.presupuesto -= promo.getCosto();
-		this.tiempoDisponible -= promo.getTiempoNecesario();
+		if (this.presupuesto >= promo.getCosto()) {
+			itinerario.agregarPromocion(promo);
+			this.presupuesto -= promo.getCosto();
+			this.tiempoDisponible -= promo.getTiempoNecesario();
+			promo.aceptoMostrable(this);
+		}
 	}
 
 	public void aceptarAtraccion(Atraccion atraccion) {
-		itinerario.agregarAtraccion(atraccion);
-		this.presupuesto -= atraccion.getCosto();
-		this.tiempoDisponible -= atraccion.getTiempoNecesario();
+		if (this.presupuesto >= atraccion.getCosto()) {
+			itinerario.agregarAtraccion(atraccion);
+			this.presupuesto -= atraccion.getCosto();
+			this.tiempoDisponible -= atraccion.getTiempoNecesario();
+			atraccion.aceptoMostrable(this);
+		}
 	}
 
 	public int compareTo(Usuario otroUsuario) {

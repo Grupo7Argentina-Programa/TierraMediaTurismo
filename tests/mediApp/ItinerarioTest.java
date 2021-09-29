@@ -74,10 +74,10 @@ public class ItinerarioTest {
 	}
 
 	@Test
-	public void itinerarioQuemado() {
+	public void itinerarioParaEliasTest() {
 		Usuario elias;
 		try {
-			elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+			elias = new Usuario("Elias", 40, 12, TipoDeAtraccion.AVENTURA);
 
 			Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
 			ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
@@ -88,13 +88,11 @@ public class ItinerarioTest {
 
 			Assert.assertEquals(esperado, elias.getItinerario().getAtraccionesAceptadas());
 
-			// System.out.println(elias.getItinirario());
 		} catch (NombreInvalido e) {
 			e.printStackTrace();
 		} catch (ValorInvalido e) {
 			e.printStackTrace();
 		} catch (TiempoInvalido e) {
-
 			e.printStackTrace();
 		}
 	}
@@ -115,7 +113,7 @@ public class ItinerarioTest {
 	@Test
 	public void aceptaPromociones() {
 		try {
-			Usuario elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+			Usuario elias = new Usuario("Elias", 40, 12, TipoDeAtraccion.AVENTURA);
 
 			Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
 			ArrayList<Atraccion> esperado = new ArrayList<Atraccion>();
@@ -158,7 +156,7 @@ public class ItinerarioTest {
 	@Test
 	public void aceptaPromocionesYdescuentaDinero() {
 		try {
-			Usuario elias = new Usuario("Eowyn", 40, 12, TipoDeAtraccion.AVENTURA);
+			Usuario elias = new Usuario("Elias", 40, 12, TipoDeAtraccion.AVENTURA);
 
 			Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
 			elias.aceptarPromocion(packAventura);
@@ -171,6 +169,5 @@ public class ItinerarioTest {
 		} catch (TiempoInvalido e) {
 			e.printStackTrace();
 		}
-
 	}
 }

@@ -39,7 +39,7 @@ public class Itinerario {
 	}
 	public void agregarAtraccion(Atraccion nueva) {
 		atraccionesAceptadas.add(nueva);
-		this.dineroGastado+=nueva.getCosto();
+		this.dineroGastado += nueva.getCosto();
 		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
 		
 	}

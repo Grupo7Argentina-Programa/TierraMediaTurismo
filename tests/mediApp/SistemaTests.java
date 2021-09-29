@@ -59,7 +59,7 @@ public class SistemaTests {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
 	public void sugerenciasParaEowynTest() throws IOException {
 
@@ -75,8 +75,8 @@ public class SistemaTests {
 		sugerenciasParaEowyn.add(minasTirith);
 		sugerenciasParaEowyn.add(abismoDeHelm);
 		sugerenciasParaEowyn.add(laComarca);
-		//Metodo comentado en main
-		//Assert.assertEquals(app.sugerirAtraccion(eowyn), sugerenciasParaEowyn);
+
+		Assert.assertEquals(app.sugerirAtraccion(eowyn), sugerenciasParaEowyn);
 
 	}
 
@@ -95,9 +95,10 @@ public class SistemaTests {
 		sugerenciasParaGandalf.add(moria);
 		sugerenciasParaGandalf.add(bosqueNegro);
 		//Metodo comentado en main
-		//Assert.assertEquals(sugerenciasParaGandalf, app.sugerirAtraccion(gandalf));
+		Assert.assertEquals(sugerenciasParaGandalf, app.sugerirAtraccion(gandalf));
 	}
 
+	
 //	@Test
 //	public void DevuelveSugerenciaPorAtraccion() {
 //

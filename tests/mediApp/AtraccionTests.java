@@ -1,6 +1,8 @@
 package mediApp;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +37,33 @@ public class AtraccionTests {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test (expected = Exception.class) 
+	public void promoConCostoInvalidoTest() throws ValorInvalido, NombreInvalido, TiempoInvalido {
+		Atraccion moria = new Atraccion("Moria", -10, 2, 6, TipoDeAtraccion.AVENTURA);
+	}
+	
+	@Test (expected = Exception.class) 
+	public void promoConTiempoInvalidoTest() throws ValorInvalido, NombreInvalido, TiempoInvalido {
+		Atraccion moria = new Atraccion("Moria", 10, -2, 6, TipoDeAtraccion.AVENTURA);
+	}
+	
+	@Test 
+	public void disminucionDeCupoTest() throws ValorInvalido, NombreInvalido, TiempoInvalido {
+		Atraccion moria = new Atraccion("Moria", 10, 2, 3, TipoDeAtraccion.AVENTURA);
+		Usuario jose = new Usuario("José", 10, 20, TipoDeAtraccion.AVENTURA);
+		Usuario juan = new Usuario("Juan", 10, 20, TipoDeAtraccion.AVENTURA);
+		Usuario maria = new Usuario("María", 10, 20, TipoDeAtraccion.AVENTURA);
+
+		assertEquals(3, moria.getCupo());
+		jose.aceptarAtraccion(moria);
+		assertEquals(2, moria.getCupo());
+		juan.aceptarAtraccion(moria);
+		assertEquals(1, moria.getCupo());
+		maria.aceptarAtraccion(moria);
+		assertEquals(0, moria.getCupo());
+	}
+	
 
 	@Test
 	public void DevuelveSugerenciaSinImportarPreferencia() throws IOException {
@@ -51,8 +80,7 @@ public class AtraccionTests {
 			Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 			Sistema app = new Sistema();
 
-			// Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor,
-			// abismoDeHelm,};
+			Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor, abismoDeHelm, };
 			ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
 			esperada.add(moria);
 			esperada.add(bosqueNegro);
@@ -60,8 +88,8 @@ public class AtraccionTests {
 			esperada.add(minasTirith);
 			esperada.add(abismoDeHelm);
 			esperada.add(laComarca);
-			// Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn)); \\Metodo
-			// comentado en Sistema
+			Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn));
+
 		} catch (NombreInvalido e) {
 			e.printStackTrace();
 		} catch (ValorInvalido e) {
@@ -69,5 +97,13 @@ public class AtraccionTests {
 		} catch (TiempoInvalido e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void atraccionEnItinerarioTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		Usuario eowyn = new Usuario("Eowyn", 25, 12, TipoDeAtraccion.AVENTURA);
+		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
+		eowyn.aceptarAtraccion(mordor);
+		assertTrue(mordor.estaEnItinerario(eowyn.getItinerario()));
 	}
 }

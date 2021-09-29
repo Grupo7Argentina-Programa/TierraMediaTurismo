@@ -55,7 +55,6 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	public void aceptoMostrable(Usuario comprador) {
 		this.cupo -= 1;
-		comprador.aceptarAtraccion(this);
 	}
 
 	public void compradaPorPromocion() {

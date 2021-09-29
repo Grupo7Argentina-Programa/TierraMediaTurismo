@@ -77,7 +77,7 @@ public class PromocionesTest {
 	}
 
 	@Test
-	public void promocionAxBTest() {
+	public void promocionAxBTest() throws TipoDeAtraccionDistinta, NombreInvalido {
 
 		Promocion packPaisajes = new AxB("Pack Paisajes", minasTirith, abismoDeHelm, erebor);
 
@@ -85,39 +85,33 @@ public class PromocionesTest {
 		assertEquals(7.5, packPaisajes.getTiempoNecesario(), 0);
 	}
 
-	@Test(expected = Error.class)
-	public void sugerenciasDeDistintoTipo() {
+	@Test (expected = Exception.class)
+	public void sugerenciasDeDistintoTipo() throws TipoDeAtraccionDistinta, NombreInvalido {
 
-		@SuppressWarnings("unused")
 		Promocion packRandom = new AxB("Pack cualquiera", laComarca, erebor, mordor);
+	}
+	
+	@Test (expected = Exception.class)
+	public void nombreDePromoInvalido() throws TipoDeAtraccionDistinta, NombreInvalido {
+
+		Promocion packRandom = new AxB("", minasTirith, erebor, abismoDeHelm);
 	}
 
 	@Test
-	public void promocionesSugeridasTest() throws IOException {
-		try {
+	public void promocionesSugeridasTest() throws IOException, TipoDeAtraccionDistinta, NombreInvalido, ValorInvalido, TiempoInvalido {
+
 			Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
 			Promocion packAventura = new Porcentual("Pack Aventura", 20, mordor, bosqueNegro);
 			Promocion packDegustacion = new Absoluta("Pack Degustación", 36, laComarca, lothlorien);
 			Promocion packPaisajes = new AxB("Pack Paisajes", minasTirith, abismoDeHelm, erebor);
 
-			Promocion listaPromos[] = { packAventura, packDegustacion, packPaisajes };
-
 			ArrayList<Promocion> sugerenciasParaSam = new ArrayList<Promocion>();
 			sugerenciasParaSam.add(packDegustacion);
 			sugerenciasParaSam.add(packAventura);
 			sugerenciasParaSam.add(packPaisajes);
-			// Metodo comentado en main
-			//Assert.assertEquals(sugerenciasParaSam, app.sugerirPromocion(sam));
-			
-		} catch (NombreInvalido e) {
-			e.printStackTrace();
-		} catch (ValorInvalido e) {
-			e.printStackTrace();
-		} catch (TiempoInvalido e) {
-			e.printStackTrace();
-		} catch (TipoDeAtraccionDistinta e) {
-			e.printStackTrace();
-		}
+
+			Assert.assertEquals(sugerenciasParaSam, app.sugerirPromocion(sam));
+
 
 	}
 }

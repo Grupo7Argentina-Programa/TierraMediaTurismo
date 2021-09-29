@@ -43,23 +43,24 @@ public class Sistema {
 					System.out.println("---------------------------");
 					System.out.println("\n 1) CREAR USUARIO \n 2) INGRESAR \n 0) SALIR");
 					System.out.println("---------------------------");
-						opcion = entrada.nextInt();
-						if (opcion == 1) {
-							crearUsuarioNuevo();
-						}
-						if (opcion == 2) {
-							System.out.print("Por favor, ingresá tu usuario \n");
-							String usuario = entrada.next();
-							System.out.println("---------------------------");
-							new Sistema().cambiarUsuario(usuario);
-						}
-						if (opcion == 0) {
-							break;
-						}
+					opcion = entrada.nextInt();
+					if (opcion == 1) {
+						crearUsuarioNuevo();
+					}
+					if (opcion == 2) {
+						System.out.print("Por favor, ingresá tu usuario \n");
+						String usuario = entrada.next();
+						System.out.println("---------------------------");
+						new Sistema().cambiarUsuario(usuario);
+					}
+					if (opcion == 0) {
+						break;
+					}
 				}
 				while (user != null) {
 					System.out.println("Te damos la bienvenida, " + user.getNombre());
-					System.out.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
+					System.out
+							.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
 					System.out.println("---------------------------");
 					opcion = entrada.nextInt();
 					System.out.println("---------------------------");
@@ -279,86 +280,80 @@ public class Sistema {
 		return atraccion;
 	}
 
-	/*
-	 * public ArrayList<Mostrable> sugerirAtraccion(Usuario usuario) throws
-	 * IOException {
-	 * 
-	 * ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
-	 * 
-	 * for (Mostrable elemento : listaAtracciones.descendingSet()) {
-	 * 
-	 * boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() ==
-	 * elemento.getTipoDeAtraccion(); boolean puedePagarlo =
-	 * usuario.getPresupuesto() >= elemento.getCosto(); boolean tieneTiempo =
-	 * usuario.getTiempoDisponible() >= elemento.getTiempoNecesario(); boolean
-	 * estaEnItinerario =
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(elemento);
-	 * 
-	 * if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo &&
-	 * !estaEnItinerario) { sugerencias.add(elemento); } }
-	 * 
-	 * for (Mostrable elemento : listaAtracciones.descendingSet()) {
-	 * 
-	 * boolean puedePagarlo = usuario.getPresupuesto() >= elemento.getCosto();
-	 * boolean tieneTiempo = usuario.getTiempoDisponible() >=
-	 * elemento.getTiempoNecesario(); boolean estaEnItinerario =
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(elemento); boolean
-	 * tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() ==
-	 * elemento.getTipoDeAtraccion();
-	 * 
-	 * if (puedePagarlo && tieneTiempo && !tipoDeAtraccionFavorita &&
-	 * !estaEnItinerario) { sugerencias.add(elemento); } }
-	 * 
-	 * return sugerencias; }
-	 */
+	public ArrayList<Mostrable> sugerirAtraccion(Usuario usuario) throws
 
-	/*
-	 * public ArrayList<Mostrable> sugerirPromocion(Usuario usuario) throws
-	 * IOException {
-	 * 
-	 * TreeSet<Promocion> lista = leerPromociones(); lista.descendingSet();
-	 * ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
-	 * 
-	 * for (Promocion promo : listaPromociones.descendingSet()) {
-	 * 
-	 * boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() ==
-	 * promo.getTipoDeAtraccion(); boolean puedePagarlo = usuario.getPresupuesto()
-	 * >= promo.getCosto(); boolean tieneTiempo = usuario.getTiempoDisponible() >=
-	 * promo.getTiempoNecesario(); boolean tieneAtraccionYaComprada =
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains( promo.atraccion1)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion2)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion3)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion4);
-	 * 
-	 * if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo &&
-	 * !tieneAtraccionYaComprada) { sugerencias.add(promo);
-	 * 
-	 * } }
-	 * 
-	 * for (Promocion promo : listaPromociones.descendingSet()) {
-	 * 
-	 * boolean puedePagarlo = usuario.getPresupuesto() >= promo.getCosto(); boolean
-	 * tieneTiempo = usuario.getTiempoDisponible() >= promo.getTiempoNecesario();
-	 * boolean EstaEnSugerencias = sugerencias.contains(promo); boolean
-	 * tieneAtraccionYaComprada =
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains( promo.atraccion1)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion2)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion3)
-	 * ||
-	 * usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion4);
-	 * 
-	 * if (puedePagarlo && tieneTiempo && !EstaEnSugerencias &&
-	 * !tieneAtraccionYaComprada) { sugerencias.add(promo);
-	 * 
-	 * } }
-	 * 
-	 * return sugerencias; }
-	 */
+	IOException {
+
+		leerAtracciones();
+		ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
+
+		for (Mostrable elemento : listaAtracciones.descendingSet()) {
+
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == elemento.getTipoDeAtraccion();
+			boolean puedePagarlo = usuario.getPresupuesto() >= elemento.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() >= elemento.getTiempoNecesario();
+			boolean estaEnItinerario = usuario.getItinerario().getAtraccionesAceptadas().contains(elemento);
+
+			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !estaEnItinerario) {
+				sugerencias.add(elemento);
+			}
+		}
+
+		for (Mostrable elemento : listaAtracciones.descendingSet()) {
+
+			boolean puedePagarlo = usuario.getPresupuesto() >= elemento.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() >= elemento.getTiempoNecesario();
+			boolean estaEnItinerario = usuario.getItinerario().getAtraccionesAceptadas().contains(elemento);
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == elemento.getTipoDeAtraccion();
+
+			if (puedePagarlo && tieneTiempo && !tipoDeAtraccionFavorita && !estaEnItinerario) {
+				sugerencias.add(elemento);
+			}
+		}
+
+		return sugerencias;
+	}
+
+	public ArrayList<Mostrable> sugerirPromocion(Usuario usuario) throws IOException {
+
+		TreeSet<Promocion> lista = leerPromociones();
+		lista.descendingSet();
+		ArrayList<Mostrable> sugerencias = new ArrayList<Mostrable>();
+
+		for (Promocion promo : listaPromociones.descendingSet()) {
+
+			boolean tipoDeAtraccionFavorita = usuario.getAtraccionFavorita() == promo.getTipoDeAtraccion();
+			boolean puedePagarlo = usuario.getPresupuesto() >= promo.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() >= promo.getTiempoNecesario();
+			boolean tieneAtraccionYaComprada = usuario.getItinerario().getAtraccionesAceptadas().contains(
+					promo.atraccion1) || usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion2)
+					|| usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion3)
+					|| usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion4);
+
+			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !tieneAtraccionYaComprada) {
+				sugerencias.add(promo);
+
+			}
+		}
+
+		for (Promocion promo : listaPromociones.descendingSet()) {
+
+			boolean puedePagarlo = usuario.getPresupuesto() >= promo.getCosto();
+			boolean tieneTiempo = usuario.getTiempoDisponible() >= promo.getTiempoNecesario();
+			boolean EstaEnSugerencias = sugerencias.contains(promo);
+			boolean tieneAtraccionYaComprada = usuario.getItinerario().getAtraccionesAceptadas().contains(
+					promo.atraccion1) || usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion2)
+					|| usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion3)
+					|| usuario.getItinerario().getAtraccionesAceptadas().contains(promo.atraccion4);
+
+			if (puedePagarlo && tieneTiempo && !EstaEnSugerencias && !tieneAtraccionYaComprada) {
+				sugerencias.add(promo);
+
+			}
+		}
+
+		return sugerencias;
+	}
 
 	private void mostrarPreferencia(Usuario usuario) {
 
@@ -498,11 +493,11 @@ public class Sistema {
 		} catch (IOException e) {
 			System.err.println("No se pudo escribir el archivo");
 		} catch (NombreInvalido e1) {
-			e1.printStackTrace();
+			System.err.println("El nombre no es válido");
 		} catch (ValorInvalido e1) {
-			e1.printStackTrace();
+			System.err.println("El dinero no es válido");
 		} catch (TiempoInvalido e1) {
-			e1.printStackTrace();
+			System.err.println("El tiempo no es válido");
 		} catch (NumberFormatException e1) {
 			System.err.println("El valor ingresado no es un número");
 		}
