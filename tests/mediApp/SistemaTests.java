@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import dao.DAOFactory;
+import dao.UserDAO;
 import mediApp.Atraccion;
 import mediApp.NombreInvalido;
 import mediApp.Sistema;
@@ -33,6 +35,7 @@ public class SistemaTests {
 	Atraccion erebor;
 	Atraccion bosqueNegro;
 	Sistema app;
+	UserDAO userDAO;
 
 	@Before
 	public void setUp() {
@@ -51,6 +54,7 @@ public class SistemaTests {
 			minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
 			abismoDeHelm = new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 			app = new Sistema();
+			userDAO = DAOFactory.getUserDAO();
 		} catch (NombreInvalido e) {
 			e.printStackTrace();
 		} catch (ValorInvalido e) {
@@ -94,48 +98,16 @@ public class SistemaTests {
 		sugerenciasParaGandalf.add(mordor);
 		sugerenciasParaGandalf.add(moria);
 		sugerenciasParaGandalf.add(bosqueNegro);
-		//Metodo comentado en main
 		Assert.assertEquals(sugerenciasParaGandalf, app.sugerirAtraccion(gandalf));
 	}
-
 	
-//	@Test
-//	public void DevuelveSugerenciaPorAtraccion() {
-//
-//		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
-//		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
-//		Atraccion moria = new Atraccion("Moria", 20, 2, 6, TipoDeAtraccion.AVENTURA);
-//		Atraccion minasTirith = new Atraccion("Minas Tirith", 35, 2.5, 25, TipoDeAtraccion.PAISAJE);
-//		Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 70, 2, 15, TipoDeAtraccion.PAISAJE);
-//		Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
-//		Atraccion bosqueBlanco = new Atraccion("Bosque blanco", 3, 6, 12, TipoDeAtraccion.AVENTURA);
-//		Sistema app = new Sistema();
-//
-//		Atraccion listaDeAtracciones[] = { moria, minasTirith, mordor, abismoDeHelm, bosqueNegro, bosqueBlanco };
-//		ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
-//		esperada.add(moria);
-//		esperada.add(bosqueBlanco);
-//		esperada.add(bosqueNegro);
-//		Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn));
-//	}
-
-//	@Test
-//	public void DevuelveSugerenciaSinImportarPreferencia() {
-//		Usuario eowyn = new Usuario("Eowyn", 22, 12, TipoDeAtraccion.AVENTURA);
-//
-//		Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
-//		Atraccion moria = new Atraccion("Moria", 20, 2, 6, TipoDeAtraccion.AVENTURA);
-//		Atraccion minasTirith = new Atraccion("Minas Tirith", 10, 2.5, 25, TipoDeAtraccion.PAISAJE);
-//		Atraccion laComarca = new Atraccion("La Comarca", 10, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
-//		Atraccion abismoDeHelm = new Atraccion("Abismo de Helm", 20, 22, 15, TipoDeAtraccion.PAISAJE);
-//		Sistema app = new Sistema();
-//
-//		Atraccion listaDeAtracciones[] = { moria, minasTirith, laComarca, mordor, abismoDeHelm, };
-//		ArrayList<Atraccion> esperada = new ArrayList<Atraccion>();
-//		esperada.add(moria);
-//		esperada.add(laComarca);
-//		esperada.add(minasTirith);
-//		Assert.assertEquals(esperada, app.sugerirAtraccion(eowyn));
-//	}
+	@Test
+	public void cambioDeUsuarioTest() {
+		
+		assertNull(app.getUsuario());
+		app.cambiarUsuario("Legolas");
+		assertNotNull(app.getUsuario());
+		assertEquals(userDAO.findByUsername("Legolas"), app.getUsuario());
+	}
 
 }

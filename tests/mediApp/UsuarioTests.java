@@ -42,4 +42,6 @@ public class UsuarioTests {
 		assertEquals(10, gero.getPresupuesto());
 		assertEquals(8, gero.getTiempoDisponible(), 0);
 	}
+	
+	
 }

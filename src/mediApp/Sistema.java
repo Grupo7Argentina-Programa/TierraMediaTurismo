@@ -14,6 +14,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.TreeSet;
 
+import dao.DAOFactory;
+import dao.UserDAO;
+
 public class Sistema {
 
 	static Scanner entrada = new Scanner(System.in);
@@ -90,21 +93,16 @@ public class Sistema {
 		}
 	}
 
-	private void cambiarUsuario(String nuevoUsuario) {
+	public void cambiarUsuario(String nuevoUsuario) {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+
 		boolean usuarioEncontrado = false;
 		if (nuevoUsuario == null) {
 			Sistema.user = null;
 		} else {
-			Usuario[] auxiliar = new Usuario[listaUsuarios.size()];
-			auxiliar = listaUsuarios.toArray(auxiliar);
+			Sistema.user = userDAO.findByUsername(nuevoUsuario);
+			usuarioEncontrado = true;
 
-			for (int i = 0; i < auxiliar.length; i++) {
-				if (auxiliar[i].getNombre().compareToIgnoreCase(nuevoUsuario) == 0) {
-					Sistema.user = auxiliar[i];
-					usuarioEncontrado = true;
-					break;
-				}
-			}
 			if (!usuarioEncontrado)
 				System.err.println("Nombre de usuario no encontrado");
 		}
@@ -409,18 +407,18 @@ public class Sistema {
 	}
 
 	public void sugerirItinerario(Usuario usuario) {
-		System.out.println(" PROMOCIONES POR GUSTO \n");
+		System.out.println(user.getNombre().toUpperCase() + ", TENEMOS ESTAS OFERTAS PARA VOS \n");
 		this.mostrarPreferencia(usuario);
+
 		if (usuario.getPresupuesto() > 0) {
-			System.out.println("\n ATRACCIONES POR GUSTO \n");
-		}
-		if (usuario.getPresupuesto() > 0) {
-			System.out.println("\n PROMOCIONES DE OTRO TIPO DE ATRACCION \n");
+			System.out.println("\n TAMBIÉN TE PODRÍA INTERESAR \n");
 			this.mostrarSinPreferencia(usuario);
 		}
 
 		escribirArchivo(usuario.getItinerario());
+		System.out.println("--------------------");
 		System.out.println("\n Se terminaron las ofertas \n");
+		System.out.println("--------------------");
 		System.out.println("Su itinerario es el siguiente \n");
 		System.out.println(usuario.getItinerario());
 		// System.out.println("\n Su costo es: " +
@@ -428,37 +426,37 @@ public class Sistema {
 	}
 
 	private static void crearUsuarioNuevo() {
-		File file = new File("usuarios.in");
-		PrintWriter salida;
+		UserDAO userDAO = DAOFactory.getUserDAO();
 
 		String auxiliar[] = new String[4];
 		try {
-			System.out.println("Ingrese su nombre:  ");
+			System.out.println("Ingrese su nombre:");
 			auxiliar[0] = entrada.next();
 			while (auxiliar[0] == "") {
 				System.err.println("Nombre de usuario inválido. Ingréselo nuevamente.");
 				auxiliar[0] = entrada.next();
 			}
-			while (listaUsuarios.contains(new Usuario(auxiliar[0], 1, 1, null))) {
-				System.err.println("Usuario ya existente. Ingrese otro nombre.");
+
+			while (userDAO.findByUsername(auxiliar[0]) != null) {	
+			System.err.println("Usuario ya existente. Ingrese otro nombre.");
 				auxiliar[0] = entrada.next();
 			}
 
-			System.out.println("\n Ingrese dinero disponible para gastar:  ");
+			System.out.println("\n Ingrese dinero disponible para gastar:");
 			auxiliar[1] = entrada.next();
 			while (Integer.valueOf(auxiliar[1]) <= 0) {
 				System.err.println("El valor no es válido. Ingréselo nuevamente.");
 				auxiliar[1] = entrada.next();
 			}
 
-			System.out.println("\n Ingrese tiempo disponible (en horas):  ");
+			System.out.println("\n Ingrese tiempo disponible (en horas):");
 			auxiliar[2] = entrada.next();
 			while (Integer.valueOf(auxiliar[2]) <= 0) {
 				System.err.println("El valor no es válido. Ingréselo nuevamente.");
 				auxiliar[2] = entrada.next();
 			}
 
-			System.out.println("\n Ingrese tipo de atraccion favorita: ");
+			System.out.println("\n Ingrese tipo de atraccion favorita:");
 			System.out.println(Arrays.asList(TipoDeAtraccion.values()));
 			auxiliar[3] = entrada.next();
 			boolean existeTipo = false;
@@ -483,15 +481,9 @@ public class Sistema {
 
 			nuevoUsuario = new Usuario(nombre, dinero, tiempo, tipoDeAtraccion);
 
-			listaUsuarios.add(nuevoUsuario);
+			userDAO.insert(nuevoUsuario);
 			Sistema.user = nuevoUsuario;
 
-			salida = new PrintWriter(new FileWriter(file, true));
-			salida.print(nombre + "," + dinero + "," + tiempo + "," + tipoDeAtraccion + "\n");
-			salida.close();
-
-		} catch (IOException e) {
-			System.err.println("No se pudo escribir el archivo");
 		} catch (NombreInvalido e1) {
 			System.err.println("El nombre no es válido");
 		} catch (ValorInvalido e1) {
@@ -502,6 +494,10 @@ public class Sistema {
 			System.err.println("El valor ingresado no es un número");
 		}
 
+	}
+
+	public Usuario getUsuario() {
+		return user;
 	}
 
 }

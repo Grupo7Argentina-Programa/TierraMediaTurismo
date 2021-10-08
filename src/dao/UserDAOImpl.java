@@ -36,14 +36,14 @@ public class UserDAOImpl implements UserDAO {
 
 	public int update(Usuario user) {
 		try {
-			String sql = "INSERT INTO USUARIOS (NOMBRE, DINERO, TIEMPO, ATRACCIONFAVORITA) VALUES (?, ?, ?, ?)";
+			String sql = "UPDATE USUARIOS SET DINERO = ?, TIEMPO = ? WHERE NOMBRE = ?";
+
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(2, user.getNombre());
-			statement.setInt(3, user.getDinero());
-			statement.setDouble(4, user.getTiempoDisponible());
-			statement.setString(5, user.getAtraccionFavorita().toString());
+			statement.setString(3, user.getNombre());
+			statement.setInt(1, user.getDinero());
+			statement.setDouble(2, user.getTiempoDisponible());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -69,7 +69,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public Usuario findByUsername(String username) {
 		try {
-			String sql = "SELECT * FROM USUARIOS WHERE USERNAME = ?";
+			String sql = "SELECT * FROM USUARIOS WHERE NOMBRE = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, username);

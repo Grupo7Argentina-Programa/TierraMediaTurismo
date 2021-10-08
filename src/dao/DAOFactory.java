@@ -6,4 +6,8 @@ public class DAOFactory {
 		return new UserDAOImpl();
 	}
 	
+	public static AtraccionDAO getAtraccionDAO() {
+		return new AtraccionDAOImpl();
+	}
+	
 }

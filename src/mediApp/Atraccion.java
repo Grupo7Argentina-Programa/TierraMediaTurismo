@@ -2,6 +2,9 @@ package mediApp;
 
 import java.util.Objects;
 
+import dao.AtraccionDAO;
+import dao.DAOFactory;
+
 public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	private String nombreDeAtraccion;
@@ -9,6 +12,7 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 	private Double tiempoNecesario;
 	private int cupo;
 	private TipoDeAtraccion tipo;
+	private AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 
 	public Atraccion(String nombre, int costo, double tiempoNecesario, int cupo, TipoDeAtraccion tipo)
 			throws ValorInvalido, NombreInvalido, TiempoInvalido {
@@ -55,10 +59,12 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	public void aceptoMostrable(Usuario comprador) {
 		this.cupo -= 1;
+		atraccionDAO.update(this);
 	}
 
 	public void compradaPorPromocion() {
 		this.cupo -= 1;
+		atraccionDAO.update(this);
 	}
 
 	@Override

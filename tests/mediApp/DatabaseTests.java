@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import dao.AtraccionDAO;
 import dao.DAOFactory;
 import dao.UserDAO;
 
@@ -90,6 +91,12 @@ public class DatabaseTests {
 	}
 
 	@Test
+	public void conteoDeUsuarioTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		assertEquals(10, userDAO.countAll());
+	}
+	
+	@Test
 	public void creacionYEliminacionDeUsuarioTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
 		UserDAO userDAO = DAOFactory.getUserDAO();
 		assertEquals(10, userDAO.countAll());
@@ -102,5 +109,60 @@ public class DatabaseTests {
 		assertEquals(10, userDAO.countAll());
 
 	}
+	
+	@Test
+	public void atraccionDaoNotNullTest() {
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		assertNotNull(atraccionDAO);
+	}
 
+	@Test
+	public void conteoDeAtraccionTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		assertEquals(17, atraccionDAO.countAll());
+	}
+	
+	@Test
+	public void creacionYEliminacionDeAtraccionTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		assertEquals(17, atraccionDAO.countAll());
+		Atraccion starkhorn = new Atraccion("Starkhorn", 10, 5, 13, TipoDeAtraccion.PAISAJE);
+		assertNotNull(starkhorn);
+		
+		atraccionDAO.insert(starkhorn);
+		assertEquals(18, atraccionDAO.countAll());
+
+		atraccionDAO.delete(starkhorn);
+		assertEquals(17, atraccionDAO.countAll());
+	}
+	
+	@Test
+	public void compraDeAtraccionTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Sistema app = new Sistema();
+		
+		//Testeamos el update, insert y delete
+		app.cambiarUsuario("Sam");
+		assertEquals(36, app.getUsuario().getDinero());
+		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
+		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
+		
+		app.getUsuario().aceptarAtraccion(atraccionDAO.findByName("Erebor")); //Se compra una atracción
+		assertEquals(24, app.getUsuario().getDinero()); //Verificamos que el usuario tenga menos dinero
+		assertEquals(5, app.getUsuario().getTiempoDisponible(), 0); //Verificamos que el usuario tenga menos tiempo
+		assertEquals(31, atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
+		
+		userDAO.delete(app.getUsuario()); //Se deja la base de datos como estaba al principio
+		atraccionDAO.delete(atraccionDAO.findByName("Erebor"));
+		Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
+		Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.DEGUSTACION);
+		userDAO.insert(sam);
+		atraccionDAO.insert(erebor);
+		app.cambiarUsuario("Sam");
+		assertEquals(36, app.getUsuario().getDinero());
+		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
+		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
+		
+	}
 }
