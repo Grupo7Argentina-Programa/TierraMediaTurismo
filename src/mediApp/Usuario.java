@@ -65,8 +65,8 @@ public class Usuario implements Comparable<Usuario> {
 
 	@Override
 	public String toString() {
-		return ("[" + nombre != null ? nombre + ", " : "") + "presupuesto: " + presupuesto + ", tiempoDisponible: "
-				+ tiempoDisponible + "]";
+		return (nombre != null ? nombre + ", " : "") + "Presupuesto: " + presupuesto + " monedas. Tiempo disponible: "
+				+ tiempoDisponible + " horas.\n";
 	}
 
 	public String getNombre() {
@@ -77,7 +77,6 @@ public class Usuario implements Comparable<Usuario> {
 	public int hashCode() {
 		return Objects.hash(nombre);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -88,6 +87,10 @@ public class Usuario implements Comparable<Usuario> {
 			return false;
 		Usuario other = (Usuario) obj;
 		return Objects.equals(nombre, other.nombre);
+	}
+
+	public int getDinero() {
+		return presupuesto;
 	}
 
 }
