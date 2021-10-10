@@ -112,7 +112,6 @@ public class Sistema {
 
 		FileReader fr = null;
 		BufferedReader br = null;
-		// List<Mostrable> listaAtracciones = new ArrayList<Mostrable>();
 
 		try {
 			fr = new FileReader("listaDeAtracciones.in", StandardCharsets.UTF_8);
@@ -355,8 +354,6 @@ public class Sistema {
 
 	private void mostrarPreferencia(Usuario usuario) {
 
-		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
-
 		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
 		listaDisponibles.addAll(listaPromociones.descendingSet());
@@ -381,7 +378,6 @@ public class Sistema {
 	}
 
 	private void mostrarSinPreferencia(Usuario usuario) {
-		// Arrays.sort(listaDisponibles, new OrdenadorDeMostrables().reversed());
 
 		ArrayList<Mostrable> listaDisponibles = new ArrayList<Mostrable>();
 
@@ -415,14 +411,13 @@ public class Sistema {
 			this.mostrarSinPreferencia(usuario);
 		}
 
-		escribirArchivo(usuario.getItinerario());
+		//escribirArchivo(usuario.getItinerario());
 		System.out.println("--------------------");
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("--------------------");
 		System.out.println("Su itinerario es el siguiente \n");
 		System.out.println(usuario.getItinerario());
-		// System.out.println("\n Su costo es: " +
-		// usuario.getItinerario().getDineroDelItinerario() + " monedas");
+
 	}
 
 	private static void crearUsuarioNuevo() {

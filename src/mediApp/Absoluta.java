@@ -25,5 +25,4 @@ public class Absoluta extends Promocion {
 		atraccion1.compradaPorPromocion();
 		atraccion2.compradaPorPromocion();
 	}
-
 }

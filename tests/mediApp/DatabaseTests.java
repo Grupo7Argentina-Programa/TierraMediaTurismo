@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import dao.AtraccionDAO;
 import dao.DAOFactory;
+import dao.PromocionDAO;
 import dao.UserDAO;
 
 public class DatabaseTests {
@@ -91,9 +92,18 @@ public class DatabaseTests {
 	}
 
 	@Test
-	public void conteoDeUsuarioTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+	public void conteoDeUsuarioTest() {
 		UserDAO userDAO = DAOFactory.getUserDAO();
 		assertEquals(10, userDAO.countAll());
+	}
+	
+	@Test
+	public void encontrarUsuarioTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		Usuario gandalf = new Usuario("Gandalf", 100, 5, TipoDeAtraccion.PAISAJE);
+		
+		assertEquals(gandalf, userDAO.findByUsername("Gandalf"));
+		assertEquals(null, userDAO.findByUsername("Pepito"));
 	}
 	
 	@Test
@@ -117,7 +127,7 @@ public class DatabaseTests {
 	}
 
 	@Test
-	public void conteoDeAtraccionTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
+	public void conteoDeAtraccionTest() {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		assertEquals(17, atraccionDAO.countAll());
 	}
@@ -156,13 +166,117 @@ public class DatabaseTests {
 		userDAO.delete(app.getUsuario()); //Se deja la base de datos como estaba al principio
 		atraccionDAO.delete(atraccionDAO.findByName("Erebor"));
 		Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
-		Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.DEGUSTACION);
+		Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
 		userDAO.insert(sam);
 		atraccionDAO.insert(erebor);
 		app.cambiarUsuario("Sam");
 		assertEquals(36, app.getUsuario().getDinero());
 		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
 		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
+	}
+	
+	@Test
+	public void promocionDaoNotNullTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		assertNotNull(promocionDAO);
+	}
+	
+	@Test
+	public void conteoDePromocionTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void creacionYEliminacionDeAxBDe4AtraccionesTest() throws TipoDeAtraccionDistinta, NombreInvalido {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Atraccion atraccion1 = atraccionDAO.findByName("El Paso de Morgul");
+		Atraccion atraccion2 = atraccionDAO.findByName("Ettenmoors");
+		Atraccion atraccion3 = atraccionDAO.findByName("Dunland");
+		Atraccion atraccion4 = atraccionDAO.findByName("Bosque Negro");
+		assertNotNull(atraccion1);
+		assertNotNull(atraccion2);
+		assertNotNull(atraccion3);
+		assertNotNull(atraccion4);
 		
+		assertEquals(4, promocionDAO.countAll());
+		
+		Promocion packAventuraSuper = new AxB("Pack Aventura Super", atraccion1, atraccion2, atraccion3, atraccion4);
+		assertNotNull(packAventuraSuper);
+		
+		promocionDAO.insert(packAventuraSuper);
+		assertEquals(5, promocionDAO.countAll());
+
+		promocionDAO.delete(packAventuraSuper);
+		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void creacionYEliminacionDeAxBDe3AtraccionesTest() throws TipoDeAtraccionDistinta, NombreInvalido {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Atraccion atraccion1 = atraccionDAO.findByName("El Paso de Morgul");
+		Atraccion atraccion2 = atraccionDAO.findByName("Ettenmoors");
+		Atraccion atraccion3 = atraccionDAO.findByName("Dunland");
+
+		assertNotNull(atraccion1);
+		assertNotNull(atraccion2);
+		assertNotNull(atraccion3);
+		
+		assertEquals(4, promocionDAO.countAll());
+		
+		Promocion packAventuraPiola = new AxB("Pack Aventura Piola", atraccion1, atraccion2, atraccion3);
+		assertNotNull(packAventuraPiola);
+		
+		promocionDAO.insert(packAventuraPiola);
+		assertEquals(5, promocionDAO.countAll());
+
+		promocionDAO.delete(packAventuraPiola);
+		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void creacionYEliminacionDeAbsolutaTest() throws TipoDeAtraccionDistinta, NombreInvalido {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Atraccion atraccion1 = atraccionDAO.findByName("El Paso de Morgul");
+		Atraccion atraccion2 = atraccionDAO.findByName("Ettenmoors");
+
+		assertNotNull(atraccion1);
+		assertNotNull(atraccion2);
+
+		assertEquals(4, promocionDAO.countAll());
+		
+		Promocion packAventuraMasOMenos = new Absoluta("Pack Aventura Mas o Menos", 28, atraccion1, atraccion2);
+		assertNotNull(packAventuraMasOMenos);
+		
+		promocionDAO.insert(packAventuraMasOMenos);
+		assertEquals(5, promocionDAO.countAll());
+
+		promocionDAO.delete(packAventuraMasOMenos);
+		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void creacionYEliminacionDePorcentualTest() throws TipoDeAtraccionDistinta, NombreInvalido {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Atraccion atraccion1 = atraccionDAO.findByName("El Paso de Morgul");
+		Atraccion atraccion2 = atraccionDAO.findByName("Ettenmoors");
+
+		assertNotNull(atraccion1);
+		assertNotNull(atraccion2);
+
+		assertEquals(4, promocionDAO.countAll());
+		
+		Promocion packAventuraLoQueHay = new Porcentual("Pack Aventura Es Lo Que Hay", 20, atraccion1, atraccion2);
+		assertNotNull(packAventuraLoQueHay);
+		
+		promocionDAO.insert(packAventuraLoQueHay);
+		assertEquals(5, promocionDAO.countAll());
+
+		promocionDAO.delete(packAventuraLoQueHay);
+		assertEquals(4, promocionDAO.countAll());
 	}
 }
