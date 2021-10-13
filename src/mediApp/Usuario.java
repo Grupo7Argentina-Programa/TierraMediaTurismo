@@ -18,9 +18,9 @@ public class Usuario implements Comparable<Usuario> {
 			throws NombreInvalido, ValorInvalido, TiempoInvalido {
 		if (nombre == "")
 			throw new NombreInvalido();
-		if (presupuesto <= 0)
+		if (presupuesto < 0)
 			throw new ValorInvalido();
-		if (tiempoDisponible <= 0)
+		if (tiempoDisponible < 0)
 			throw new TiempoInvalido();
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;

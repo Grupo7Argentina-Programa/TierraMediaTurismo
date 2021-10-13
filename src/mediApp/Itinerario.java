@@ -11,7 +11,7 @@ public class Itinerario {
 	private double tiempoRequeridoTotal = 0.0;
 
 	public void agregarPromocion(Promocion nueva) {
-		promocionesAceptadas.add(nueva);
+		this.promocionesAceptadas.add(nueva);
 		this.dineroGastado += nueva.getCosto();
 		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
 		switch (nueva.cantidadDeAtracciones) {

@@ -7,9 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.junit.Test;
-
 import dao.AtraccionDAO;
 import dao.DAOFactory;
 import dao.PromocionDAO;
@@ -80,8 +78,6 @@ public class DatabaseTests {
 
 		ResultSet resultados = statement.executeQuery();
 
-		System.out.println(resultados.getInt("TOTAL"));
-
 		connection.close();
 	}
 
@@ -130,6 +126,15 @@ public class DatabaseTests {
 	public void conteoDeAtraccionTest() {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		assertEquals(17, atraccionDAO.countAll());
+	}
+	
+	@Test
+	public void encontrarAtraccionTest() throws ValorInvalido, NombreInvalido, TiempoInvalido {
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		Atraccion mordor = new Atraccion("Mordor", 25, 3, 2, TipoDeAtraccion.AVENTURA);
+		
+		assertEquals(mordor, atraccionDAO.findByName("Mordor"));
+		assertEquals(null, atraccionDAO.findByName("Algo"));
 	}
 	
 	@Test
@@ -185,6 +190,62 @@ public class DatabaseTests {
 	public void conteoDePromocionTest() {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void encontrarPromocionTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		
+		Atraccion atraccion1 = atraccionDAO.findByName("Mordor");
+		Atraccion atraccion2 = atraccionDAO.findByName("Bosque Negro");
+		Promocion packAventura = new Porcentual("Pack Aventura", 20, atraccion1, atraccion2);
+		
+		assertNotNull(packAventura);
+		assertNotNull(atraccion1);
+		assertNotNull(atraccion2);
+		
+		assertEquals(packAventura, promocionDAO.findByName("Pack Aventura"));
+		assertEquals(null, promocionDAO.findByName("Algo"));
+
+	}
+	
+	@Test
+	public void mismoCostoDePromoTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		Promocion packAventura = promocionDAO.findByName("Pack Aventura");
+		Promocion packDegustacion = promocionDAO.findByName("Pack Degustación");
+		Promocion packPaisajes = promocionDAO.findByName("Pack Paisajes");
+		Promocion packPosadas = promocionDAO.findByName("Pack Posadas");
+		assertNotNull(packAventura);
+		assertNotNull(packDegustacion);
+		assertNotNull(packPaisajes);
+		assertNotNull(packPosadas);
+		
+		assertEquals(Integer.valueOf(23), packAventura.getCosto());
+		assertEquals(Integer.valueOf(36), packDegustacion.getCosto());
+		assertEquals(Integer.valueOf(10), packPaisajes.getCosto());
+		assertEquals(Integer.valueOf(120), packPosadas.getCosto());
+
+	}
+	
+	@Test
+	public void mismaDuracionDePromoTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		Promocion packAventura = promocionDAO.findByName("Pack Aventura");
+		Promocion packDegustacion = promocionDAO.findByName("Pack Degustación");
+		Promocion packPaisajes = promocionDAO.findByName("Pack Paisajes");
+		Promocion packPosadas = promocionDAO.findByName("Pack Posadas");
+		assertNotNull(packAventura);
+		assertNotNull(packDegustacion);
+		assertNotNull(packPaisajes);
+		assertNotNull(packPosadas);
+		
+		assertEquals(Double.valueOf(7), packAventura.getTiempoNecesario());
+		assertEquals(Double.valueOf(7.5), packDegustacion.getTiempoNecesario());
+		assertEquals(Double.valueOf(17.5), packPaisajes.getTiempoNecesario());
+		assertEquals(Double.valueOf(19), packPosadas.getTiempoNecesario());
+
 	}
 	
 	@Test

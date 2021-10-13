@@ -43,17 +43,17 @@ public class PromocionDAOImpl implements PromocionDAO {
 			throws SQLException, NombreInvalido, ValorInvalido, TiempoInvalido, TipoDeAtraccionDistinta {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		Promocion promo = null;
-		Atraccion atraccion1 = atraccionDAO.findByName(resultados.getString(5));
-		Atraccion atraccion2 = atraccionDAO.findByName(resultados.getString(6));
-		Atraccion atraccion3 = atraccionDAO.findByName(resultados.getString(7));
-		Atraccion atraccion4 = atraccionDAO.findByName(resultados.getString(8));
+		Atraccion atraccion1 = atraccionDAO.findByName(resultados.getString(6));
+		Atraccion atraccion2 = atraccionDAO.findByName(resultados.getString(7));
+		Atraccion atraccion3 = atraccionDAO.findByName(resultados.getString(8));
+		Atraccion atraccion4 = atraccionDAO.findByName(resultados.getString(9));
 
 		switch (resultados.getString("tipoDePromocion")) {
 		case "Porcentual":
 			promo = new Porcentual(resultados.getString(2), resultados.getInt(4), atraccion1, atraccion2);
 			break;
 		case "AxB":
-			if (resultados.getString(8) != null)
+			if (resultados.getString(9) != null)
 				promo = new AxB(resultados.getString(2), atraccion1, atraccion2, atraccion3, atraccion4);
 			else
 				promo = new AxB(resultados.getString(2), atraccion1, atraccion2, atraccion3);
@@ -85,18 +85,19 @@ public class PromocionDAOImpl implements PromocionDAO {
 	@Override
 	public int insert(Promocion promocion) {
 		try {
-			String sql = "INSERT INTO PROMOCIONES (NOMBRE, COSTO, DESCUENTO, ATRACCION1, ATRACCION2, ATRACCION3, ATRACCION4, TIPODEATRACCION, TIPODEPROMOCION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO PROMOCIONES (NOMBRE, COSTO, DESCUENTO, DURACION, ATRACCION1, ATRACCION2, ATRACCION3, ATRACCION4, TIPODEATRACCION, TIPODEPROMOCION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, promocion.getNombre());
 			statement.setInt(2, promocion.getCosto());
 			statement.setInt(3, promocion.getDescuento());
-			statement.setString(4, promocion.getAtraccion1().getNombre());
-			statement.setString(5, promocion.getAtraccion2().getNombre());
-			statement.setString(6,(promocion.getAtraccion3() == null) ? null : promocion.getAtraccion3().getNombre());
-			statement.setString(7,(promocion.getAtraccion4() == null) ? null : promocion.getAtraccion4().getNombre());
-			statement.setString(8, promocion.getTipoDeAtraccion().name().toLowerCase());
-			statement.setString(9, promocion.getTipoDePromocion());
+			statement.setDouble(4, promocion.getTiempoNecesario());
+			statement.setString(5, promocion.getAtraccion1().getNombre());
+			statement.setString(6, promocion.getAtraccion2().getNombre());
+			statement.setString(7,(promocion.getAtraccion3() == null) ? null : promocion.getAtraccion3().getNombre());
+			statement.setString(8,(promocion.getAtraccion4() == null) ? null : promocion.getAtraccion4().getNombre());
+			statement.setString(9, promocion.getTipoDeAtraccion().name().toLowerCase());
+			statement.setString(10, promocion.getTipoDePromocion());
 			int rows = statement.executeUpdate();
 
 			return rows;

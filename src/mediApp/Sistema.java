@@ -14,10 +14,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.TreeSet;
 
+import dao.AtraccionDAO;
 import dao.DAOFactory;
+import dao.PromocionDAO;
 import dao.UserDAO;
 
 public class Sistema {
+
+	PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 
 	static Scanner entrada = new Scanner(System.in);
 	static TreeSet<Atraccion> listaAtracciones = new TreeSet<Atraccion>();
@@ -27,15 +31,9 @@ public class Sistema {
 
 	public static void main(String[] args) {
 
-		try {
-			leerAtracciones();
-			leerPromociones();
-			leerUsuarios();
-		} catch (IOException e) {
-			System.err.println("Un archivo no se pudo leer correctamente");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.err.println("Un archivo no se pudo leer correctamente");
-		}
+		leerAtracciones();
+		leerPromociones();
+		leerUsuarios();
 
 		try {
 			Scanner entrada = new Scanner(System.in);
@@ -78,7 +76,7 @@ public class Sistema {
 					}
 					if (opcion == 3) {
 						System.out.println("Hasta pronto, " + user.getNombre());
-						new Sistema().cambiarUsuario(null);
+						user = null;
 					}
 					if (opcion == 0) {
 						break;
@@ -96,147 +94,93 @@ public class Sistema {
 	public void cambiarUsuario(String nuevoUsuario) {
 		UserDAO userDAO = DAOFactory.getUserDAO();
 
-		boolean usuarioEncontrado = false;
-		if (nuevoUsuario == null) {
-			Sistema.user = null;
-		} else {
-			Sistema.user = userDAO.findByUsername(nuevoUsuario);
-			usuarioEncontrado = true;
+		Sistema.user = userDAO.findByUsername(nuevoUsuario);
+		if (Sistema.user == null) {
+			System.err.println("Nombre de usuario no encontrado");
 
-			if (!usuarioEncontrado)
-				System.err.println("Nombre de usuario no encontrado");
 		}
 	}
 
-	private static TreeSet<Atraccion> leerAtracciones() throws IOException {
+	private static TreeSet<Atraccion> leerAtracciones() {
 
-		FileReader fr = null;
-		BufferedReader br = null;
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		listaAtracciones = new TreeSet<Atraccion>(atraccionDAO.findAll());
 
-		try {
-			fr = new FileReader("listaDeAtracciones.in", StandardCharsets.UTF_8);
-			br = new BufferedReader(fr);
-			String linea;
-
-			while ((linea = br.readLine()) != null) {
-				Atraccion atraccion;
-				try {
-					String[] auxiliar = linea.split(",");
-					String nombre = auxiliar[0];
-					Integer costo = Integer.parseInt(auxiliar[1]);
-					Double tiempoRequerido = Double.parseDouble(auxiliar[2]);
-					Integer cupo = Integer.parseInt(auxiliar[3]);
-					TipoDeAtraccion tipo = TipoDeAtraccion.valueOf(auxiliar[4]);
-
-					atraccion = new Atraccion(nombre, costo, tiempoRequerido, cupo, tipo);
-					listaAtracciones.add(atraccion);
-				} catch (NumberFormatException e) {
-					System.err.println("Uno de los valores no es un número");
-				} catch (ValorInvalido e) {
-					System.err.println("Uno de los valores no es válido");
-				} catch (NombreInvalido e) {
-					System.err.println("Un nombre no es válido");
-				} catch (TiempoInvalido e) {
-					System.err.println("Uno de los tiempos no es válido");
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("Archivo no encontrado");
-		}
 		return listaAtracciones;
+
 	}
 
-	private static TreeSet<Usuario> leerUsuarios() throws IOException {
+	private static TreeSet<Usuario> leerUsuarios() {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		listaUsuarios = new TreeSet<Usuario>(userDAO.findAll());
 
-		FileReader fr = null;
-		BufferedReader br = null;
-
-		try {
-			fr = new FileReader("usuarios.in", StandardCharsets.UTF_8);
-			br = new BufferedReader(fr);
-			String linea;
-
-			try {
-				while ((linea = br.readLine()) != null) {
-					String[] auxiliar = linea.split(",");
-					String nombre = auxiliar[0];
-					Integer dinero = Integer.parseInt(auxiliar[1]);
-					Double tiempoDisponible = Double.parseDouble(auxiliar[2]);
-					TipoDeAtraccion tipo = TipoDeAtraccion.valueOf(auxiliar[3]);
-
-					Usuario usuario = new Usuario(nombre, dinero, tiempoDisponible, tipo);
-					listaUsuarios.add(usuario);
-				}
-
-			} catch (IOException | ValorInvalido | NombreInvalido | TiempoInvalido e) {
-				e.toString();
-			}
-
-		} catch (FileNotFoundException e) {
-			System.err.println("Archivo no encontrado");
-		}
 		return listaUsuarios;
+		//TODO borrar código comentado
+		/*
+		 * FileReader fr = null; BufferedReader br = null;
+		 * 
+		 * try { fr = new FileReader("usuarios.in", StandardCharsets.UTF_8); br = new
+		 * BufferedReader(fr); String linea;
+		 * 
+		 * try { while ((linea = br.readLine()) != null) { String[] auxiliar =
+		 * linea.split(","); String nombre = auxiliar[0]; Integer dinero =
+		 * Integer.parseInt(auxiliar[1]); Double tiempoDisponible =
+		 * Double.parseDouble(auxiliar[2]); TipoDeAtraccion tipo =
+		 * TipoDeAtraccion.valueOf(auxiliar[3]);
+		 * 
+		 * Usuario usuario = new Usuario(nombre, dinero, tiempoDisponible, tipo);
+		 * listaUsuarios.add(usuario); }
+		 * 
+		 * } catch (IOException | ValorInvalido | NombreInvalido | TiempoInvalido e) {
+		 * e.toString(); }
+		 * 
+		 * } catch (FileNotFoundException e) {
+		 * System.err.println("Archivo no encontrado"); } return listaUsuarios;
+		 */
 	}
 
-	private static TreeSet<Promocion> leerPromociones() throws IOException {
+	private static TreeSet<Promocion> leerPromociones() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		listaPromociones = new TreeSet<Promocion>(promocionDAO.findAll());
 
-		FileReader fr = null;
-		BufferedReader br = null;
-		Promocion promocion;
-		leerAtracciones();
-
-		try {
-			fr = new FileReader("listaDePromociones.in", StandardCharsets.UTF_8);
-			br = new BufferedReader(fr);
-			String linea;
-
-			try {
-				while ((linea = br.readLine()) != null) {
-					String[] auxiliar = linea.split(",");
-					String tipoDePromo = auxiliar[0];
-					if (tipoDePromo.matches("Porcentual")) {
-						String nombreDePromo = auxiliar[1];
-						Integer descuento = Integer.parseInt(auxiliar[2]);
-						Atraccion atraccion1 = buscar(auxiliar[3]);
-						Atraccion atraccion2 = buscar(auxiliar[4]);
-						promocion = new Porcentual(nombreDePromo, descuento, atraccion1, atraccion2);
-						listaPromociones.add(promocion);
-					}
-					if (tipoDePromo.matches("Absoluta")) {
-						String nombreDePromo = auxiliar[1];
-						Integer costo = Integer.parseInt(auxiliar[2]);
-						Atraccion atraccion1 = buscar(auxiliar[3]);
-						Atraccion atraccion2 = buscar(auxiliar[4]);
-						promocion = new Absoluta(nombreDePromo, costo, atraccion1, atraccion2);
-						listaPromociones.add(promocion);
-					}
-					if (tipoDePromo.matches("AxB")) {
-						String nombreDePromo = auxiliar[1];
-						Atraccion atraccion1 = buscar(auxiliar[2]);
-						Atraccion atraccion2 = buscar(auxiliar[3]);
-						Atraccion atraccion3 = buscar(auxiliar[4]);
-						if (auxiliar.length > 5) {
-							Atraccion atraccion4 = buscar(auxiliar[5]);
-							promocion = new AxB(nombreDePromo, atraccion1, atraccion2, atraccion3, atraccion4);
-							listaPromociones.add(promocion);
-						} else {
-							promocion = new AxB(nombreDePromo, atraccion1, atraccion2, atraccion3);
-							listaPromociones.add(promocion);
-						}
-					}
-				}
-			} catch (IOException | NombreInvalido | TipoDeAtraccionDistinta e) {
-				e.toString();
-			}
-
-		} catch (FileNotFoundException e) {
-			System.err.println("Archivo no encontrado");
-		}
 		return listaPromociones;
+		//TODO borrar código comentado
+		/*
+		 * FileReader fr = null; BufferedReader br = null; Promocion promocion;
+		 * leerAtracciones();
+		 * 
+		 * try { fr = new FileReader("listaDePromociones.in", StandardCharsets.UTF_8);
+		 * br = new BufferedReader(fr); String linea;
+		 * 
+		 * try { while ((linea = br.readLine()) != null) { String[] auxiliar =
+		 * linea.split(","); String tipoDePromo = auxiliar[0]; if
+		 * (tipoDePromo.matches("Porcentual")) { String nombreDePromo = auxiliar[1];
+		 * Integer descuento = Integer.parseInt(auxiliar[2]); Atraccion atraccion1 =
+		 * buscar(auxiliar[3]); Atraccion atraccion2 = buscar(auxiliar[4]); promocion =
+		 * new Porcentual(nombreDePromo, descuento, atraccion1, atraccion2);
+		 * listaPromociones.add(promocion); } if (tipoDePromo.matches("Absoluta")) {
+		 * String nombreDePromo = auxiliar[1]; Integer costo =
+		 * Integer.parseInt(auxiliar[2]); Atraccion atraccion1 = buscar(auxiliar[3]);
+		 * Atraccion atraccion2 = buscar(auxiliar[4]); promocion = new
+		 * Absoluta(nombreDePromo, costo, atraccion1, atraccion2);
+		 * listaPromociones.add(promocion); } if (tipoDePromo.matches("AxB")) { String
+		 * nombreDePromo = auxiliar[1]; Atraccion atraccion1 = buscar(auxiliar[2]);
+		 * Atraccion atraccion2 = buscar(auxiliar[3]); Atraccion atraccion3 =
+		 * buscar(auxiliar[4]); if (auxiliar.length > 5) { Atraccion atraccion4 =
+		 * buscar(auxiliar[5]); promocion = new AxB(nombreDePromo, atraccion1,
+		 * atraccion2, atraccion3, atraccion4); listaPromociones.add(promocion); } else
+		 * { promocion = new AxB(nombreDePromo, atraccion1, atraccion2, atraccion3);
+		 * listaPromociones.add(promocion); } } } } catch (IOException | NombreInvalido
+		 * | TipoDeAtraccionDistinta e) { e.toString(); }
+		 * 
+		 * } catch (FileNotFoundException e) {
+		 * System.err.println("Archivo no encontrado"); } return listaPromociones;
+		 */
 	}
 
 	private static void escribirArchivo(Itinerario itinerario) {
 
+		//TODO borrar código no utilizado
 		File file = new File("itinerario" + user.getNombre() + ".out");
 		PrintWriter salida;
 		try {
@@ -258,24 +202,19 @@ public class Sistema {
 			System.err.println("No se pudo escribir el archivo");
 		}
 	}
-
-	private static Atraccion buscar(String nombreDeAtraccion) {
-
-		try {
-			leerAtracciones();
-		} catch (IOException e) {
-			System.err.println("No se pudo leer el archivo");
-		}
-		Atraccion[] auxiliar2 = new Atraccion[listaAtracciones.size()];
-		auxiliar2 = listaAtracciones.toArray(auxiliar2);
-		Atraccion atraccion = null;
-
-		for (int i = 0; i < auxiliar2.length; i++) {
-			if (auxiliar2[i].getNombre().compareToIgnoreCase(nombreDeAtraccion) == 0)
-				atraccion = auxiliar2[i];
-		}
-		return atraccion;
-	}
+	//TODO borrar código comentado
+	/*
+	 * private static Atraccion buscar(String nombreDeAtraccion) {
+	 * 
+	 * try { leerAtracciones(); } catch (IOException e) {
+	 * System.err.println("No se pudo leer el archivo"); } Atraccion[] auxiliar2 =
+	 * new Atraccion[listaAtracciones.size()]; auxiliar2 =
+	 * listaAtracciones.toArray(auxiliar2); Atraccion atraccion = null;
+	 * 
+	 * for (int i = 0; i < auxiliar2.length; i++) { if
+	 * (auxiliar2[i].getNombre().compareToIgnoreCase(nombreDeAtraccion) == 0)
+	 * atraccion = auxiliar2[i]; } return atraccion; }
+	 */
 
 	public ArrayList<Mostrable> sugerirAtraccion(Usuario usuario) throws
 
@@ -411,7 +350,7 @@ public class Sistema {
 			this.mostrarSinPreferencia(usuario);
 		}
 
-		//escribirArchivo(usuario.getItinerario());
+		// escribirArchivo(usuario.getItinerario());
 		System.out.println("--------------------");
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("--------------------");
@@ -432,8 +371,8 @@ public class Sistema {
 				auxiliar[0] = entrada.next();
 			}
 
-			while (userDAO.findByUsername(auxiliar[0]) != null) {	
-			System.err.println("Usuario ya existente. Ingrese otro nombre.");
+			while (userDAO.findByUsername(auxiliar[0]) != null) {
+				System.err.println("Usuario ya existente. Ingrese otro nombre.");
 				auxiliar[0] = entrada.next();
 			}
 
