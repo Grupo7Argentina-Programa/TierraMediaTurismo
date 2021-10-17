@@ -310,7 +310,7 @@ public class Sistema {
 				int opcion = entrada.nextInt();
 				if (opcion == 1) {
 					objeto.aceptoMostrable(usuario);
-					System.out.println("COMPRADA");
+					System.out.println("COMPRASTE " + objeto.getNombre());
 				}
 			}
 		}

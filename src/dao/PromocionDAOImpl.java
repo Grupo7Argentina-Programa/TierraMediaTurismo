@@ -149,4 +149,26 @@ public class PromocionDAOImpl implements PromocionDAO {
 		}
 	}
 
+	@Override
+	public int getIDByPromocion(Promocion promo) {
+		//TODO Testear método
+		try {
+			String sql = "SELECT ID FROM PROMOCIONES WHERE NOMBRE = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, promo.getNombre());
+			ResultSet resultados = statement.executeQuery();
+
+			int id = 0;
+
+			if (resultados.next()) {
+				id = resultados.getInt(1);
+			}
+
+			return id;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+
 }

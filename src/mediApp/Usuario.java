@@ -26,7 +26,7 @@ public class Usuario implements Comparable<Usuario> {
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.atraccionFavorita = atraccionFavorita;
-		this.itinerario = new Itinerario();
+		this.itinerario = new Itinerario(this);
 	}
 
 	public int getPresupuesto() {

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import org.junit.Test;
 import dao.AtraccionDAO;
 import dao.DAOFactory;
+import dao.ItinerarioDAO;
 import dao.PromocionDAO;
 import dao.UserDAO;
 
@@ -339,5 +340,30 @@ public class DatabaseTests {
 
 		promocionDAO.delete(packAventuraLoQueHay);
 		assertEquals(4, promocionDAO.countAll());
+	}
+	
+	@Test
+	public void itinerarioDaoNotNullTest() {
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		assertNotNull(itinerarioDAO);
+	}
+	
+	@Test
+	public void conteoDeItinerarioTest() {
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		assertEquals(4, itinerarioDAO.countAll());
+	}
+	
+	@Test
+	public void encontrarItinerariosTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		
+		
+		//System.out.println(itinerarioDAO.findAll().toString().replace("[", "").replace("]", "\n").replace(",", ""));
+		itinerarioDAO.findAll();
+		userDAO.findByUsername("Gandalf").getItinerario();
 	}
 }

@@ -87,6 +87,27 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	public int getIDByUser(Usuario user) {
+		//TODO Testear método
+		try {
+			String sql = "SELECT ID FROM USUARIOS WHERE NOMBRE = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, user.getNombre());
+			ResultSet resultados = statement.executeQuery();
+
+			int id = 0;
+
+			if (resultados.next()) {
+				id = resultados.getInt(1);
+			}
+
+			return id;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+	
 	public int countAll() {
 		try {
 			String sql = "SELECT COUNT(1) AS TOTAL FROM USUARIOS";
