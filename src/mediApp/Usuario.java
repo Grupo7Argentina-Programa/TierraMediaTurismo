@@ -3,6 +3,7 @@ package mediApp;
 import java.util.Objects;
 
 import dao.DAOFactory;
+import dao.ItinerarioDAO;
 import dao.UserDAO;
 
 public class Usuario implements Comparable<Usuario> {
@@ -13,6 +14,8 @@ public class Usuario implements Comparable<Usuario> {
 	private TipoDeAtraccion atraccionFavorita;
 	private Itinerario itinerario;
 	UserDAO userDAO = DAOFactory.getUserDAO();
+	ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+	
 
 	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoDeAtraccion atraccionFavorita)
 			throws NombreInvalido, ValorInvalido, TiempoInvalido {
@@ -26,7 +29,8 @@ public class Usuario implements Comparable<Usuario> {
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.atraccionFavorita = atraccionFavorita;
-		this.itinerario = new Itinerario(this);
+		//this.itinerario = itinerarioDAO.findByUser(this.nombre);
+		
 	}
 
 	public int getPresupuesto() {
@@ -42,12 +46,12 @@ public class Usuario implements Comparable<Usuario> {
 	}
 
 	public Itinerario getItinerario() {
-		return itinerario;
+		return itinerarioDAO.findByUser(this.getNombre());
 	}
 
 	public void aceptarPromocion(Promocion promo) {
 		if (this.presupuesto >= promo.getCosto()) {
-			itinerario.agregarPromocion(promo);
+			itinerario.agregarPromocionComprada(promo);
 			this.presupuesto -= promo.getCosto();
 			this.tiempoDisponible -= promo.getTiempoNecesario();
 			promo.aceptoMostrable(this);
@@ -97,6 +101,10 @@ public class Usuario implements Comparable<Usuario> {
 
 	public int getDinero() {
 		return presupuesto;
+	}
+
+	public void setItinerario(Itinerario itinerario) {
+		this.itinerario = itinerario;
 	}
 
 }

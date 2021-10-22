@@ -1,27 +1,17 @@
 package mediApp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.TreeSet;
-
 import dao.AtraccionDAO;
 import dao.DAOFactory;
 import dao.PromocionDAO;
 import dao.UserDAO;
 
 public class Sistema {
-
-	PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 
 	static Scanner entrada = new Scanner(System.in);
 	static TreeSet<Atraccion> listaAtracciones = new TreeSet<Atraccion>();
@@ -34,6 +24,7 @@ public class Sistema {
 		leerAtracciones();
 		leerPromociones();
 		leerUsuarios();
+		//leerItinerarios();
 
 		try {
 			Scanner entrada = new Scanner(System.in);
@@ -61,7 +52,7 @@ public class Sistema {
 				while (user != null) {
 					System.out.println("Te damos la bienvenida, " + user.getNombre());
 					System.out
-							.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) CERRAR SESIÓN \n 0) SALIR");
+							.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) VER MI ITINERARIO \n 4) CERRAR SESIÓN \n 0) SALIR");
 					System.out.println("---------------------------");
 					opcion = entrada.nextInt();
 					System.out.println("---------------------------");
@@ -75,10 +66,14 @@ public class Sistema {
 						new Sistema().sugerirItinerario(user);
 					}
 					if (opcion == 3) {
+						System.out.println(user.getItinerario().toString().replace("[", "").replace("]", "\n").replace(",", ""));
+					}
+					if (opcion == 4) {
 						System.out.println("Hasta pronto, " + user.getNombre());
 						user = null;
 					}
 					if (opcion == 0) {
+						System.out.println("Hasta pronto, " + (user != null ? user.getNombre() : ""));
 						break;
 					}
 				}
@@ -90,6 +85,8 @@ public class Sistema {
 			System.err.println("El valor ingresado no es válido");
 		}
 	}
+
+
 
 	public void cambiarUsuario(String nuevoUsuario) {
 		UserDAO userDAO = DAOFactory.getUserDAO();
@@ -177,8 +174,14 @@ public class Sistema {
 		 * System.err.println("Archivo no encontrado"); } return listaPromociones;
 		 */
 	}
+	/*private static void leerItinerarios() {
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		for (Usuario usuario : listaUsuarios)
+			itinerarioDAO.añadirAItinerario(usuario, mostrable);
+		
+	}*/
 
-	private static void escribirArchivo(Itinerario itinerario) {
+	/*private static void escribirArchivo(Itinerario itinerario) {
 
 		//TODO borrar código no utilizado
 		File file = new File("itinerario" + user.getNombre() + ".out");
@@ -201,7 +204,8 @@ public class Sistema {
 		} catch (IOException e) {
 			System.err.println("No se pudo escribir el archivo");
 		}
-	}
+	}*/
+	
 	//TODO borrar código comentado
 	/*
 	 * private static Atraccion buscar(String nombreDeAtraccion) {

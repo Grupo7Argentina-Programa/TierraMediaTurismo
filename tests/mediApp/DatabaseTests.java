@@ -156,6 +156,7 @@ public class DatabaseTests {
 	public void compraDeAtraccionTest() throws NombreInvalido, ValorInvalido, TiempoInvalido {
 		UserDAO userDAO = DAOFactory.getUserDAO();
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		Sistema app = new Sistema();
 		
 		//Testeamos el update, insert y delete
@@ -169,8 +170,10 @@ public class DatabaseTests {
 		assertEquals(5, app.getUsuario().getTiempoDisponible(), 0); //Verificamos que el usuario tenga menos tiempo
 		assertEquals(31, atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
 		
-		userDAO.delete(app.getUsuario()); //Se deja la base de datos como estaba al principio
+		itinerarioDAO.delete(app.getUsuario().getItinerario()); //Se deja la base de datos como estaba al principio
+		userDAO.delete(app.getUsuario()); 
 		atraccionDAO.delete(atraccionDAO.findByName("Erebor"));
+
 		Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
 		Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
 		userDAO.insert(sam);
@@ -351,7 +354,7 @@ public class DatabaseTests {
 	@Test
 	public void conteoDeItinerarioTest() {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		assertEquals(4, itinerarioDAO.countAll());
+		assertEquals(6, itinerarioDAO.countAll());
 	}
 	
 	@Test
@@ -360,10 +363,38 @@ public class DatabaseTests {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		UserDAO userDAO = DAOFactory.getUserDAO();
+				
+		//System.out.println(itinerarioDAO.findByUser("Gandalf"));
+		System.out.println(itinerarioDAO.findItinerarios().toString().replace("[", "").replace("]", "\n").replace(",", ""));
 		
-		
-		//System.out.println(itinerarioDAO.findAll().toString().replace("[", "").replace("]", "\n").replace(",", ""));
-		itinerarioDAO.findAll();
-		userDAO.findByUsername("Gandalf").getItinerario();
+		//itinerarioDAO.findAll();
+		//System.out.println(userDAO.findByUsername("Gandalf").getItinerario());
+	}
+	
+	@Test
+	public void mismoUsuarioTest() {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		Usuario gandalf1 = userDAO.findByUsername("Gandalf");
+		Usuario gandalf2 = userDAO.findByUsername("Gandalf");
+		assertEquals(gandalf1, gandalf2);
+	}
+	
+	@Test
+	public void distintoUsuarioTest() {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		Usuario gandalf = userDAO.findByUsername("Gandalf");
+		Usuario eowyn = userDAO.findByUsername("Eowyn");
+		assertNotEquals(gandalf, eowyn);
+	}
+	
+	@Test
+	public void mismoItinerarioTest() {
+		UserDAO userDAO = DAOFactory.getUserDAO();
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		//itinerarioDAO.findAll();
+		Usuario gandalf1 = userDAO.findByUsername("Gandalf");
+		Usuario gandalf2 = userDAO.findByUsername("Gandalf");
+		System.out.println(gandalf1.getItinerario());
+		//assertEquals(gandalf1.getItinerario(), gandalf2.getItinerario());
 	}
 }

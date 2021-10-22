@@ -15,7 +15,7 @@ import mediApp.ValorInvalido;
 
 
 public class UserDAOImpl implements UserDAO {
-
+	
 	public int insert(Usuario user) {
 		try {
 			String sql = "INSERT INTO USUARIOS (NOMBRE, DINERO, TIEMPO, ATRACCIONFAVORITA) VALUES (?, ?, ?, ?)";
@@ -135,7 +135,6 @@ public class UserDAOImpl implements UserDAO {
 			while (resultados.next()) {
 				usuarios.add(toUser(resultados));
 			}
-
 			return usuarios;
 		} catch (Exception e) {
 			throw new MissingDataException(e);

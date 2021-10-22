@@ -1,6 +1,10 @@
 package mediApp;
 
 import java.util.Objects;
+
+import dao.DAOFactory;
+import dao.ItinerarioDAO;
+
 import java.util.ArrayList;
 
 public class Itinerario {
@@ -10,14 +14,40 @@ public class Itinerario {
 	private int dineroGastado = 0;
 	private double tiempoRequeridoTotal = 0.0;
 	private Usuario usuario;
-	
-	
+	private ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 
 	public Itinerario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
-	public void agregarPromocion(Promocion nueva) {
+	public Itinerario() {
+	}
+
+	public void agregarPromocionComprada(Promocion nueva) {
+		this.promocionesAceptadas.add(nueva);
+		this.dineroGastado += nueva.getCosto();
+		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
+		itinerarioDAO.insertPromo(this, nueva);
+		switch (nueva.cantidadDeAtracciones) {
+		case 2:
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion1);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion2);
+			break;
+		case 3:
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion1);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion2);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion3);
+			break;
+		case 4:
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion1);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion2);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion3);
+			this.agregarAtraccionCompradaPorPromo(nueva.atraccion4);
+			break;
+		}
+	}
+
+	public void agregarPromocionLeida(Promocion nueva) {
 		this.promocionesAceptadas.add(nueva);
 		this.dineroGastado += nueva.getCosto();
 		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
@@ -39,16 +69,21 @@ public class Itinerario {
 			break;
 		}
 	}
-
 	public void agregarAtraccionCompradaPorPromo(Atraccion atraccion) {
-			atraccionesAceptadas.add((Atraccion) atraccion);
+		atraccionesAceptadas.add(atraccion);
 	}
 
 	public void agregarAtraccion(Atraccion nueva) {
 		atraccionesAceptadas.add(nueva);
 		this.dineroGastado += nueva.getCosto();
 		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
-
+		itinerarioDAO.insertAtraccion(this, nueva);
+	}
+	
+	public void agregarAtraccionLeida(Atraccion nueva) {
+		atraccionesAceptadas.add(nueva);
+		this.dineroGastado += nueva.getCosto();
+		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
 	}
 
 	public ArrayList<Promocion> getPromocionesAceptadas() {
@@ -65,9 +100,10 @@ public class Itinerario {
 
 	@Override
 	public String toString() {
-		return "ITINERARIO\n" + "--------------------" + (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "")
-				+ "\nCosto total: " + dineroGastado + " monedas" + "\nTiempo requerido total: " + tiempoRequeridoTotal
-				+ " horas \n" + "-------------------- \n";
+		return "ITINERARIO" + "\n" + "--------------------"
+				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "") + "\nCosto total: " + dineroGastado
+				+ " monedas" + "\nTiempo requerido total: " + tiempoRequeridoTotal + " horas \n"
+				+ "-------------------- \n";
 	}
 
 	public int getDineroDelItinerario() {
@@ -76,7 +112,8 @@ public class Itinerario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(atraccionesAceptadas, dineroGastado, promocionesAceptadas);
+		return Objects.hash(atraccionesAceptadas, dineroGastado, itinerarioDAO, promocionesAceptadas,
+				tiempoRequeridoTotal, usuario.getNombre());
 	}
 
 	@Override
@@ -89,10 +126,26 @@ public class Itinerario {
 			return false;
 		Itinerario other = (Itinerario) obj;
 		return Objects.equals(atraccionesAceptadas, other.atraccionesAceptadas) && dineroGastado == other.dineroGastado
-				&& Objects.equals(promocionesAceptadas, other.promocionesAceptadas);
+				&& Objects.equals(itinerarioDAO, other.itinerarioDAO)
+				&& Objects.equals(promocionesAceptadas, other.promocionesAceptadas)
+				&& Double.doubleToLongBits(tiempoRequeridoTotal) == Double.doubleToLongBits(other.tiempoRequeridoTotal)
+				&& Objects.equals(usuario.getNombre(), other.usuario.getNombre());
 	}
-	
+
 	public Usuario getUsuario() {
 		return this.usuario;
+	}
+
+	public void agregarMostrable(Mostrable mostrable) {
+		// Acá agregamos lo que obtenemos de la base de datos
+		if (mostrable.getClass() == Atraccion.class) {
+			this.agregarAtraccionLeida((Atraccion) mostrable);
+		} else {
+			this.agregarPromocionLeida((Promocion) mostrable);
+		}
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }
