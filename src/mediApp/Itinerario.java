@@ -69,6 +69,7 @@ public class Itinerario {
 			break;
 		}
 	}
+
 	public void agregarAtraccionCompradaPorPromo(Atraccion atraccion) {
 		atraccionesAceptadas.add(atraccion);
 	}
@@ -79,7 +80,7 @@ public class Itinerario {
 		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
 		itinerarioDAO.insertAtraccion(this, nueva);
 	}
-	
+
 	public void agregarAtraccionLeida(Atraccion nueva) {
 		atraccionesAceptadas.add(nueva);
 		this.dineroGastado += nueva.getCosto();
@@ -132,9 +133,7 @@ public class Itinerario {
 				&& Objects.equals(usuario.getNombre(), other.usuario.getNombre());
 	}
 
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
+
 
 	public void agregarMostrable(Mostrable mostrable) {
 		// Acá agregamos lo que obtenemos de la base de datos
@@ -143,6 +142,10 @@ public class Itinerario {
 		} else {
 			this.agregarPromocionLeida((Promocion) mostrable);
 		}
+	}
+	
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {

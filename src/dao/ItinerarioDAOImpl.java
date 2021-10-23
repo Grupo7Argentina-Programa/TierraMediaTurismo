@@ -57,7 +57,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public Itinerario findByUser(String name) {
-		//Usuario user = userDAO.findByUsername(name);
+
 		try {
 
 			String sql = "SELECT usuarios.nombre AS 'usuario', itinerarios.nombreDeAtraccion AS 'mostrable'\r\n"
@@ -73,13 +73,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			statement.setString(1, name);
 			statement.setString(2, name);
 			ResultSet resultados = statement.executeQuery();
-			
-			/*while (resultados.next()) {
-				Atraccion atraccion = atraccionDAO.findByName(resultados.getString(2));
-				Promocion promocion = promocionDAO.findByName(resultados.getString(2));
-				Mostrable mostrable = (atraccion == null ? promocion : atraccion);
-				user.getItinerario().agregarMostrable(mostrable);
-			}*/
 			
 			return toItinerario(resultados);
 		} catch (Exception e) {
@@ -100,15 +93,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			itinerario.agregarMostrable(mostrable);
 		}
 		return itinerario;
-		/*
-		 * Itinerario itinerario = new Itinerario(); AtraccionDAO atraccionDAO =
-		 * DAOFactory.getAtraccionDAO(); PromocionDAO promocionDAO =
-		 * DAOFactory.getPromocionDAO(); while (resultados.next()) { Atraccion atraccion
-		 * = atraccionDAO.findByName(resultados.getString(2)); Promocion promocion =
-		 * promocionDAO.findByName(resultados.getString(2)); Mostrable mostrable =
-		 * (atraccion == null ? promocion : atraccion);
-		 * itinerario.agregarMostrable(mostrable); } return itinerario;
-		 */
 	}
 
 	@Override
@@ -132,8 +116,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public int insert(Itinerario itinerario) {
-		// TODO Testear método. No funciona correctamente. Habría que trabajar mejor la
-		// query.
+		// TODO Testear método
 		try {
 			String sql = "INSERT OR IGNORE INTO ITINERARIOS (ID_USUARIO, NOMBREDEATRACCION) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
@@ -142,7 +125,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			int rows = 0;
 			for (Atraccion atraccion : itinerario.getAtraccionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, userDAO.getIDByUser(usuario));
+				statement.setInt(1, userDAO.getID(usuario.getNombre()));
 				statement.setString(2, atraccion.getNombre());
 				rows += statement.executeUpdate();
 			}
@@ -151,7 +134,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			for (Promocion promocion : itinerario.getPromocionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, userDAO.getIDByUser(usuario));
+				statement.setInt(1, userDAO.getID(usuario.getNombre()));
 				statement.setInt(2, promocionDAO.getIDByPromocion(promocion));
 				rows += statement.executeUpdate();
 			}
@@ -175,7 +158,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			for (Atraccion atraccion : itinerario.getAtraccionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(2, userDAO.getIDByUser(usuario));
+				statement.setInt(2, userDAO.getID(usuario.getNombre()));
 				statement.setString(1, atraccion.getNombre());
 				rows += statement.executeUpdate();
 			}
@@ -184,7 +167,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			for (Promocion promocion : itinerario.getPromocionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(2, userDAO.getIDByUser(usuario));
+				statement.setInt(2, userDAO.getID(usuario.getNombre()));
 				statement.setInt(1, promocionDAO.getIDByPromocion(promocion));
 				rows += statement.executeUpdate();
 			}
@@ -196,13 +179,13 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public int delete(Itinerario itinerario) {
-		// TODO Testear método
+
 		try {
 			String sql = "DELETE FROM ITINERARIOS WHERE ID_USUARIO = ?";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(1, userDAO.getIDByUser(itinerario.getUsuario()));
+			statement.setInt(1, userDAO.getID(itinerario.getUsuario().getNombre()));
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -217,11 +200,11 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			String sql = "INSERT OR IGNORE INTO ITINERARIOS (ID_USUARIO, ID_PROMOCION) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
-			Usuario usuario = itinerario.getUsuario();
+
 			int rows = 0;
 			for (Promocion promocion : itinerario.getPromocionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, userDAO.getIDByUser(usuario));
+				statement.setInt(1, userDAO.getID(itinerario.getUsuario().getNombre()));
 				statement.setInt(2, promocionDAO.getIDByPromocion(promocion));
 				rows = statement.executeUpdate();
 			}
@@ -237,11 +220,11 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			String sql = "INSERT OR IGNORE INTO ITINERARIOS (ID_USUARIO, NOMBREDEATRACCION) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
-			Usuario usuario = itinerario.getUsuario();
+			
 			int rows = 0;
 			for (Atraccion atraccion : itinerario.getAtraccionesAceptadas()) {
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, userDAO.getIDByUser(usuario));
+				statement.setInt(1, userDAO.getID(itinerario.getUsuario().getNombre()));
 				statement.setString(2, atraccion.getNombre());
 				rows += statement.executeUpdate();
 			}

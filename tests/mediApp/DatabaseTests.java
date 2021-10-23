@@ -161,6 +161,7 @@ public class DatabaseTests {
 		
 		//Testeamos el update, insert y delete
 		app.cambiarUsuario("Sam");
+		
 		assertEquals(36, app.getUsuario().getDinero());
 		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
 		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
@@ -171,7 +172,7 @@ public class DatabaseTests {
 		assertEquals(31, atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
 		
 		itinerarioDAO.delete(app.getUsuario().getItinerario()); //Se deja la base de datos como estaba al principio
-		userDAO.delete(app.getUsuario()); 
+		userDAO.delete(app.getUsuario());
 		atraccionDAO.delete(atraccionDAO.findByName("Erebor"));
 
 		Usuario sam = new Usuario("Sam", 36, 8, TipoDeAtraccion.DEGUSTACION);
@@ -354,7 +355,7 @@ public class DatabaseTests {
 	@Test
 	public void conteoDeItinerarioTest() {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		assertEquals(6, itinerarioDAO.countAll());
+		assertEquals(5, itinerarioDAO.countAll());
 	}
 	
 	@Test
@@ -365,8 +366,8 @@ public class DatabaseTests {
 		UserDAO userDAO = DAOFactory.getUserDAO();
 				
 		//System.out.println(itinerarioDAO.findByUser("Gandalf"));
-		System.out.println(itinerarioDAO.findItinerarios().toString().replace("[", "").replace("]", "\n").replace(",", ""));
-		
+		//System.out.println(itinerarioDAO.findItinerarios().toString().replace("[", "").replace("]", "\n").replace(",", ""));
+		//Encontrar todos los itinerarios no es necesario aun
 		//itinerarioDAO.findAll();
 		//System.out.println(userDAO.findByUsername("Gandalf").getItinerario());
 	}

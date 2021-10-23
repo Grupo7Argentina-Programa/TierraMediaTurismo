@@ -94,7 +94,6 @@ public class Sistema {
 		Sistema.user = userDAO.findByUsername(nuevoUsuario);
 		if (Sistema.user == null) {
 			System.err.println("Nombre de usuario no encontrado");
-
 		}
 	}
 

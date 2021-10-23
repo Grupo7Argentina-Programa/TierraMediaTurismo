@@ -13,9 +13,8 @@ import mediApp.TipoDeAtraccion;
 import mediApp.Usuario;
 import mediApp.ValorInvalido;
 
-
 public class UserDAOImpl implements UserDAO {
-	
+
 	public int insert(Usuario user) {
 		try {
 			String sql = "INSERT INTO USUARIOS (NOMBRE, DINERO, TIEMPO, ATRACCIONFAVORITA) VALUES (?, ?, ?, ?)";
@@ -69,6 +68,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public Usuario findByUsername(String username) {
 		try {
+
 			String sql = "SELECT * FROM USUARIOS WHERE NOMBRE = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -87,13 +87,13 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-	public int getIDByUser(Usuario user) {
-		//TODO Testear método
+	public int getID(String username) {
+		// TODO Testear método
 		try {
 			String sql = "SELECT ID FROM USUARIOS WHERE NOMBRE = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(1, user.getNombre());
+			statement.setString(1, username);
 			ResultSet resultados = statement.executeQuery();
 
 			int id = 0;
@@ -107,7 +107,7 @@ public class UserDAOImpl implements UserDAO {
 			throw new MissingDataException(e);
 		}
 	}
-	
+
 	public int countAll() {
 		try {
 			String sql = "SELECT COUNT(1) AS TOTAL FROM USUARIOS";
@@ -142,7 +142,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	private Usuario toUser(ResultSet resultados) throws SQLException, NombreInvalido, ValorInvalido, TiempoInvalido {
-		return new Usuario(resultados.getString(2), resultados.getInt(3), resultados.getDouble(4), TipoDeAtraccion.valueOf(resultados.getString(5).toUpperCase()));
+		return new Usuario(resultados.getString(2), resultados.getInt(3), resultados.getDouble(4),
+				TipoDeAtraccion.valueOf(resultados.getString(5).toUpperCase()));
 	}
 
 }

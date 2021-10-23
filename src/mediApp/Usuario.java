@@ -29,8 +29,7 @@ public class Usuario implements Comparable<Usuario> {
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.atraccionFavorita = atraccionFavorita;
-		//this.itinerario = itinerarioDAO.findByUser(this.nombre);
-		
+		this.itinerario = new Itinerario(this);
 	}
 
 	public int getPresupuesto() {
@@ -46,7 +45,9 @@ public class Usuario implements Comparable<Usuario> {
 	}
 
 	public Itinerario getItinerario() {
-		return itinerarioDAO.findByUser(this.getNombre());
+		this.itinerario = itinerarioDAO.findByUser(this.getNombre());
+		this.itinerario.setUsuario(this);
+		return this.itinerario;
 	}
 
 	public void aceptarPromocion(Promocion promo) {

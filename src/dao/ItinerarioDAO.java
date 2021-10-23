@@ -2,14 +2,9 @@ package dao;
 
 
 import java.util.Set;
-
 import mediApp.Atraccion;
 import mediApp.Itinerario;
-import mediApp.NombreInvalido;
 import mediApp.Promocion;
-import mediApp.TiempoInvalido;
-import mediApp.ValorInvalido;
-
 
 public interface ItinerarioDAO extends GenericDAO<Itinerario>{
 
