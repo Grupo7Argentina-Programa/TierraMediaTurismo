@@ -25,7 +25,7 @@ public class Porcentual extends Promocion {
 			this.cantidadDeAtracciones = 2;
 			
 		} catch (NombreInvalido e) {
-			System.err.println("El nombre no es válido");
+			System.err.println("El nombre no es vï¿½lido");
 		} catch (TipoDeAtraccionDistinta e) {
 			System.err.println("Las atracciones deben ser del mismo tipo");
 		}
@@ -36,5 +36,6 @@ public class Porcentual extends Promocion {
 		comprador.aceptarPromocion(this);
 		this.atraccion1.compradaPorPromocion();
 		this.atraccion2.compradaPorPromocion();
+		promocionDAO.update(this);
 	}
 }

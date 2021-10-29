@@ -54,5 +54,6 @@ public class AxB extends Promocion {
 	@Override
 	public void aceptoMostrable(Usuario comprador) {
 		comprador.aceptarPromocion(this);
+		promocionDAO.update(this);
 	}
 }

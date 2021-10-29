@@ -2,6 +2,9 @@ package mediApp;
 
 import java.util.Objects;
 
+import dao.DAOFactory;
+import dao.PromocionDAO;
+
 public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 
 	protected TipoDeAtraccion tiposDeAtracciones;
@@ -14,6 +17,7 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 	protected Atraccion atraccion3;
 	protected Atraccion atraccion4;
 	protected int cantidadDeAtracciones;
+	protected PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 
 	public Integer getCosto() {
 		return this.costo;
@@ -31,8 +35,12 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 		return this.cantidadDeAtracciones;
 	}
 
-	public boolean estaEnItinerario(Itinerario actual) {
-		return actual.getPromocionesAceptadas().contains(this);
+	public boolean estaEnItinerario(Itinerario itinerario) {
+		return itinerario.getPromocionesAceptadas().contains(this) ||
+				itinerario.getAtraccionesAceptadas().contains(atraccion1) ||
+				itinerario.getAtraccionesAceptadas().contains(atraccion2) ||
+				itinerario.getAtraccionesAceptadas().contains(atraccion3) ||
+				itinerario.getAtraccionesAceptadas().contains(atraccion4);
 	}
 
 	public String getNombre() {
@@ -42,7 +50,6 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 	@Override
 	public int compareTo(Promocion otraPromocion) {
 		OrdenadorDeMostrables ordenador = new OrdenadorDeMostrables();
-
 		return ordenador.compare(this, otraPromocion);
 	}
 
@@ -84,22 +91,23 @@ public abstract class Promocion implements Mostrable, Comparable<Promocion> {
 	}
 
 	public String getTipoDePromocion() {
-			return this.getClass().getSimpleName();
+		return this.getClass().getSimpleName();
 	}
 
 	public Atraccion getAtraccion1() {
 		return atraccion1;
 	}
-	
+
 	public Atraccion getAtraccion2() {
 		return atraccion2;
 	}
-	
+
 	public Atraccion getAtraccion3() {
 		return atraccion3;
 	}
-	
+
 	public Atraccion getAtraccion4() {
 		return atraccion4;
 	}
+
 }

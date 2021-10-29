@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import dao.DAOFactory;
 import dao.ItinerarioDAO;
+import dao.PromocionDAO;
 import dao.UserDAO;
 
 public class Usuario implements Comparable<Usuario> {
@@ -13,8 +14,9 @@ public class Usuario implements Comparable<Usuario> {
 	private double tiempoDisponible;
 	private TipoDeAtraccion atraccionFavorita;
 	private Itinerario itinerario;
-	UserDAO userDAO = DAOFactory.getUserDAO();
-	ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+	private UserDAO userDAO = DAOFactory.getUserDAO();
+	private ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+	private PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 	
 
 	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoDeAtraccion atraccionFavorita)
@@ -55,7 +57,7 @@ public class Usuario implements Comparable<Usuario> {
 			itinerario.agregarPromocionComprada(promo);
 			this.presupuesto -= promo.getCosto();
 			this.tiempoDisponible -= promo.getTiempoNecesario();
-			promo.aceptoMostrable(this);
+			promocionDAO.update(promo);
 			userDAO.update(this);
 		}
 	}
@@ -65,7 +67,7 @@ public class Usuario implements Comparable<Usuario> {
 			itinerario.agregarAtraccion(atraccion);
 			this.presupuesto -= atraccion.getCosto();
 			this.tiempoDisponible -= atraccion.getTiempoNecesario();
-			atraccion.aceptoMostrable(this);
+			atraccion.comprada();
 			userDAO.update(this);
 		}
 	}

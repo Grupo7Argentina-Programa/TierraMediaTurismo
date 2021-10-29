@@ -22,7 +22,9 @@ public class Absoluta extends Promocion {
 
 	@Override
 	public void aceptoMostrable(Usuario comprador) {
-		atraccion1.compradaPorPromocion();
-		atraccion2.compradaPorPromocion();
+		comprador.aceptarPromocion(this);
+		this.atraccion1.compradaPorPromocion();
+		this.atraccion2.compradaPorPromocion();
+		promocionDAO.update(this);
 	}
 }

@@ -24,7 +24,6 @@ public class Sistema {
 		leerAtracciones();
 		leerPromociones();
 		leerUsuarios();
-		//leerItinerarios();
 
 		try {
 			Scanner entrada = new Scanner(System.in);
@@ -40,7 +39,7 @@ public class Sistema {
 						crearUsuarioNuevo();
 					}
 					if (opcion == 2) {
-						System.out.print("Por favor, ingres· tu usuario \n");
+						System.out.print("Por favor, ingres√° tu usuario \n");
 						String usuario = entrada.next();
 						System.out.println("---------------------------");
 						new Sistema().cambiarUsuario(usuario);
@@ -51,13 +50,17 @@ public class Sistema {
 				}
 				while (user != null) {
 					System.out.println("Te damos la bienvenida, " + user.getNombre());
-					System.out
-							.println("\n 1) CAMBIAR USUARIO \n 2) VER MIS SUGERENCIAS \n 3) VER MI ITINERARIO \n 4) CERRAR SESI”N \n 0) SALIR");
+					System.out.println(
+							"\n 1) CAMBIAR USUARIO \n "
+							+ "2) VER MIS SUGERENCIAS \n "
+							+ "3) VER MI ITINERARIO \n "
+							+ "4) CERRAR SESI√ìN \n "
+							+ "0) SALIR");
 					System.out.println("---------------------------");
 					opcion = entrada.nextInt();
 					System.out.println("---------------------------");
 					if (opcion == 1) {
-						System.out.println("\n Por favor, ingres· tu usuario");
+						System.out.println("\n Por favor, ingres√° tu usuario");
 						String nuevoUsuario = entrada.next();
 						System.out.println("---------------------------");
 						new Sistema().cambiarUsuario(nuevoUsuario);
@@ -66,7 +69,8 @@ public class Sistema {
 						new Sistema().sugerirItinerario(user);
 					}
 					if (opcion == 3) {
-						System.out.println(user.getItinerario().toString().replace("[", "").replace("]", "\n").replace(",", ""));
+						System.out.println(
+								user.getItinerario().toString().replace("[", "").replace("]", "\n").replace(",", ""));
 					}
 					if (opcion == 4) {
 						System.out.println("Hasta pronto, " + user.getNombre());
@@ -82,11 +86,9 @@ public class Sistema {
 			System.out.println("---------------------------");
 			System.out.println("Gracias por usar MediApp");
 		} catch (InputMismatchException e) {
-			System.err.println("El valor ingresado no es v·lido");
+			System.err.println("El valor ingresado no es v√°lido");
 		}
 	}
-
-
 
 	public void cambiarUsuario(String nuevoUsuario) {
 		UserDAO userDAO = DAOFactory.getUserDAO();
@@ -111,28 +113,6 @@ public class Sistema {
 		listaUsuarios = new TreeSet<Usuario>(userDAO.findAll());
 
 		return listaUsuarios;
-		//TODO borrar cÛdigo comentado
-		/*
-		 * FileReader fr = null; BufferedReader br = null;
-		 * 
-		 * try { fr = new FileReader("usuarios.in", StandardCharsets.UTF_8); br = new
-		 * BufferedReader(fr); String linea;
-		 * 
-		 * try { while ((linea = br.readLine()) != null) { String[] auxiliar =
-		 * linea.split(","); String nombre = auxiliar[0]; Integer dinero =
-		 * Integer.parseInt(auxiliar[1]); Double tiempoDisponible =
-		 * Double.parseDouble(auxiliar[2]); TipoDeAtraccion tipo =
-		 * TipoDeAtraccion.valueOf(auxiliar[3]);
-		 * 
-		 * Usuario usuario = new Usuario(nombre, dinero, tiempoDisponible, tipo);
-		 * listaUsuarios.add(usuario); }
-		 * 
-		 * } catch (IOException | ValorInvalido | NombreInvalido | TiempoInvalido e) {
-		 * e.toString(); }
-		 * 
-		 * } catch (FileNotFoundException e) {
-		 * System.err.println("Archivo no encontrado"); } return listaUsuarios;
-		 */
 	}
 
 	private static TreeSet<Promocion> leerPromociones() {
@@ -140,84 +120,7 @@ public class Sistema {
 		listaPromociones = new TreeSet<Promocion>(promocionDAO.findAll());
 
 		return listaPromociones;
-		//TODO borrar cÛdigo comentado
-		/*
-		 * FileReader fr = null; BufferedReader br = null; Promocion promocion;
-		 * leerAtracciones();
-		 * 
-		 * try { fr = new FileReader("listaDePromociones.in", StandardCharsets.UTF_8);
-		 * br = new BufferedReader(fr); String linea;
-		 * 
-		 * try { while ((linea = br.readLine()) != null) { String[] auxiliar =
-		 * linea.split(","); String tipoDePromo = auxiliar[0]; if
-		 * (tipoDePromo.matches("Porcentual")) { String nombreDePromo = auxiliar[1];
-		 * Integer descuento = Integer.parseInt(auxiliar[2]); Atraccion atraccion1 =
-		 * buscar(auxiliar[3]); Atraccion atraccion2 = buscar(auxiliar[4]); promocion =
-		 * new Porcentual(nombreDePromo, descuento, atraccion1, atraccion2);
-		 * listaPromociones.add(promocion); } if (tipoDePromo.matches("Absoluta")) {
-		 * String nombreDePromo = auxiliar[1]; Integer costo =
-		 * Integer.parseInt(auxiliar[2]); Atraccion atraccion1 = buscar(auxiliar[3]);
-		 * Atraccion atraccion2 = buscar(auxiliar[4]); promocion = new
-		 * Absoluta(nombreDePromo, costo, atraccion1, atraccion2);
-		 * listaPromociones.add(promocion); } if (tipoDePromo.matches("AxB")) { String
-		 * nombreDePromo = auxiliar[1]; Atraccion atraccion1 = buscar(auxiliar[2]);
-		 * Atraccion atraccion2 = buscar(auxiliar[3]); Atraccion atraccion3 =
-		 * buscar(auxiliar[4]); if (auxiliar.length > 5) { Atraccion atraccion4 =
-		 * buscar(auxiliar[5]); promocion = new AxB(nombreDePromo, atraccion1,
-		 * atraccion2, atraccion3, atraccion4); listaPromociones.add(promocion); } else
-		 * { promocion = new AxB(nombreDePromo, atraccion1, atraccion2, atraccion3);
-		 * listaPromociones.add(promocion); } } } } catch (IOException | NombreInvalido
-		 * | TipoDeAtraccionDistinta e) { e.toString(); }
-		 * 
-		 * } catch (FileNotFoundException e) {
-		 * System.err.println("Archivo no encontrado"); } return listaPromociones;
-		 */
 	}
-	/*private static void leerItinerarios() {
-		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		for (Usuario usuario : listaUsuarios)
-			itinerarioDAO.aÒadirAItinerario(usuario, mostrable);
-		
-	}*/
-
-	/*private static void escribirArchivo(Itinerario itinerario) {
-
-		//TODO borrar cÛdigo no utilizado
-		File file = new File("itinerario" + user.getNombre() + ".out");
-		PrintWriter salida;
-		try {
-			salida = new PrintWriter(new FileWriter(file));
-
-			StringBuilder builder = new StringBuilder();
-
-			for (Atraccion value : itinerario.getAtraccionesAceptadas()) {
-				builder.append(value);
-			}
-			String texto = builder.toString();
-			salida.println("Itinerario de " + user.getNombre());
-			salida.println(texto);
-			salida.println("Tiempo total requerido: " + itinerario.getTiempoTotal() + " horas");
-			salida.println("Costo total: " + itinerario.getDineroDelItinerario() + " monedas");
-
-			salida.close();
-		} catch (IOException e) {
-			System.err.println("No se pudo escribir el archivo");
-		}
-	}*/
-	
-	//TODO borrar cÛdigo comentado
-	/*
-	 * private static Atraccion buscar(String nombreDeAtraccion) {
-	 * 
-	 * try { leerAtracciones(); } catch (IOException e) {
-	 * System.err.println("No se pudo leer el archivo"); } Atraccion[] auxiliar2 =
-	 * new Atraccion[listaAtracciones.size()]; auxiliar2 =
-	 * listaAtracciones.toArray(auxiliar2); Atraccion atraccion = null;
-	 * 
-	 * for (int i = 0; i < auxiliar2.length; i++) { if
-	 * (auxiliar2[i].getNombre().compareToIgnoreCase(nombreDeAtraccion) == 0)
-	 * atraccion = auxiliar2[i]; } return atraccion; }
-	 */
 
 	public ArrayList<Mostrable> sugerirAtraccion(Usuario usuario) throws
 
@@ -290,7 +193,6 @@ public class Sistema {
 
 			}
 		}
-
 		return sugerencias;
 	}
 
@@ -309,11 +211,14 @@ public class Sistema {
 
 			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
 				System.out.println(objeto);
-				System.out.println("Ingrese opcion: 1) ACEPTA   2) SIGUIENTE");
+				System.out.println("Ingrese opci√≥n: 1) ACEPTA   2) SIGUIENTE   0) SALIR");
 				int opcion = entrada.nextInt();
 				if (opcion == 1) {
 					objeto.aceptoMostrable(usuario);
 					System.out.println("COMPRASTE " + objeto.getNombre());
+				}
+				if (opcion == 0) {
+					break;
 				}
 			}
 		}
@@ -334,11 +239,14 @@ public class Sistema {
 
 			if (!tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
 				System.out.println(objeto);
-				System.out.println("Ingrese opcion: 1) ACEPTA   2) SIGUIENTE");
+				System.out.println("Ingrese opci√≥n: 1) ACEPTA   2) SIGUIENTE   0) SALIR");
 				int opcion = entrada.nextInt();
 				if (opcion == 1) {
 					objeto.aceptoMostrable(usuario);
 					System.out.println("COMPRADA");
+				}
+				if (opcion == 0) {
+					break;
 				}
 			}
 		}
@@ -349,17 +257,14 @@ public class Sistema {
 		this.mostrarPreferencia(usuario);
 
 		if (usuario.getPresupuesto() > 0) {
-			System.out.println("\n TAMBI…N TE PODRÕA INTERESAR \n");
+			System.out.println("\n TAMBI√âN TE PODR√çA INTERESAR \n");
 			this.mostrarSinPreferencia(usuario);
 		}
-
-		// escribirArchivo(usuario.getItinerario());
 		System.out.println("--------------------");
 		System.out.println("\n Se terminaron las ofertas \n");
 		System.out.println("--------------------");
 		System.out.println("Su itinerario es el siguiente \n");
-		System.out.println(usuario.getItinerario());
-
+		System.out.println(usuario.getItinerario().toString().replace("[", "").replace("]", "\n").replace(",", ""));
 	}
 
 	private static void crearUsuarioNuevo() {
@@ -370,7 +275,7 @@ public class Sistema {
 			System.out.println("Ingrese su nombre:");
 			auxiliar[0] = entrada.next();
 			while (auxiliar[0] == "") {
-				System.err.println("Nombre de usuario inv·lido. IngrÈselo nuevamente.");
+				System.err.println("Nombre de usuario invÔøΩlido. Ingr√©selo nuevamente.");
 				auxiliar[0] = entrada.next();
 			}
 
@@ -382,18 +287,18 @@ public class Sistema {
 			System.out.println("\n Ingrese dinero disponible para gastar:");
 			auxiliar[1] = entrada.next();
 			while (Integer.valueOf(auxiliar[1]) <= 0) {
-				System.err.println("El valor no es v·lido. IngrÈselo nuevamente.");
+				System.err.println("El valor no es v√°lido. Ingr√©selo nuevamente");
 				auxiliar[1] = entrada.next();
 			}
 
 			System.out.println("\n Ingrese tiempo disponible (en horas):");
 			auxiliar[2] = entrada.next();
 			while (Integer.valueOf(auxiliar[2]) <= 0) {
-				System.err.println("El valor no es v·lido. IngrÈselo nuevamente.");
+				System.err.println("El valor no es v√°lido. Ingr√©selo nuevamente");
 				auxiliar[2] = entrada.next();
 			}
 
-			System.out.println("\n Ingrese tipo de atraccion favorita:");
+			System.out.println("\n Ingrese tipo de atracci√≥n favorita:");
 			System.out.println(Arrays.asList(TipoDeAtraccion.values()));
 			auxiliar[3] = entrada.next();
 			boolean existeTipo = false;
@@ -405,7 +310,7 @@ public class Sistema {
 					}
 				}
 				if (!existeTipo) {
-					System.err.println("El tipo de atracciÛn no existe. IngrÈselo nuevamente.");
+					System.err.println("El tipo de atracci√≥n no existe. Ingr√©selo nuevamente.");
 					auxiliar[3] = entrada.next();
 				}
 			}
@@ -422,13 +327,13 @@ public class Sistema {
 			Sistema.user = nuevoUsuario;
 
 		} catch (NombreInvalido e1) {
-			System.err.println("El nombre no es v·lido");
+			System.err.println("El nombre no es v√°lido");
 		} catch (ValorInvalido e1) {
-			System.err.println("El dinero no es v·lido");
+			System.err.println("El dinero no es v√°lido");
 		} catch (TiempoInvalido e1) {
-			System.err.println("El tiempo no es v·lido");
+			System.err.println("El tiempo no es v√°lido");
 		} catch (NumberFormatException e1) {
-			System.err.println("El valor ingresado no es un n˙mero");
+			System.err.println("El valor ingresado no es un n√∫mero");
 		}
 
 	}

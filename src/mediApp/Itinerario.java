@@ -74,11 +74,11 @@ public class Itinerario {
 		atraccionesAceptadas.add(atraccion);
 	}
 
-	public void agregarAtraccion(Atraccion nueva) {
-		atraccionesAceptadas.add(nueva);
-		this.dineroGastado += nueva.getCosto();
-		this.tiempoRequeridoTotal += nueva.getTiempoNecesario();
-		itinerarioDAO.insertAtraccion(this, nueva);
+	public void agregarAtraccion(Atraccion atraccion) {
+		atraccionesAceptadas.add(atraccion);
+		this.dineroGastado += atraccion.getCosto();
+		this.tiempoRequeridoTotal += atraccion.getTiempoNecesario();
+		itinerarioDAO.insertAtraccion(this, atraccion);
 	}
 
 	public void agregarAtraccionLeida(Atraccion nueva) {
@@ -102,9 +102,10 @@ public class Itinerario {
 	@Override
 	public String toString() {
 		return "ITINERARIO" + "\n" + "--------------------"
-				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "") + "\nCosto total: " + dineroGastado
-				+ " monedas" + "\nTiempo requerido total: " + tiempoRequeridoTotal + " horas \n"
-				+ "-------------------- \n";
+				+ (atraccionesAceptadas != null ? atraccionesAceptadas + "" : "")
+				+ (dineroGastado == 0 && tiempoRequeridoTotal == 0 ? "Parece que no hay nada por aquÃ­...\n" : "")
+				+ "\nCosto total: " + dineroGastado + " monedas" + "\nTiempo requerido total: " + tiempoRequeridoTotal
+				+ " horas \n" + "-------------------- \n";
 	}
 
 	public int getDineroDelItinerario() {
@@ -133,17 +134,15 @@ public class Itinerario {
 				&& Objects.equals(usuario.getNombre(), other.usuario.getNombre());
 	}
 
-
-
 	public void agregarMostrable(Mostrable mostrable) {
-		// Acá agregamos lo que obtenemos de la base de datos
+		// Acï¿½ agregamos lo que obtenemos de la base de datos
 		if (mostrable.getClass() == Atraccion.class) {
 			this.agregarAtraccionLeida((Atraccion) mostrable);
 		} else {
 			this.agregarPromocionLeida((Promocion) mostrable);
 		}
 	}
-	
+
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

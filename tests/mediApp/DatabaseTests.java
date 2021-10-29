@@ -18,7 +18,7 @@ public class DatabaseTests {
 
 	@Test
 	public void coneccionNoNulaTest() throws SQLException {
-		String url = "jdbc:sqlite:mediApp.db";
+		String url = "jdbc:sqlite:C:\\Users\\gerog\\eclipse-workspace\\Argentina-programa\\TP001 - Turismo en la Tierra Media\\mediApp.db";
 		Connection connection = DriverManager.getConnection(url);
 		assertNotNull(connection);
 		connection.close();
@@ -166,7 +166,7 @@ public class DatabaseTests {
 		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
 		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
 		
-		app.getUsuario().aceptarAtraccion(atraccionDAO.findByName("Erebor")); //Se compra una atracción
+		app.getUsuario().aceptarAtraccion(atraccionDAO.findByName("Erebor")); //Se compra una atracciï¿½n
 		assertEquals(24, app.getUsuario().getDinero()); //Verificamos que el usuario tenga menos dinero
 		assertEquals(5, app.getUsuario().getTiempoDisponible(), 0); //Verificamos que el usuario tenga menos tiempo
 		assertEquals(31, atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
@@ -219,7 +219,7 @@ public class DatabaseTests {
 	public void mismoCostoDePromoTest() {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		Promocion packAventura = promocionDAO.findByName("Pack Aventura");
-		Promocion packDegustacion = promocionDAO.findByName("Pack Degustación");
+		Promocion packDegustacion = promocionDAO.findByName("Pack DegustaciÃ³n");
 		Promocion packPaisajes = promocionDAO.findByName("Pack Paisajes");
 		Promocion packPosadas = promocionDAO.findByName("Pack Posadas");
 		assertNotNull(packAventura);
@@ -238,7 +238,7 @@ public class DatabaseTests {
 	public void mismaDuracionDePromoTest() {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		Promocion packAventura = promocionDAO.findByName("Pack Aventura");
-		Promocion packDegustacion = promocionDAO.findByName("Pack Degustación");
+		Promocion packDegustacion = promocionDAO.findByName("Pack DegustaciÃ³n");
 		Promocion packPaisajes = promocionDAO.findByName("Pack Paisajes");
 		Promocion packPosadas = promocionDAO.findByName("Pack Posadas");
 		assertNotNull(packAventura);

@@ -17,9 +17,9 @@ import mediApp.Usuario;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 
-	UserDAO userDAO = DAOFactory.getUserDAO();
-	PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-	AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+	private UserDAO userDAO = DAOFactory.getUserDAO();
+	private PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+	private AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 
 	public Set<Itinerario> findItinerarios() {
 
@@ -57,9 +57,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public Itinerario findByUser(String name) {
-
 		try {
-
 			String sql = "SELECT usuarios.nombre AS 'usuario', itinerarios.nombreDeAtraccion AS 'mostrable'\r\n"
 					+ "FROM itinerarios\r\n" + "JOIN usuarios ON usuarios.id = itinerarios.id_usuario\r\n"
 					+ "WHERE itinerarios.nombreDeAtraccion IS NOT NULL AND usuario = ? \r\n" + "UNION\r\n"
@@ -116,7 +114,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public int insert(Itinerario itinerario) {
-		// TODO Testear método
 		try {
 			String sql = "INSERT OR IGNORE INTO ITINERARIOS (ID_USUARIO, NOMBREDEATRACCION) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
@@ -147,8 +144,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public int update(Itinerario itinerario) {
-		// TODO Testear método. Igualmente creo que no se va a hacer una actualización
-		// de un itinerario, sino más bien solo inserts.
 		try {
 			String sql = "UPDATE ITINERARIOS SET NOMBREDEATRACCION = ? WHERE ID_USUARIO = ?";
 

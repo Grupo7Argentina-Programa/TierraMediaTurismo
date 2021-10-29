@@ -20,10 +20,10 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 		if (nombre == "")
 			throw new NombreInvalido();
 		if (costo <= 0)
-			throw new ValorInvalido();	
+			throw new ValorInvalido();
 		if (tiempoNecesario <= 0)
 			throw new TiempoInvalido();
-		
+
 		this.nombreDeAtraccion = nombre;
 		this.costo = costo;
 		this.tiempoNecesario = tiempoNecesario;
@@ -50,16 +50,16 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 	@Override
 	public String toString() {
 		return "\n" + nombreDeAtraccion + "\n Costo: " + costo + "\n Tiempo promedio requerido: " + tiempoNecesario
-				+ "\n Cupos: " + cupo + "\n Tipo de atracción: " + tipo + "\n ------------------------";
+				+ "\n Cupos: " + cupo + "\n Tipo de atracciÃ³n: " + tipo + "\n ------------------------";
 	}
 
-	public boolean estaEnItinerario(Itinerario actual) {
-		return actual.getAtraccionesAceptadas().contains(this);
+	public boolean estaEnItinerario(Itinerario itinerario) {
+		return itinerario.getAtraccionesAceptadas().contains(this);
 	}
 
 	public void aceptoMostrable(Usuario comprador) {
-		this.cupo -= 1;
 		atraccionDAO.update(this);
+		comprador.aceptarAtraccion(this);
 	}
 
 	public void compradaPorPromocion() {
@@ -97,5 +97,10 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 	public int getCupo() {
 		return this.cupo;
+	}
+
+	public void comprada() {
+		this.cupo -= 1;
+		atraccionDAO.update(this);
 	}
 }
