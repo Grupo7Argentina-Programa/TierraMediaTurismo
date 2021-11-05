@@ -1,5 +1,7 @@
 package mediApp;
 
+import java.util.ArrayList;
+
 public class AxB extends Promocion {
 
 	public AxB(String nombreDePromo, Atraccion a, Atraccion b, Atraccion c, Atraccion d) throws NombreInvalido, TipoDeAtraccionDistinta {
@@ -55,5 +57,17 @@ public class AxB extends Promocion {
 	public void aceptoMostrable(Usuario comprador) {
 		comprador.aceptarPromocion(this);
 		promocionDAO.update(this);
+	}
+	
+	@Override
+	public Integer getCupo() {
+		ArrayList<Integer> cupos = new ArrayList<Integer>();
+		cupos.add(atraccion1.getCupo());
+		cupos.add(atraccion2.getCupo());
+		cupos.add(atraccion3.getCupo());
+		if (atraccion4 != null)
+			cupos.add(atraccion4.getCupo());
+		cupos.sort(null);
+		return cupos.get(0);
 	}
 }

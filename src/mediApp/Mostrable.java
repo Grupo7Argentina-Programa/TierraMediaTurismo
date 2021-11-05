@@ -8,4 +8,5 @@ public interface Mostrable {
 	public TipoDeAtraccion getTipoDeAtraccion();
 	public boolean estaEnItinerario(Itinerario actual);
 	public void aceptoMostrable(Usuario comprador);
+	public Integer getCupo();
 }

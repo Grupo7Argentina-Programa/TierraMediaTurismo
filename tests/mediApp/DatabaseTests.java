@@ -164,12 +164,12 @@ public class DatabaseTests {
 		
 		assertEquals(36, app.getUsuario().getDinero());
 		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
-		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
+		assertEquals(Integer.valueOf(32), atraccionDAO.findByName("Erebor").getCupo());
 		
 		app.getUsuario().aceptarAtraccion(atraccionDAO.findByName("Erebor")); //Se compra una atracci�n
 		assertEquals(24, app.getUsuario().getDinero()); //Verificamos que el usuario tenga menos dinero
 		assertEquals(5, app.getUsuario().getTiempoDisponible(), 0); //Verificamos que el usuario tenga menos tiempo
-		assertEquals(31, atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
+		assertEquals(Integer.valueOf(31), atraccionDAO.findByName("Erebor").getCupo()); //Verificamos que el cupo se haya reducido en 1
 		
 		itinerarioDAO.delete(app.getUsuario().getItinerario()); //Se deja la base de datos como estaba al principio
 		userDAO.delete(app.getUsuario());
@@ -182,7 +182,7 @@ public class DatabaseTests {
 		app.cambiarUsuario("Sam");
 		assertEquals(36, app.getUsuario().getDinero());
 		assertEquals(8, app.getUsuario().getTiempoDisponible(), 0);
-		assertEquals(32, atraccionDAO.findByName("Erebor").getCupo());
+		assertEquals(Integer.valueOf(32), atraccionDAO.findByName("Erebor").getCupo());
 	}
 	
 	@Test
@@ -270,6 +270,7 @@ public class DatabaseTests {
 		
 		Promocion packAventuraSuper = new AxB("Pack Aventura Super", atraccion1, atraccion2, atraccion3, atraccion4);
 		assertNotNull(packAventuraSuper);
+		assertEquals(Integer.valueOf(5), packAventuraSuper.getCupo());
 		
 		promocionDAO.insert(packAventuraSuper);
 		assertEquals(5, promocionDAO.countAll());
@@ -316,6 +317,7 @@ public class DatabaseTests {
 		
 		Promocion packAventuraMasOMenos = new Absoluta("Pack Aventura Mas o Menos", 28, atraccion1, atraccion2);
 		assertNotNull(packAventuraMasOMenos);
+		assertEquals(Integer.valueOf(5), packAventuraMasOMenos.getCupo());
 		
 		promocionDAO.insert(packAventuraMasOMenos);
 		assertEquals(5, promocionDAO.countAll());
@@ -395,7 +397,6 @@ public class DatabaseTests {
 		//itinerarioDAO.findAll();
 		Usuario gandalf1 = userDAO.findByUsername("Gandalf");
 		Usuario gandalf2 = userDAO.findByUsername("Gandalf");
-		System.out.println(gandalf1.getItinerario());
 		//assertEquals(gandalf1.getItinerario(), gandalf2.getItinerario());
 	}
 }

@@ -51,17 +51,17 @@ public class AtraccionTests {
 	@Test 
 	public void disminucionDeCupoTest() throws ValorInvalido, NombreInvalido, TiempoInvalido {
 		Atraccion moria = new Atraccion("Moria", 10, 2, 3, TipoDeAtraccion.AVENTURA);
-		Usuario jose = new Usuario("José", 10, 20, TipoDeAtraccion.AVENTURA);
+		Usuario jose = new Usuario("Josï¿½", 10, 20, TipoDeAtraccion.AVENTURA);
 		Usuario juan = new Usuario("Juan", 10, 20, TipoDeAtraccion.AVENTURA);
-		Usuario maria = new Usuario("María", 10, 20, TipoDeAtraccion.AVENTURA);
+		Usuario maria = new Usuario("Marï¿½a", 10, 20, TipoDeAtraccion.AVENTURA);
 
-		assertEquals(3, moria.getCupo());
+		assertEquals(Integer.valueOf(3), moria.getCupo());
 		jose.aceptarAtraccion(moria);
-		assertEquals(2, moria.getCupo());
+		assertEquals(Integer.valueOf(2), moria.getCupo());
 		juan.aceptarAtraccion(moria);
-		assertEquals(1, moria.getCupo());
+		assertEquals(Integer.valueOf(1), moria.getCupo());
 		maria.aceptarAtraccion(moria);
-		assertEquals(0, moria.getCupo());
+		assertEquals(Integer.valueOf(0), moria.getCupo());
 	}
 	
 
@@ -73,7 +73,7 @@ public class AtraccionTests {
 			Atraccion mordor = new Atraccion("Mordor", 25, 3, 4, TipoDeAtraccion.AVENTURA);
 			Atraccion moria = new Atraccion("Moria", 10, 2, 6, TipoDeAtraccion.AVENTURA);
 			Atraccion bosqueNegro = new Atraccion("Bosque Negro", 3, 4, 12, TipoDeAtraccion.AVENTURA);
-			Atraccion lothlorien = new Atraccion("Lothlóiren", 35, 1, 30, TipoDeAtraccion.DEGUSTACION);
+			Atraccion lothlorien = new Atraccion("Lothlï¿½iren", 35, 1, 30, TipoDeAtraccion.DEGUSTACION);
 			Atraccion laComarca = new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
 			Atraccion erebor = new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
 			Atraccion minasTirith = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);

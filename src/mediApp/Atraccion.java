@@ -94,8 +94,8 @@ public class Atraccion implements Mostrable, Comparable<Atraccion> {
 
 		return this.tiempoNecesario.compareTo(otraAtraccion.tiempoNecesario);
 	}
-
-	public int getCupo() {
+	@Override
+	public Integer getCupo() {
 		return this.cupo;
 	}
 

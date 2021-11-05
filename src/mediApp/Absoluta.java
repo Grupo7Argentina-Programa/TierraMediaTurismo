@@ -27,4 +27,9 @@ public class Absoluta extends Promocion {
 		this.atraccion2.compradaPorPromocion();
 		promocionDAO.update(this);
 	}
+
+	@Override
+	public Integer getCupo() {
+		return (atraccion1.getCupo() < atraccion2.getCupo() ? atraccion1.getCupo() : atraccion2.getCupo());
+	}
 }

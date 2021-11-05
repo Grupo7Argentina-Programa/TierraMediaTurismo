@@ -50,6 +50,8 @@ public class Sistema {
 				}
 				while (user != null) {
 					System.out.println("Te damos la bienvenida, " + user.getNombre());
+					System.out.println("Tu saldo es de " + user.getDinero() + " monedas de oro");
+					System.out.println("Te quedan " + user.getTiempoDisponible() + " horas dispnibles");
 					System.out.println(
 							"\n 1) CAMBIAR USUARIO \n "
 							+ "2) VER MIS SUGERENCIAS \n "
@@ -208,8 +210,9 @@ public class Sistema {
 			boolean puedePagarlo = usuario.getPresupuesto() >= objeto.getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() >= objeto.getTiempoNecesario();
 			boolean yaFueComprada = objeto.estaEnItinerario(usuario.getItinerario());
+			boolean hayCupo = objeto.getCupo() > 0;
 
-			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
+			if (tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada && hayCupo) {
 				System.out.println(objeto);
 				System.out.println("Ingrese opción: 1) ACEPTA   2) SIGUIENTE   0) SALIR");
 				int opcion = entrada.nextInt();
@@ -236,8 +239,9 @@ public class Sistema {
 			boolean puedePagarlo = usuario.getPresupuesto() >= objeto.getCosto();
 			boolean tieneTiempo = usuario.getTiempoDisponible() >= objeto.getTiempoNecesario();
 			boolean yaFueComprada = objeto.estaEnItinerario(usuario.getItinerario());
+			boolean hayCupo = objeto.getCupo() > 0;
 
-			if (!tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada) {
+			if (!tipoDeAtraccionFavorita && puedePagarlo && tieneTiempo && !yaFueComprada && hayCupo) {
 				System.out.println(objeto);
 				System.out.println("Ingrese opción: 1) ACEPTA   2) SIGUIENTE   0) SALIR");
 				int opcion = entrada.nextInt();
@@ -257,7 +261,7 @@ public class Sistema {
 		this.mostrarPreferencia(usuario);
 
 		if (usuario.getPresupuesto() > 0) {
-			System.out.println("\n TAMBIÉN TE PODRÍA INTERESAR \n");
+			System.out.println("\n TAMBIEN TE PODRIA INTERESAR \n");
 			this.mostrarSinPreferencia(usuario);
 		}
 		System.out.println("--------------------");
@@ -275,7 +279,7 @@ public class Sistema {
 			System.out.println("Ingrese su nombre:");
 			auxiliar[0] = entrada.next();
 			while (auxiliar[0] == "") {
-				System.err.println("Nombre de usuario inv�lido. Ingréselo nuevamente.");
+				System.err.println("Nombre de usuario inválido. Ingréselo nuevamente.");
 				auxiliar[0] = entrada.next();
 			}
 

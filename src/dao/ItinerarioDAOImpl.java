@@ -87,6 +87,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 		while (resultados.next()) {
 			Atraccion atraccion = atraccionDAO.findByName(resultados.getString(2));
 			Promocion promocion = promocionDAO.findByName(resultados.getString(2));
+			
 			Mostrable mostrable = (atraccion == null ? promocion : atraccion);
 			itinerario.agregarMostrable(mostrable);
 		}
